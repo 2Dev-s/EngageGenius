@@ -37,6 +37,13 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+/*         if (Auth::check()) {
+            return array_merge(parent::share($request), [
+                'isSubscribed' => $request->user()->subscribed(),
+                'isOnTrial' => $request->user()->onTrial(),
+            ]);
+        } */
+
         return array_merge(parent::share($request), [
             "userTeamTreasholdReached" => User::teamSubsciptionTresholdReached(),
         ]);

@@ -18,10 +18,7 @@ class Controller extends BaseController
         // dd(User::teamSubsciptionTresholdReached());
         Inertia::share("userTeamTreasholdReached",User::teamSubsciptionTresholdReached());
         if (Auth::check()) {
-            return Inertia::render('UserDashboard/Dashboard', [
-                'userIsSubscribed' => request()->user()->subscribed(),
-                'userIsOnTrial' => request()->user()->onTrial()
-            ]);
+            return Inertia::render('UserDashboard/Dashboard');
         }
 
         return Inertia::render('Home');
