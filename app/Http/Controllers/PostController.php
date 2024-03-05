@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Post;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -12,8 +14,11 @@ class PostController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Posts/Index');
         
+        dd(Auth::user()->currentTeam->campains);
+        dd(Auth::user()->currentTeam->posts);
+
+        return Inertia::render('Posts/Index');
     }
 
     public function test()
@@ -34,7 +39,28 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = $request->user();
+        $team = $user->currentTeam;
+        $form = $request->all();
+
+        $post = $team->posts()->create([
+            'title' => $form['title'],
+            'content' => $form['content'],
+            "tagsState" => $form['dynamicTagsState']
+        ]);
+        $path = "/user-" . $user->id . "/" . "team-" . $team->id . "/" . "postsFiles" . "/" . "post-" . $post->id  . "/";
+
+        $photos = [];
+
+        foreach ($form['photos'] as $key => $photo) {
+
+            $file_path = $path . "filemane" . ".extestion";
+            $photos[] = [
+                'path' => $file_path,
+                'order' => $key,
+            ];
+        }
+        if (count($photos) > 0) $post->photos()->createMany($photos);
     }
 
     /**
@@ -50,7 +76,6 @@ class PostController extends Controller
      */
     public function edit(string $id)
     {
-        //
     }
 
     /**
@@ -58,7 +83,16 @@ class PostController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $post = Post::where('id', $request->id)->first();
+
+        if (!$post) return;
+
+        $post->update([
+            'title' => $request->title,
+            'content' => $request->content,
+            'team_id' => $request->team_id,
+            "tags" => $request->dynamicTagsState
+        ]);
     }
 
     /**
