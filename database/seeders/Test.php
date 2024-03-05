@@ -10,7 +10,7 @@ use Laravel\Jetstream\Contracts\CreatesTeams;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Support\Facades\Hash;
 
-class TestAccount extends Seeder
+class Test extends Seeder
 {
     /**
      * Run the database seeds.
