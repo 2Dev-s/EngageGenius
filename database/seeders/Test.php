@@ -6,8 +6,6 @@ use App\Models\Campain;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Laravel\Jetstream\Contracts\CreatesTeams;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Support\Facades\Hash;
 
 class Test extends Seeder
