@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -13,7 +14,15 @@ class PostController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Posts/Index');
+        $team = Auth::user()->currentTeam;
+
+        $campaigns = $team->campains()->where('ended', false)->get();
+        $posts = $team->posts()->where('published', false)->get();
+        
+        return Inertia::render('Posts/Index', [
+            'posts' => $posts,
+            'campaigns' => $campaigns
+        ]);
     }
 
     public function test()
