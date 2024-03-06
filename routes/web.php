@@ -1,15 +1,10 @@
 <?php
 
-use Spark\Spark;
-use App\Models\User;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Abraham\TwitterOAuth\TwitterOAuth;
 use App\Http\Controllers\MiniShopController;
 use App\Http\Controllers\ShortURLController;
-use App\Http\Controllers\TwitterAPIController;
 
 Route::get('/', [Controller::class, 'index'])->name('home');
 Route::get('/pricing', [Controller::class, 'pricing'])->name('pricing');
