@@ -23,7 +23,7 @@ import { ref } from 'vue'
                     <button class="bg-blue-800 py-2 rounded-xl h-5">Delete Campain</button>
                     <button class="bg-blue-800 py-2 rounded-xl h-5">Delete Photos</button>
                 </div>
-                <div id="calendar-campain" ref="calendarCampainRef" class="h-full w-full flex-2 " />
+                <div id="calendarCampain" ref="calendarCampainRef" class="h-full w-full flex-2 " />
             </div>
             <div id="calendar" ref="calendarRef" class="h-full w-full flex-1" />
         </div>
