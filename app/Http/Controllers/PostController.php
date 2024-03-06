@@ -14,11 +14,15 @@ class PostController extends Controller
      */
     public function index()
     {
-        
-        dd(Auth::user()->currentTeam->campains);
-        dd(Auth::user()->currentTeam->posts);
+        $team = Auth::user()->currentTeam;
 
-        return Inertia::render('Posts/Index');
+        $campaigns = $team->campains()->where('ended', false)->get();
+        $posts = $team->posts()->where('published', false)->get();
+        
+        return Inertia::render('Posts/Index', [
+            'posts' => $posts,
+            'campaigns' => $campaigns
+        ]);
     }
 
     public function test()

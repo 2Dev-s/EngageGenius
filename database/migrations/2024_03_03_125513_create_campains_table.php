@@ -21,6 +21,7 @@ return new class extends Migration
             $table->text("task");
             $table->date("start");
             $table->date("end");
+            $table->boolean("ended")->default(false);
             $table->timestamps();
         });
     }

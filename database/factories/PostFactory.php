@@ -7,7 +7,7 @@ use App\Models\Team;
 use App\Models\Post;
 use Database\Factories\TeamFactory;
 
-
+use function DI\add;
 use function DI\factory;
 
 /**
@@ -30,6 +30,7 @@ class PostFactory extends Factory
             'content' => $this->faker->paragraph,
             'tags' => 'laravel,php,testing,unit,feature,workshop,laracasts',
             'created_at' => now(),
+            "publish_date" => now()->addDays(rand(1, 30)),
         ];
     }
 }
