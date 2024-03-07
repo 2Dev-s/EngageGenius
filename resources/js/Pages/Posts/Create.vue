@@ -27,6 +27,8 @@ export default {
             FormData: useForm({
                 title: '',
                 content: '',
+                socials: [],
+                tags: [],
                 postDate: new Date(),
                 dynamicTagsState: false,
                 orderedFiles: [],

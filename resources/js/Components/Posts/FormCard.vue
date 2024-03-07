@@ -39,7 +39,8 @@ import Vue3TagsInput from 'vue3-tags-input';
                         <template v-if="PostForm.orderedFiles.length < 1">
                             <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400 mt-5 " aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2"
                                     d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
                             </svg>
                             <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click
@@ -49,8 +50,9 @@ import Vue3TagsInput from 'vue3-tags-input';
                             </p>
                         </template>
                         <template v-else>
-                            <draggable v-model="PostForm.orderedFiles" @start="dragState = true" @end="dragState = false"
-                                item-key="id" class="flex h-full w-full  gap-4 flex-wrap p-4 items-center justify-center">
+                            <draggable v-model="PostForm.orderedFiles" @start="dragState = true"
+                                @end="dragState = false" item-key="id"
+                                class="flex h-full w-full  gap-4 flex-wrap p-4 items-center justify-center">
                                 <template #item="{ element }">
                                     <div class=" bg-gray-900 p-2 px-4 rounded-lg flex-2">
                                         <img :src="element.url" class="object-contain h-14 ">
@@ -93,9 +95,56 @@ import Vue3TagsInput from 'vue3-tags-input';
                 </label>
             </div>
 
-            <Vue3TagsInput :tags="tags"
+
+
+            <ul
+                class="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                    <div class="flex items-center ps-3">
+                        <input id="vue-checkbox-list" type="checkbox" value="twitter" v-model="PostForm.socials"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                        <label for="vue-checkbox-list"
+                            class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Twitter</label>
+                    </div>
+                </li>
+                <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                    <div class="flex items-center ps-3">
+                        <input id="react-checkbox-list" type="checkbox" value="pinterest" v-model="PostForm.socials"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                        <label for="react-checkbox-list"
+                            class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Pinterest</label>
+                    </div>
+                </li>
+                <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                    <div class="flex items-center ps-3">
+                        <input id="angular-checkbox-list" type="checkbox" value="instagram" v-model="PostForm.socials"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                        <label for="angular-checkbox-list"
+                            class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Instagram</label>
+                    </div>
+                </li>
+                <li class="w-full dark:border-gray-600">
+                    <div class="flex items-center ps-3">
+                        <input id="laravel-checkbox-list" type="checkbox" value="facebook" v-model="PostForm.socials"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                        <label for="laravel-checkbox-list"
+                            class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Facebook</label>
+                    </div>
+                </li>
+                <li class="w-full dark:border-gray-600">
+                    <div class="flex items-center ps-3">
+                        <input id="laravel-checkbox-list" type="checkbox" value="linkedin" v-model="PostForm.socials"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                        <label for="laravel-checkbox-list"
+                            class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">LinkedIn</label>
+                    </div>
+                </li>
+            </ul>
+
+            <Vue3TagsInput :tags="PostForm.tags"
                 class="flex flex-col sm:flex-row items-center justify-between w-full p-4 text-gray-900 border border-gray-300 rounded-lg  text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Enter post tags" @on-tags-changed="handleChangeTag" />
+            
 
             <div class="flex gap-5 justify-between content-stretch flex-col lg:flex-row ">
                 <VDatePicker v-model="PostForm.postDate" mode="dateTime">
@@ -142,8 +191,6 @@ export default {
         return {
             boolean: false,
             type: null,
-            tag: '',
-            tags: [],
         };
     },
 
@@ -185,8 +232,9 @@ export default {
             this.boolean = !this.boolean
             this.type = type
         },
+
         handleChangeTag(tags) {
-            this.tags = tags;
+            this.PostForm.tags = tags;
         },
 
 
@@ -199,18 +247,18 @@ export default {
 </script>
 
 <style lang="css">
-    .v3ti .v3ti-tag {
-        background: #374151;
-        border: 1px solid #222222;
-        border-radius: 0;
-    }
+.v3ti .v3ti-tag {
+    background: #374151;
+    border: 1px solid #222222;
+    border-radius: 0;
+}
 
-    .v3ti .v3ti-tag .v3ti-remove-tag {
-        color: #000000;
-        transition: color .3s;
-    }
+.v3ti .v3ti-tag .v3ti-remove-tag {
+    color: #000000;
+    transition: color .3s;
+}
 
-    .v3ti .v3ti-tag .v3ti-remove-tag:hover {
-        color: #ffffff;
-    }
+.v3ti .v3ti-tag .v3ti-remove-tag:hover {
+    color: #ffffff;
+}
 </style>

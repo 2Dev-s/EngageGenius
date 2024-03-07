@@ -6,6 +6,7 @@ use App\Models\Post;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -47,24 +48,37 @@ class PostController extends Controller
         $team = $user->currentTeam;
         $form = $request->all();
 
-        $post = $team->posts()->create([
+        $post = [
             'title' => $form['title'],
             'content' => $form['content'],
             "tagsState" => $form['dynamicTagsState']
-        ]);
+        ];
+
+        
+        foreach ($form["socials"] as $social) {$post[$social] = true;};
+        $post = $team->posts()->create($post);
+        
         $path = "/user-" . $user->id . "/" . "team-" . $team->id . "/" . "postsFiles" . "/" . "post-" . $post->id  . "/";
 
         $photos = [];
 
-        foreach ($form['photos'] as $key => $photo) {
+        foreach ($form['orderedFiles'] as $key => $photo) {
+            $file = $photo['file'];
 
-            $file_path = $path . "filemane" . ".extestion";
+            $file_path = $path ."photo-" . now()->unix() . "-" . rand(1,10000) . "." . $file->extension();
+            Storage::disk('public')->put($file_path, "test");
+
+            Storage::disk('public')->put($file_path, file_get_contents($file));
+
             $photos[] = [
                 'path' => $file_path,
                 'order' => $key,
             ];
         }
+
         if (count($photos) > 0) $post->photos()->createMany($photos);
+
+        return redirect()->route('posts');
     }
 
     /**
