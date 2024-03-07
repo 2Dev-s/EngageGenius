@@ -29,7 +29,7 @@ Route::prefix('/minishop')->group(function () {
 Route::get('/subUserTest', function () {
     $user = Auth::user();
 
-    $subscription = $user->subscriptions()->create([
+    $subscription = $user->subscriptions->create([
         'type' => 'default',
         'paddle_id' => fake()->unique()->numberBetween(1, 1000),
         'status' => 'active',
