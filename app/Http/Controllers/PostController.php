@@ -14,7 +14,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        
+
         dd(Auth::user()->currentTeam->campains);
         dd(Auth::user()->currentTeam->posts);
 
@@ -76,6 +76,7 @@ class PostController extends Controller
      */
     public function edit(string $id)
     {
+        return Inertia::render('Posts/Create');
     }
 
     /**
