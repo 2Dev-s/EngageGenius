@@ -15,10 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('content');
-            $table->boolean('published')->default(false);
             $table->foreignId('team_id')->constrained()->onDelete('cascade');
             $table->foreignId('campain_id')->nullable();
             $table->text('tags')->nullable();
+            $table->date("publish_date")->default(now());
+            $table->boolean('published')->default(false);
             $table->timestamps();
         });
     }
