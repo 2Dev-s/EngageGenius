@@ -1,9 +1,10 @@
 <script setup>
 import draggable from 'vuedraggable'
-import Modal from "@/Components/Modal.vue";
 import ContentTextarea from "@/Components/Posts/Modals/ContentTextarea.vue";
 import ContentMedia from "@/Components/Posts/Modals/ContentMedia.vue";
 import ContentSearch from "@/Components/Posts/Modals/ContentSearch.vue";
+
+import Modal from "@/Components/Modal.vue";
 import Vue3TagsInput from 'vue3-tags-input';
 </script>
 <template>
@@ -19,7 +20,7 @@ import Vue3TagsInput from 'vue3-tags-input';
                     class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Write your thoughts here..."></textarea>
                 <div class="absolute">
-                    <svg @click="modalBoolean('textarea')"
+                    <svg @click="Modals.textarea = true"
                         class="w-8 h-8 fill-gray-500 dark:fill-gray-400 hover:fill-amber-300 hover:cursor-pointer"
                         viewBox="0 0 256 256" id="Flat" xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -28,15 +29,11 @@ import Vue3TagsInput from 'vue3-tags-input';
                 </div>
             </div>
 
-            <div class="flex justify-end w-full">
-
-            </div>
-
             <div class="flex items-center justify-center w-full">
                 <label for="dropzone-file"
                     class="flex items-center justify-center w-full h-fit border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
                     <div class="flex flex-col items-center justify-center  h-full w-full">
-                        <template v-if="PostForm.orderedFiles.length < 1">
+                        <template v-if="PostForm.files.length < 1">
                             <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400 mt-5 " aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -50,8 +47,8 @@ import Vue3TagsInput from 'vue3-tags-input';
                             </p>
                         </template>
                         <template v-else>
-                            <draggable v-model="PostForm.orderedFiles" @start="dragState = true"
-                                @end="dragState = false" item-key="id"
+                            <draggable v-model="PostForm.orderedFiles" @start="draggable = true"
+                                @end="draggable = false" item-key="id"
                                 class="flex h-full w-full  gap-4 flex-wrap p-4 items-center justify-center">
                                 <template #item="{ element }">
                                     <div class=" bg-gray-900 p-2 px-4 rounded-lg flex-2">
@@ -68,14 +65,14 @@ import Vue3TagsInput from 'vue3-tags-input';
             </div>
 
             <div class="flex justify-between w-full ">
-                <svg @click="modalBoolean('search')"
+                <svg @click="Modals.search = true"
                     class="w-8 h-8 stroke-gray-500 dark:stroke-gray-500 hover:fill-amber-300 hover:cursor-pointer"
                     viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M11 6C13.7614 6 16 8.23858 16 11M16.6588 16.6549L21 21M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z"
                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
-                <svg @click="modalBoolean('media')"
+                <svg @click="Modals.media = true"
                     class="w-8 h-8 fill-gray-500 dark:fill-gray-400 hover:fill-amber-300 hover:cursor-pointer"
                     viewBox="0 0 256 256" id="Flat" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -94,7 +91,6 @@ import Vue3TagsInput from 'vue3-tags-input';
                     </div>
                 </label>
             </div>
-
 
 
             <ul
@@ -163,34 +159,24 @@ import Vue3TagsInput from 'vue3-tags-input';
         </form>
     </div>
 
-    <Modal :show="boolean">
-        <div class="bg-gray-800 p-4">
-            <ContentTextarea v-if="type == 'textarea'" />
-            <ContentMedia v-if="type == 'media'" />
-            <ContentSearch v-if="type == 'search'" />
-
-            <div class="flex justify-between items-center gap-4 mt-4">
-                <button type="button"
-                    class=" flex-1 h-100 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                    Save
-                </button>
-                <button @click="modalBoolean" type="button"
-                    class=" flex-1 h-100 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                    Close
-                </button>
-            </div>
-        </div>
-    </Modal>
+    <ContentTextarea :state="Modals" />
+    <ContentMedia :state="Modals" />
+    <ContentSearch :state="Modals"/>
 </template>
 
 <script>
 export default {
-    props: ["PostForm", "PreviewData", "dragAnimationState"],
+    props: ["PostForm"],
 
     data() {
         return {
-            boolean: false,
-            type: null,
+            draggable: false,
+            Modals: {
+                textarea: false,
+                media: false,
+                search: false,
+            },
+
         };
     },
 
@@ -203,17 +189,6 @@ export default {
                 };
                 this.PostForm.orderedFiles.push(file);
             }
-        },
-        submit() {
-            this.formData.post(route('posts.store'), {
-                onSuccess: () => {
-                    console.log('success');
-                },
-                onError: (error) => {
-                    console.log(error);
-                },
-                onFinish: () => { },
-            });
         },
 
         submit() {
@@ -228,16 +203,9 @@ export default {
             });
         },
 
-        modalBoolean(type) {
-            this.boolean = !this.boolean
-            this.type = type
-        },
-
         handleChangeTag(tags) {
             this.PostForm.tags = tags;
         },
-
-
     },
     components: {
         draggable,
@@ -246,19 +214,3 @@ export default {
 }
 </script>
 
-<style lang="css">
-.v3ti .v3ti-tag {
-    background: #374151;
-    border: 1px solid #222222;
-    border-radius: 0;
-}
-
-.v3ti .v3ti-tag .v3ti-remove-tag {
-    color: #000000;
-    transition: color .3s;
-}
-
-.v3ti .v3ti-tag .v3ti-remove-tag:hover {
-    color: #ffffff;
-}
-</style>

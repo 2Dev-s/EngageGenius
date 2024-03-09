@@ -9,8 +9,8 @@ import { useForm } from '@inertiajs/vue3'
 <template>
     <UserLayout title="Posts">
         <div class="container mx-auto flex flex-col lg:flex-row gap-5 ">
-            <FromCard :PostForm="FormData" :PreviewData="PreviewData" :dragState="dragAnimationState" />
-            <PreviewCard :PreviewData="PreviewData" :formData="FormData" /> 
+            <FromCard :PostForm="FormData" />
+            <PreviewCard :formData="FormData" />
         </div>
     </UserLayout>
 </template>
@@ -21,19 +21,16 @@ export default {
     data() {
         return {
             dragAnimationState: false,
-            PreviewData: {
-                ShowTags: false,
-            },
+            ShowTags: false,
             FormData: useForm({
                 title: '',
                 content: '',
                 socials: [],
                 tags: [],
-                postDate: new Date(),
+                files: [],
                 dynamicTagsState: false,
-                orderedFiles: [],
+                postDate: new Date(),
             }),
-
         };
     },
     methods: {
@@ -44,4 +41,3 @@ export default {
     },
 }
 </script>
-
