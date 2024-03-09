@@ -20,8 +20,6 @@ import { useForm } from '@inertiajs/vue3'
 export default {
     data() {
         return {
-            dragAnimationState: false,
-            ShowTags: false,
             FormData: useForm({
                 title: '',
                 content: '',
@@ -32,9 +30,6 @@ export default {
                 postDate: new Date(),
             }),
         };
-    },
-    methods: {
-
     },
     setup() {
         return {}

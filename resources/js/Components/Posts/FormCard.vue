@@ -47,7 +47,7 @@ import Vue3TagsInput from 'vue3-tags-input';
                             </p>
                         </template>
                         <template v-else>
-                            <draggable v-model="PostForm.orderedFiles" @start="draggable = true"
+                            <draggable v-model="PostForm.files" @start="draggable = true"
                                 @end="draggable = false" item-key="id"
                                 class="flex h-full w-full  gap-4 flex-wrap p-4 items-center justify-center">
                                 <template #item="{ element }">
@@ -176,7 +176,6 @@ export default {
                 media: false,
                 search: false,
             },
-
         };
     },
 
@@ -187,7 +186,7 @@ export default {
                     file: event.target.files[i],
                     url: URL.createObjectURL(event.target.files[i])
                 };
-                this.PostForm.orderedFiles.push(file);
+                this.PostForm.files.push(file);
             }
         },
 

@@ -18,7 +18,7 @@
 
         <Splide class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <SplideSlide v-if="this.formData.files.length > 0"
-                v-for="( item, index ) in  this.formData.orderedFiles " :key="index" class="w-full h-72 ">
+                v-for="( item, index ) in  this.formData.files " :key="index" class="w-full h-72 ">
                 <img :src="item.url" alt="" class="object-contain h-full w-auto text-center mx-auto">
             </SplideSlide>
             <SplideSlide v-else>
@@ -27,7 +27,7 @@
         </Splide>
         <div>
             <div class=" h-auto py-4 text-gray-500" v-if="tagState">
-                {{  formData.tags.length > 1 ? formData.tags.map(x => "#" + x).join(" ") : "how to win friends and influence people review,how to win friends and influence people summary,how to win friends and influence people,how to win friends,how to make friends,dale carnegie,leadership,book summary" }}
+                {{  formData.tags.length > 0 ? formData.tags.map(x => "#" + x).join(" ") : "how to win friends and influence people review,how to win friends and influence people summary,how to win friends and influence people,how to win friends,how to make friends,dale carnegie,leadership,book summary" }}
             </div>
             <button @click="tagState = !tagState">Show Tags</button>
         </div>
