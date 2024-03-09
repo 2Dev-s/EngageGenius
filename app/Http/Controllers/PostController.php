@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
+use function PHPSTORM_META\map;
+
 class PostController extends Controller
 {
     /**
@@ -47,15 +49,18 @@ class PostController extends Controller
         $user = $request->user();
         $team = $user->currentTeam;
         $form = $request->all();
+        $form["tags"] = array_map(fn($tag): string => "#" .$tag, $form['tags']);
+        $form["tags"] = implode(" ", $form["tags"]);
 
         $post = [
             'title' => $form['title'],
             'content' => $form['content'],
-            "tagsState" => $form['dynamicTagsState']
+            "tagsState" => $form['dynamicTagsState'],
+            "tags" => $form["tags"],
         ];
-
         
         foreach ($form["socials"] as $social) {$post[$social] = true;};
+
         $post = $team->posts()->create($post);
         
         $path = "/user-" . $user->id . "/" . "team-" . $team->id . "/" . "postsFiles" . "/" . "post-" . $post->id  . "/";
@@ -120,4 +125,6 @@ class PostController extends Controller
     {
         //
     }
+
+
 }
