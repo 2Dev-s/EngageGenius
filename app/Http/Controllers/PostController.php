@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Post;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use function PHPSTORM_META\map;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-
-use function PHPSTORM_META\map;
 
 class PostController extends Controller
 {
@@ -26,11 +27,6 @@ class PostController extends Controller
             'posts' => $posts,
             'campaigns' => $campaigns
         ]);
-    }
-
-    public function test()
-    {
-        //
     }
 
     /**
@@ -57,8 +53,9 @@ class PostController extends Controller
             'content' => $form['content'],
             "tagsState" => $form['dynamicTagsState'],
             "tags" => $form["tags"],
+            "publication_date" => Carbon::parse($form["postDate"]),
         ];
-        
+
         foreach ($form["socials"] as $social) {$post[$social] = true;};
 
         $post = $team->posts()->create($post);
@@ -97,8 +94,17 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Post $post)
     {
+        if (!$post) return;
+
+        $photos = $post->photos()->get();
+        $post = $post->attributesToArray();
+        $post["tags"] = explode(" ", $post["tags"]);
+
+        return Inertia::render('Posts/Edit', [
+            'post' => $post
+        ]);
     }
 
     /**

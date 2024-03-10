@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('content');
             $table->text('tags')->nullable();
-            $table->date("publish_date")->default(now());
+            $table->dateTime("publish_date")->default(now());
 
             $table->boolean('twitter')->default(false);;
             $table->boolean('pinterest')->default(false);
