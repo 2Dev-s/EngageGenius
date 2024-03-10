@@ -28,6 +28,7 @@
         <div>
             <div class=" h-auto py-4 text-gray-500" v-if="tagState">
                 {{  formData.tags.length > 0 ? formData.tags.map(x => "#" + x).join(" ") : "how to win friends and influence people review,how to win friends and influence people summary,how to win friends and influence people,how to win friends,how to make friends,dale carnegie,leadership,book summary" }}
+                {{  formData.dynamicTagsState ? "#Dynammyc Tags" : " " }}
             </div>
             <button @click="tagState = !tagState">Show Tags</button>
         </div>

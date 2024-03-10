@@ -67,7 +67,7 @@ class PostController extends Controller
 
         $photos = [];
 
-        foreach ($form['orderedFiles'] as $key => $photo) {
+        foreach ($form['files'] as $key => $photo) {
             $file = $photo['file'];
 
             $file_path = $path ."photo-" . now()->unix() . "-" . rand(1,10000) . "." . $file->extension();
