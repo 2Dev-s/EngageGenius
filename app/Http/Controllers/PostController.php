@@ -97,11 +97,14 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         if (!$post) return;
+        $photos = $post->photos()->get();
+        
 
         $photos = $post->photos()->get();
         $post = $post->attributesToArray();
         $post["tags"] = explode(" ", $post["tags"]);
-
+        $post["files"]= $photos;
+        
         return Inertia::render('Posts/Edit', [
             'post' => $post
         ]);
