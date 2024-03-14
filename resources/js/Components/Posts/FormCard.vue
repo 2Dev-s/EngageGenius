@@ -166,8 +166,7 @@ import Vue3TagsInput from 'vue3-tags-input';
 
 <script>
 export default {
-    props: ["PostForm"],
-
+    props: ["PostForm","FormPostRoute"],
     data() {
         return {
             draggablee: false,
@@ -192,7 +191,20 @@ export default {
         },
 
         submit() {
-            this.PostForm.post(route('posts.store'), {
+            if (this.PostForm.id) {
+            this.PostForm.post(route(this.FormPostRoute, this.PostForm.id ), {
+                    onSuccess: () => {
+                        console.log('success');
+                    },
+                    onError: (error) => {
+                        console.log(error);
+                    },
+                    onFinish: () => { },
+                });
+            return;
+            }
+
+            this.PostForm.post(route(this.FormPostRoute), {
                 onSuccess: () => {
                     console.log('success');
                 },

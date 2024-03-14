@@ -9,7 +9,7 @@ import { useForm } from '@inertiajs/vue3'
 <template>
     <UserLayout title="Posts">
         <div class="container mx-auto flex flex-col lg:flex-row gap-5 ">
-            <FromCard :PostForm="FormData" />
+            <FromCard :PostForm="FormData" FormPostRoute="posts.update" />
             <PreviewCard :formData="FormData" />
         </div>
     </UserLayout>
@@ -22,6 +22,7 @@ export default {
     data() {
         return {
             FormData: useForm({
+                id: this.post.id,
                 title: '',
                 content: '',
                 socials: [],
@@ -44,6 +45,7 @@ export default {
                 newFile["url"]  ="/storage/" +  file.path;
                 return newFile;
             });
+            this.FormData.files.sort((a, b) => a.order - b.order);
             console.log(this.FormData.files);
         }
     },

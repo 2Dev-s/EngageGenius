@@ -9,7 +9,7 @@ import { useForm } from '@inertiajs/vue3'
 <template>
     <UserLayout title="Posts">
         <div class="container mx-auto flex flex-col lg:flex-row gap-5 ">
-            <FromCard :PostForm="FormData" />
+            <FromCard :PostForm="FormData" FormPostRoute="posts.store"/>
             <PreviewCard :formData="FormData" />
         </div>
     </UserLayout>
