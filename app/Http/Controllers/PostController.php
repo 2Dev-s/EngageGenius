@@ -134,18 +134,17 @@ class PostController extends Controller
             "publish_date" => Carbon::parse($form["postDate"]),
         ];
         
-        foreach ($form["socials"] as $social) {$post[$social] = true;};
+        if ($form["socials"]) foreach ($form["socials"] as $social) {$post[$social] = true;};
 
         $post = $team->posts()->where('id', $form["id"])->update($post);
         if (!$post) return;
-
         $post = $team->posts()->where('id', $form["id"])->first();
 
         $path = "/user-" . $user->id . "/" . "team-" . $team->id . "/" . "postsFiles" . "/" . "post-" .$post->id  . "/";
-
-        foreach ($form['files'] as $index => $photo) {
+        foreach ($form['files'] as $index => $photo) { // Loop through each photo
             if($photo['origin'] == "server") { 
                 PostPhoto::where(['id' => $photo['id']])->update(['order' => $index]); 
+                continue;
             };
 
             if($photo['origin'] == "client") {
@@ -159,9 +158,10 @@ class PostController extends Controller
                     'path' => $file_path,
                     'order' => $index,
                 ];
+                if (count($photos) > 0) $post->photos()->createMany($photos);
+                continue;
             };
 
-            if (count($photos) > 0) $post->photos()->createMany($photos);
 
             return redirect()->route('posts');
         }
