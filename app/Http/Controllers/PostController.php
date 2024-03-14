@@ -38,6 +38,19 @@ class PostController extends Controller
         return Inertia::render('Posts/Create');
     }
 
+
+    /**
+     * Show the list for creating a new resource.
+     */
+    public function list()
+    {
+        $team = Auth::user()->currentTeam;
+        
+        return Inertia::render('Posts/List', [
+            'posts' => $team->posts()
+        ]);
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -126,7 +139,7 @@ class PostController extends Controller
 
         $form["tags"] = array_map(fn($tag): string => "#" .$tag, $form['tags']);
         $form["tags"] = implode(" ", $form["tags"]);
-
+        
         $post = [
             'title' => $form['title'],
             'content' => $form['content'],
