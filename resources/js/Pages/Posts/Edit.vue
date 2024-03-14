@@ -34,19 +34,17 @@ export default {
     },
     mounted() {
         if (this.post) {
-
             this.FormData.title = this.post.title;
             this.FormData.content = this.post.content;
             this.FormData.tags = this.post.tags;
             this.FormData.postDate = Date(this.post.published_at);
-
             this.FormData.files = this.post.files.map((file) => {
                 let newFile = file;
                 newFile["origin"] = "server";
+                newFile["url"]  ="/storage/" +  file.path;
                 return newFile;
             });
-            
-/*          this.FormData.files = this.Post.files; */
+            console.log(this.FormData.files);
         }
     },
     setup() {

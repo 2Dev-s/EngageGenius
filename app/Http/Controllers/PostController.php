@@ -99,11 +99,10 @@ class PostController extends Controller
         if (!$post) return;
         $photos = $post->photos()->get();
         
-
-        $photos = $post->photos()->get();
         $post = $post->attributesToArray();
         $post["tags"] = explode(" ", $post["tags"]);
         $post["files"]= $photos;
+
         
         return Inertia::render('Posts/Edit', [
             'post' => $post
