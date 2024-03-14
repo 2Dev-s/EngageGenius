@@ -9,6 +9,21 @@ class Post extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'title',
+        'content',
+        'tags',
+        'publish_date',
+        'twitter',
+        'pinterest',
+        'linkedin',
+        'instagram',
+        'facebook',
+        'team_id',
+        'campain_id',
+        'published'
+    ];
+
     public function team()
     {
         return $this->belongsTo(Team::class);

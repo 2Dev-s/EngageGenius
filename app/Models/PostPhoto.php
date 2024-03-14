@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class PostPhoto extends Model
 {
+    protected $fillable = ['path', "order"];
+
     use HasFactory;
 
     public function post()
