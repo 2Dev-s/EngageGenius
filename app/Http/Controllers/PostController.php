@@ -47,7 +47,7 @@ class PostController extends Controller
         $team = Auth::user()->currentTeam;
         
         return Inertia::render('Posts/List', [
-            'posts' => $team->posts()
+            'posts' => $team->posts()->get()
         ]);
     }
 
@@ -117,8 +117,6 @@ class PostController extends Controller
         $post["tags"] = explode(" ", $post["tags"]);
         $post["files"]= $photos;
 
-
-        
         return Inertia::render('Posts/Edit', [
             'post' => $post
         ]);
@@ -184,10 +182,10 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function delete(Post $post)
     {
-        //
+        if (!$post) return;
+        $post->delete();
+        return redirect()->route('posts');
     }
-
-
 }

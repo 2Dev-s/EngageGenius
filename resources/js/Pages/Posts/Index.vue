@@ -74,16 +74,16 @@ export default {
                 class="flex flex-col flex-3 h-full w-full border bg-white border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 gap-5 px-4 py-4">
                 <div class="flex flex-col gap-2 ">
                     <a class="bg-blue-800 py-2 rounded-xl text-sm text-center" :href="route('posts.create')">Create Post</a>
-                    <a class="bg-blue-800 py-2 rounded-xl text-sm text-center">Create Campain</a>
-                    <a class="bg-blue-800 py-2 rounded-xl text-sm text-center">Browse Gallery</a>
+                    <a class="bg-blue-800 py-2 rounded-xl text-sm text-center" >Create Campain</a>
+<!--                     <a class="bg-blue-800 py-2 rounded-xl text-sm text-center">Browse Gallery</a> -->
 
-                    <a class="bg-blue-800 py-2 rounded-xl mt-5 text-sm text-center" href="#">Edit Post</a>
-                    <a class="bg-blue-800 py-2 rounded-xl text-sm text-center" href="#">Edit Campain</a>
-                    <a class="bg-blue-800 py-2 rounded-xl text-sm text-center" href="#">Upload Photos</a>
+                    <a class="bg-blue-800 py-2 rounded-xl mt-5 text-sm text-center" :href="route('posts.list')">Edit Posts</a>
+                    <a class="bg-blue-800 py-2 rounded-xl text-sm text-center" href="#">Edit Campains</a>
+<!--                     <a class="bg-blue-800 py-2 rounded-xl text-sm text-center" href="#">Upload Photos</a> -->
 
-                    <a class="bg-blue-800 py-2 rounded-xl mt-5 text-sm text-center" href="#">Delete Post</a>
-                    <a class="bg-blue-800 py-2 rounded-xl text-sm text-center" href="#">Delete Campain</a>
-                    <a class="bg-blue-800 py-2 rounded-xl text-sm text-center" href="#">Delete Photos</a>
+                    <a class="bg-blue-800 py-2 rounded-xl mt-5 text-sm text-center" href="#">Delete Posts</a>
+                    <a class="bg-blue-800 py-2 rounded-xl text-sm text-center" href="#">Delete Campains</a>
+<!--                     <a class="bg-blue-800 py-2 rounded-xl text-sm text-center" href="#">Delete Photos</a> -->
                 </div>
                 <div id="calendarCampain" ref="calendarCampainRef" class="h-full w-full " />
             </div>
