@@ -74,7 +74,7 @@ export default {
                 class="flex flex-col flex-3 h-full w-full border bg-white border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 gap-5 px-4 py-4">
                 <div class="flex flex-col gap-2 ">
                     <a class="bg-blue-800 py-2 rounded-xl text-sm text-center" :href="route('posts.create')">Create Post</a>
-                    <a class="bg-blue-800 py-2 rounded-xl text-sm text-center" >Create Campain</a>
+                    <a class="bg-blue-800 py-2 rounded-xl text-sm text-center" :href="route('campains.create')">Create Campain</a>
 <!--                     <a class="bg-blue-800 py-2 rounded-xl text-sm text-center">Browse Gallery</a> -->
 
                     <a class="bg-blue-800 py-2 rounded-xl mt-5 text-sm text-center" :href="route('posts.list')">Edit Posts</a>

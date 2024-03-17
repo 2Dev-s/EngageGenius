@@ -2,9 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\CampinController;
 use App\Http\Controllers\TwitterAPIController;
-use App\Http\Controllers\UnsplashApiController;
 use App\Http\Controllers\LinkedinApiController;
+use App\Http\Controllers\UnsplashApiController;
 
 Route::prefix('linkedin')->group(function () {
     Route::get('/oauth', [LinkedinApiController::class, 'getOauth'])->middleware(['auth'])->name('linkedin-oauth');
@@ -30,4 +31,15 @@ Route::prefix("posts")->group(function () {
     Route::get('/edit/{post}', [PostController::class, 'edit'])->name('posts.edit');
     Route::get('/delete/{post}', [PostController::class, 'delete'])->name('posts.delete');
     Route::post('/update/{id}', [PostController::class, 'update'])->name('posts.update');
+});
+
+Route::prefix("campains")->group(function () {
+    Route::get('/', [CampinController::class, 'index'])->name('campains');
+    Route::get('/create', [CampinController::class, 'create'])->name('campains.create');
+    Route::post('/store', [CampinController::class, 'store'])->name('campains.store');
+
+/*     Route::get('/list', [PostController::class, 'list'])->name('posts.list');
+    Route::get('/edit/{post}', [PostController::class, 'edit'])->name('posts.edit');
+    Route::get('/delete/{post}', [PostController::class, 'delete'])->name('posts.delete');
+    Route::post('/update/{id}', [PostController::class, 'update'])->name('posts.update');   */
 });

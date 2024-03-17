@@ -7,6 +7,7 @@ import ContentSearch from "@/Components/Posts/Modals/ContentSearch.vue";
 import Modal from "@/Components/Modal.vue";
 import Vue3TagsInput from 'vue3-tags-input';
 </script>
+
 <template>
     <div
         class="flex flex-1 flex-col p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
