@@ -1,16 +1,14 @@
-<script setup>
-
-</script>
 <template>
     <div class="p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-        <form  class="flex flex-1 flex-col gap-4">
+        <form class="flex flex-1 flex-col gap-4">
             <input type="text"
                 class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Campain Title">
+                placeholder="Campain Title" v-model="CampainForm.title">
+
             <div class="flex justify-center align-center items-center">
                 <textarea id="message" rows="4"
                     class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="Write your thoughts here..."></textarea>
+                    placeholder="Write your thoughts here..." v-model="CampainForm.content"></textarea>
                 <div class="absolute">
                     <svg @click="true"
                         class="w-8 h-8 fill-gray-500 dark:fill-gray-400 hover:fill-amber-300 hover:cursor-pointer"
@@ -22,30 +20,52 @@
             </div>
             <input type="text"
                 class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Campain Niche">
+                placeholder="Campain Niche" v-model="CampainForm.niche">
+
             <input type="text"
                 class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Product type / Service">
+
+            <select 
+                class=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <option selected disabled>Choose a template</option>
+            </select>
+
             <textarea id="message" rows="4"
                 class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Product Features"></textarea>
+                placeholder="Product Features" v-model="CampainForm.product"></textarea>
+
             <textarea id="message" rows="4"
                 class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Image Data"></textarea>
+                placeholder="Image Data" v-model="CampainForm.image"></textarea>
+
             <div class="flex gap-4">
                 <input type="number"
                     class=" w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="Number of Posts">
+                    placeholder="Number of Posts" v-model="CampainForm.posts">
+
                 <input type="text"
                     class=" w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="Discount">
+                    placeholder="Discount" v-model="CampainForm.discount">
+
                 <input type="text"
                     class=" w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="Call to action">
+                    placeholder="Call to action" v-model="CampainForm.callToAction">
+
                 <input type="text"
                     class=" w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="Link">
-                <VDatePicker mode="dateTime">
+                    placeholder="Link" v-model="CampainForm.link">
+
+
+            </div>
+            <div class="flex gap-4">
+                <VDatePicker mode="dateTime" v-model="CampainForm.deeadLineDate">
+                    <template #default="{ inputValue, inputEvents }">
+                        <input :value="inputValue" v-on="inputEvents" type="text"
+                            class=" w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                    </template>
+                </VDatePicker>
+                <VDatePicker mode="dateTime" v-model="CampainForm.deeadLineDate">
                     <template #default="{ inputValue, inputEvents }">
                         <input :value="inputValue" v-on="inputEvents" type="text"
                             class=" w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />

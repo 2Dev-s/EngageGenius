@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
-use App\Http\Controllers\CampinController;
+use App\Http\Controllers\CampainController;
 use App\Http\Controllers\TwitterAPIController;
 use App\Http\Controllers\LinkedinApiController;
 use App\Http\Controllers\UnsplashApiController;
@@ -34,9 +34,9 @@ Route::prefix("posts")->group(function () {
 });
 
 Route::prefix("campains")->group(function () {
-    Route::get('/', [CampinController::class, 'index'])->name('campains');
-    Route::get('/create', [CampinController::class, 'create'])->name('campains.create');
-    Route::post('/store', [CampinController::class, 'store'])->name('campains.store');
+    Route::get('/', [CampainController::class, 'index'])->name('campains');
+    Route::get('/create', [CampainController::class, 'create'])->name('campains.create');
+    Route::post('/store', [CampainController::class, 'store'])->name('campains.store');
 
 /*     Route::get('/list', [PostController::class, 'list'])->name('posts.list');
     Route::get('/edit/{post}', [PostController::class, 'edit'])->name('posts.edit');
