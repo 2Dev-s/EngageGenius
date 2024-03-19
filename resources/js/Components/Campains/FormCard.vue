@@ -8,9 +8,9 @@
             <input type="text"
                 class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Campain Niche" v-model="FormData.niche">
-            <select
-                class="p-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                <option selected disabled>Choose a template</option>
+            <select v-model="FormData.template_id" class="p-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <option selected :value="null">Choose a template</option>
+                <option v-for="template in templates" :key="template.id" :value="template.id">{{ template.name }}</option>
             </select>
             <div class="flex gap-4">
                 <VDatePicker mode="dateTime" v-model="FormData.start">
@@ -32,9 +32,9 @@
                     class=" w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Number of Posts" v-model="FormData.posts">
 
-                <input type="text"
+                <input type="number"
                     class=" w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="Discount" v-model="FormData.discount">
+                    placeholder="Discount" v-model="FormData.discount" min="0" max="100">
 
                 <input type="text"
                     class=" w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -68,7 +68,7 @@
 
 <script>
 export default {
-    props: ['FormData'],
+    props: ['FormData',"templates"],
 }
 </script>
 

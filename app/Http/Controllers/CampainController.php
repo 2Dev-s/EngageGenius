@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Campain;
+use App\Models\PromptTamplate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -18,24 +19,22 @@ class CampainController extends Controller
 
     public function create()
     {
-        return inertia::render('Campains/Create');
+        $promptTamplate = PromptTamplate::all();
+        return inertia::render('Campains/Create', ['promptTamplates' => $promptTamplate]);
     }
 
     public function store(Request $request)
     {
         $team = Auth::user()->currentTeam;
         $form = $request->all();
-        dd($form);
+
+
         $team->campains()->create([
-            "name" => $form["tittle"],
-            "description" => $form["content"],
-            "goal",
-            "niche",
-            "task",
-            "start",
-            "end"
+            'name' => $form['name'],
+            'prompt_tamplate_id' => $form['prompt_tamplate_id'],
+            'start_date' => $form['start_date'],
+            'end_date' => $form['end_date'],
+            
         ]);
-
-
     }
 }

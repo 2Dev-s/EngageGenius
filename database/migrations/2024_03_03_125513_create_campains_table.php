@@ -14,17 +14,18 @@ return new class extends Migration
         Schema::create('campains', function (Blueprint $table) {
             $table->id();
             $table->foreignId('team_id')->constrained()->onDelete('cascade');
-            $table->string("name");
+            $table->string("title");
             $table->text("description");
-            $table->text("goal");
             $table->text("niche");
-            $table->text("campain_features")->nullable();
             $table->foreignId("tamplate_id");
+            $table->text("product_description");
+            $table->text("product_features");
             $table->text("image_data")->nullable();
+            $table->integer("discount");
             $table->string("cta_text");
             $table->string("redirect_link");
-            $table->date("start");
-            $table->date("end");
+            $table->dateTime("start_date");
+            $table->dateTime("end_date");
             $table->boolean("ended")->default(false);
             $table->timestamps();
         });
