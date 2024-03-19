@@ -18,7 +18,11 @@ return new class extends Migration
             $table->text("description");
             $table->text("goal");
             $table->text("niche");
-            $table->text("task");
+            $table->text("campain_features")->nullable();
+            $table->foreignId("tamplate_id");
+            $table->text("image_data")->nullable();
+            $table->string("cta_text");
+            $table->string("redirect_link");
             $table->date("start");
             $table->date("end");
             $table->boolean("ended")->default(false);

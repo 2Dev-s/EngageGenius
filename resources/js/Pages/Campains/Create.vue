@@ -1,7 +1,7 @@
 <template>
     <UserLayout>
         <div class="container mx-auto flex flex-col gap-5">
-            <FormCard :CampainForm="FormData"/>
+            <FormCard :FormData="FormData"/>
             <div class="flex justify-end gap-4">
                 <button class="px-6 py-2 bg-blue-700 rounded-md" @click="submitForm" type="button"> Generate
                     Campain</button>
@@ -25,15 +25,18 @@ export default {
         return {
             FormData: useForm({
                 title: '',
-                content: '',
+                description: '',
                 niche: '',
-                product: '',
-                image: '',
-                posts: 0,
+                template_id: '',
+                product_features: '',
+                product_info: '',
+                image_data: '',
+                posts: null,
                 discount: '',
-                callToAction: '',
-                link: '',
-                deeadLineDate: new Date(),
+                cta_text: '',
+                redirect_link: '',
+                start: null,
+                end: null,
             })
         }
     },

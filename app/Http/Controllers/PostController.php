@@ -20,9 +20,10 @@ class PostController extends Controller
     public function index()
     {
         $team = Auth::user()->currentTeam;
+        if (!$team) return redirect("/");
 
-        $campaigns = $team->campains()->where('ended', false)->get();
-        $posts = $team->posts()->where('published', false)->get();
+        $campaigns = $team->campains()->where('ended', false)->get() || [];
+        $posts = $team->posts()->where('published', false)->get() || [];
         
         return Inertia::render('Posts/Index', [
             'posts' => $posts,
