@@ -10,17 +10,18 @@ class Campain extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'description',
-        'goal',
-        'niche',
-        'campain_features',
-        'tamplate_id',
-        'image_data',
-        'cta_text',
-        'redirect_link',
-        'start',
-        'end',
+        "title",
+        "description",
+        "niche",
+        "tamplate_id",
+        "product_description",
+        "product_features",
+        "image_data",
+        "discount",
+        "cta_text",
+        "redirect_link",
+        "start_date",
+        "end_date",
     ];
 
     public function team()
