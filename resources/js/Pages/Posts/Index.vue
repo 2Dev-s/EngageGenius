@@ -26,7 +26,7 @@ export default {
     },
     mounted() {
 
-        if (this.posts.length === 0) {
+        if (this.posts.length > 0) {
             this.calendarEvents = this.posts.map((post) => {
                 return {
                     id: post.id,
@@ -36,19 +36,19 @@ export default {
                     end: post.publish_date,
                 }
             });
-
+        };
+        
+        if (this.campaigns.length > 0) {
             this.calendarCampainEvents = this.campaigns.map((campain) => {
                 return {
                     id: campain.id,
-                    title: campain.name,
+                    title: campain.title,
                     description: campain.description,
-                    start: campain.start,
-                    end: campain.end,
+                    start: campain.start_date,
+                    end: campain.end_date,
                 }
             });
         };
-
-
 
         this.calendar = createCalendar({
             isDark: true,
