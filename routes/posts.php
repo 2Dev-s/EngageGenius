@@ -39,8 +39,8 @@ Route::prefix("campains")->group(function () {
     Route::get('/create', [CampainController::class, 'create'])->name('campains.create');
     Route::post('/store', [CampainController::class, 'store'])->name('campains.store');
     Route::get('/list', [CampainController::class, 'list'])->name('campains.list');
-    Route::get('/edit/{campain}', [CampainController::class, 'edit'])->name('posts.edit');
-    Route::post('/update/{id}', [CampainController::class, 'update'])->name('posts.update');
+    Route::get('/edit/{campain}', [CampainController::class, 'edit'])->name('campains.edit');
+    Route::post('/update/{id}', [CampainController::class, 'update'])->name('campains.update');
 
-    Route::get('/delete/{campain}', [CampainController::class, 'delete'])->name('posts.delete');
+    Route::get('/delete/{campain}', [CampainController::class, 'delete'])->name('campains.delete');
 });

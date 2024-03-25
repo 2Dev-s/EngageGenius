@@ -116,8 +116,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        if (!$post or !empty($post)) return;
 
-        if (!$post) return;
         $photos = $post->photos();
         $photos = $photos->orderBy('order')->get();
 
