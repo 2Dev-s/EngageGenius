@@ -13,10 +13,6 @@ class TeamsSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('teams')->insert([
-            'user_id' => 1,
-            'name' => 'RicoAI',
-            'personal_team' => 0,
-        ]);
+        //
     } 
 }

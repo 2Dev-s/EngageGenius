@@ -25,7 +25,7 @@ class TestAccount extends Seeder
             "password" => Hash::make("Test2024"), // Test2024
             "email_verified_at" => now(),
         ]);
-        
+
         $subscription = $user->subscriptions()->create([
             'type' => 'default',
             'paddle_id' => fake()->unique()->numberBetween(1, 1000),
@@ -34,7 +34,7 @@ class TestAccount extends Seeder
             'paused_at' => null,
             'ends_at' => null,
         ]);
-    
+
         $subscription->items()->create([
             'product_id' => fake()->unique()->numberBetween(1, 1000),
             'price_id' => "pri_01hmtf6htyck7hk5axt6baa7fg",
@@ -47,19 +47,20 @@ class TestAccount extends Seeder
             "name" => "Test Team",
             "personal_team" => false
         ]);
-        
-        Campain::factory(10)->create([
-            "team_id" => $team->id
-        ]);  
-        
+
+
         $campain = $team->campains()->create([
-            "name" => "Test Campain",
+            "title" => "Test Campain",
             "description" => "This is a test campain",
-            "goal" => "Test Goal",
-            "niche" => "Test Niche",
-            "task" => "Test Task",
-            "start" => now(),
-            "end" => now()->addDays(5)
+            "niche"  => "Test Niche",
+            "product_description" => "Test Niche",
+            "product_features" => "Test Niche",
+            "image_data" => "Test Niche",
+            "discount" => 100,
+            "cta_text" => "Test Niche",
+            "redirect_link" => "Test Niche",
+            "start_date" => now(),
+            "end_date" => now()->addDays(5),
         ]);
 
         Post::factory(50)->create([

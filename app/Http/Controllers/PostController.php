@@ -20,10 +20,14 @@ class PostController extends Controller
     public function index()
     {
         $team = Auth::user()->currentTeam;
+        if (!$team) return redirect("/");
 
-        $campaigns = $team->campains()->where('ended', false)->get();
-        $posts = $team->posts()->where('published', false)->get();
+        $campaigns = $team->campains()->where('ended', false)->get() ;
+        $posts = $team->posts()->where('published', false)->get() ;
 
+        if (!$campaigns) $campaigns = [];
+        if (!$posts) $posts = [];
+        
         return Inertia::render('Posts/Index', [
             'posts' => $posts,
             'campaigns' => $campaigns
@@ -38,10 +42,23 @@ class PostController extends Controller
         return Inertia::render('Posts/Create');
     }
 
+
+    /**
+     * Show the list for creating a new resource.
+     */
+    public function list()
+    {
+        $team = Auth::user()->currentTeam;
+        
+        return Inertia::render('Posts/List', [
+            'posts' => $team->posts()->get()
+        ]);
+    }
+
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request) 
     {
         $user = $request->user();
         $team = $user->currentTeam;
@@ -104,8 +121,6 @@ class PostController extends Controller
         $post["tags"] = explode(" ", $post["tags"]);
         $post["files"]= $photos;
 
-
-        
         return Inertia::render('Posts/Edit', [
             'post' => $post
         ]);
@@ -126,7 +141,7 @@ class PostController extends Controller
 
         $form["tags"] = array_map(fn($tag): string => "#" .$tag, $form['tags']);
         $form["tags"] = implode(" ", $form["tags"]);
-
+        
         $post = [
             'title' => $form['title'],
             'content' => $form['content'],
@@ -171,10 +186,10 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function delete(Post $post)
     {
-        //
+        if (!$post) return;
+        $post->delete();
+        return redirect()->route('posts');
     }
-
-
 }
