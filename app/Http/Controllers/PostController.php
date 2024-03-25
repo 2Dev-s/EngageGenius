@@ -114,9 +114,10 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Post $post)
+    public function edit($id)
     {
-        if (!$post or !empty($post)) return;
+        $post = Post::find($id);
+        if (!$post or empty($post)) return;
 
         $photos = $post->photos();
         $photos = $photos->orderBy('order')->get();
