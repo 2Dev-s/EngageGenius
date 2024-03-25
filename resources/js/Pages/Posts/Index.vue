@@ -83,9 +83,8 @@ export default {
                         Campain</a>
                     <!--                     <a class="bg-blue-800 py-2 rounded-xl text-sm text-center">Browse Gallery</a> -->
 
-                    <a class="bg-blue-800 py-2 rounded-xl mt-5 text-sm text-center" :href="route('posts.list')">Edit
-                        Posts</a>
-                    <a class="bg-blue-800 py-2 rounded-xl text-sm text-center" href="#">Edit Campains</a>
+                    <a class="bg-blue-800 py-2 rounded-xl mt-5 text-sm text-center" :href="route('posts.list')">Edit Posts</a>
+                    <a class="bg-blue-800 py-2 rounded-xl text-sm text-center":href="route('campains.list')">Edit Campains</a>
                     <!--                     <a class="bg-blue-800 py-2 rounded-xl text-sm text-center" href="#">Upload Photos</a> -->
 
                     <a class="bg-blue-800 py-2 rounded-xl mt-5 text-sm text-center" href="#">Delete Posts</a>

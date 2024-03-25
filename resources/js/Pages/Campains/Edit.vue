@@ -18,7 +18,7 @@ import FormCard from '@/Components/Campains/FormCard.vue';
 import { useForm } from '@inertiajs/vue3'
 
 export default {
-    props: ["promptTamplates"],
+    props: ["campain", "promptTamplates"],
     setup() {
         return {}
     },
@@ -41,9 +41,24 @@ export default {
             })
         }
     },
+    mounted() {
+            this.FormData.title = this.campain.title
+            this.FormData.description = this.campain.description
+            this.FormData.niche = this.campain.niche
+            this.FormData.tamplate_id = this.campain.tamplate_id
+            this.FormData.product_features = this.campain.product_features
+            this.FormData.product_description = this.campain.product_description
+            this.FormData.image_data = this.campain.image_data
+            this.FormData.discount = this.campain.discount
+            this.FormData.cta_text = this.campain.cta_text
+            this.FormData.redirect_link = this.campain.redirect_link
+            this.FormData.start_date=  this.campain.start_date
+            this.FormData.end_date = this.campain.end_date
+
+    },
     methods: {
         submitForm() {
-            this.FormData.post(route('campains.store'))
+            this.FormData.post(route('campains.update', this.campain.id))
         }
     },
     components: {

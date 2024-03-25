@@ -20,12 +20,12 @@ export default {
         },
     },
     mounted() {
-        console.log(this.posts[0]);
+
         this.alteredPosts = this.posts.map((post)=>{
             post["meta"] = JSON.stringify(post);
             return post;
         });
-        
+    
         this.sortedPosts = this.alteredPosts;
     },
 
