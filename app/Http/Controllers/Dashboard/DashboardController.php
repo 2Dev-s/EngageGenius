@@ -25,7 +25,7 @@ class DashboardController extends Controller
         $ordersDelivered = count(MiniShopOrders::where('status', 'Delivered')->get());
         $ordersProccesing = count(MiniShopOrders::where('status', 'Processing')->get());
         $ordersOnHold = count(MiniShopOrders::where('status', 'On Hold')->get());
-        
+
         $ordersDeliveredRevenue = $this->getOrdersDeliveredRevenue();
         $ordersRevenue = $this->getAllOrdersRevenue();
 
@@ -39,7 +39,7 @@ class DashboardController extends Controller
             'ordersProccesing' => $ordersProccesing,
             'ordersOnHold' => $ordersOnHold,
 
-            
+
             'ordersDeliveredRevenue' => $ordersDeliveredRevenue,
             'ordersRevenue' => $ordersRevenue,
         ]);
@@ -71,8 +71,6 @@ class DashboardController extends Controller
 
     public function minishopOrdersStore(Request $request)
     {
-
-        dd($request->all());
         $order = MiniShopOrders::where('id', $request->order_id)->first();
         $order->status = $request->status;
         $order->save();
