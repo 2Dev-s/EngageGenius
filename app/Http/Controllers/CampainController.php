@@ -15,7 +15,7 @@ class CampainController extends Controller
     public function index()
     {
         $campains = Auth::user()->currentTeam->campains;
-        return inertia::render('Campains/Index', ['campains' => $campains]);   
+        return inertia::render('Campains/Index', ['campains' => $campains]);
     }
 
     public function create()
@@ -38,11 +38,25 @@ class CampainController extends Controller
     {
         $user = Auth::user();
         $team = $user->currentTeam;
-        $campain = Campain::find($id);
+        $campain = Campain::find($id)->first();
+
         if ($team->id != $campain->team_id) return redirect()->route('posts');
         $form = $request->all();
-        
-        dd($form);
+
+        $campain->update([
+            'title' => $form['title'],
+            'description' => $form['description'],
+            'niche' => $form['niche'],
+            'tamplate_id' => $form['tamplate_id'],
+            'product_description' => $form['product_description'],
+            'product_features' => $form['product_features'],
+            'image_data' => $form['image_data'],
+            'discount' => $form['discount'],
+            'cta_text' => $form['cta_text'],
+            'redirect_link' => $form['redirect_link'],
+            'start_date' =>  Carbon::parse($form['start_date']),
+            'end_date' => Carbon::parse($form['end_date']),
+        ]);
     }
 
 
@@ -75,7 +89,7 @@ class CampainController extends Controller
         $campains = Auth::user()->currentTeam->campains;
         return inertia::render('Campains/List', ['campains' => $campains]);
     }
-    
+
     public function delete(Campain $campain)
     {
         if (!$campain) return;
