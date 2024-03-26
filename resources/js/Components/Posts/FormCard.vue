@@ -160,7 +160,7 @@ import Vue3TagsInput from 'vue3-tags-input';
         </form>
     </div>
 
-    <ContentTextarea :state="Modals" />
+    <ContentTextarea :state="Modals" :content="PostForm.content"/>
     <ContentMedia :state="Modals" />
     <ContentSearch :state="Modals"/>
 </template>
@@ -209,7 +209,7 @@ export default {
                 onSuccess: () => {
                     console.log('success');
                 },
-                onError: (error) => {
+                onError: (  ) => {
                     console.log(error);
                 },
                 onFinish: () => { },
