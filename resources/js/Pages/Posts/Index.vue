@@ -87,8 +87,8 @@ export default {
                     <a class="bg-blue-800 py-2 rounded-xl text-sm text-center":href="route('campains.list')">Edit Campains</a>
                     <!--                     <a class="bg-blue-800 py-2 rounded-xl text-sm text-center" href="#">Upload Photos</a> -->
 
-                    <a class="bg-blue-800 py-2 rounded-xl mt-5 text-sm text-center" href="#">Delete Posts</a>
-                    <a class="bg-blue-800 py-2 rounded-xl text-sm text-center" href="#">Delete Campains</a>
+                    <a class="bg-blue-800 py-2 rounded-xl mt-5 text-sm text-center" :href="route('posts.list')">Delete Posts</a>
+                    <a class="bg-blue-800 py-2 rounded-xl text-sm text-center" :href="route('campains.list')">Delete Campains</a>
                     <!--                     <a class="bg-blue-800 py-2 rounded-xl text-sm text-center" href="#">Delete Photos</a> -->
                 </div>
                 <div id="calendarCampain" ref="calendarCampainRef" class="h-full w-full " />
