@@ -70,8 +70,22 @@ class CampainController extends Controller
         $team = $user->currentTeam;
         if ($team->id != $id->team_id) return redirect()->route('posts');
         $form = $request->all(); 
+        $id->update([
+            'title' => $form['title'],
+            'description' => $form['description'],
+            'niche' => $form['niche'],
+            'tamplate_id' => $form['tamplate_id'],
+            'product_description' => $form['product_description'],
+            'product_features' => $form['product_features'],
+            'image_data' => $form['image_data'],
+            'discount' => $form['discount'],
+            'cta_text' => $form['cta_text'],
+            'redirect_link' => $form['redirect_link'],
+            'start_date' =>  Carbon::parse($form['start_date']),
+            'end_date' => Carbon::parse($form['end_date']),
+        ]);
         
-        dd($form);
+        return redirect()->route('posts');
     }
 
     
