@@ -56,9 +56,9 @@ export default {
                     </span>
                     <span class="flex flex-col justify-between">
                         <a class="bg-blue-600 px-4 py-2 rounded-md text-center w-24"
-                            :href="route('posts.edit', item.id)">Edit</a>
+                            :href="route('campains.edit', item.id)">Edit</a>
                         <a class="bg-blue-600 px-4 py-2 rounded-md text-center w-24"
-                            :href="route('posts.delete', item.id)">Delete</a>
+                            :href="route('campains.delete', item.id)">Delete</a>
                         <a class="bg-blue-600 px-4 py-2 rounded-md text-center w-24">Generate</a>
                     </span>
                 </div>

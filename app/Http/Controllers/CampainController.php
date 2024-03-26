@@ -34,15 +34,10 @@ class CampainController extends Controller
         return inertia::render('Campains/Edit', ['campain' => $campain, 'promptTamplates' => $promptTamplate]);
     }
 
-    public function update(Campain $id , Request $request)
+    public function list()
     {
-        $user = Auth::user();
-        $team = $user->currentTeam;
-        $campain = Campain::find($id);
-        if ($team->id != $campain->team_id) return redirect()->route('posts');
-        $form = $request->all();
-        
-        dd($form);
+        $campains = Auth::user()->currentTeam->campains;
+        return inertia::render('Campains/List', ['campains' => $campains]);
     }
 
 
@@ -50,7 +45,6 @@ class CampainController extends Controller
     {
         $team = Auth::user()->currentTeam;
         $form = $request->all();
-
 
         $team->campains()->create([
             'title' => $form['title'],
@@ -70,11 +64,16 @@ class CampainController extends Controller
         return redirect()->route('posts');
     }
 
-    public function list()
+    public function update(Campain $id , Request $request)
     {
-        $campains = Auth::user()->currentTeam->campains;
-        return inertia::render('Campains/List', ['campains' => $campains]);
+        $user = Auth::user();
+        $team = $user->currentTeam;
+        if ($team->id != $id->team_id) return redirect()->route('posts');
+        $form = $request->all(); 
+        
+        dd($form);
     }
+
     
     public function delete(Campain $campain)
     {

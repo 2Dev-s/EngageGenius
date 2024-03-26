@@ -61,6 +61,71 @@ class TestAccount extends Seeder
             "start_date" => now(),
             "end_date" => now()->addDays(5),
         ]);
+        $campain = $team->campains()->create([
+            "title" => "Test Campain",
+            "description" => "This is a test campain",
+            "niche"  => "Test Niche",
+            "product_description" => "Test Niche",
+            "product_features" => "Test Niche",
+            "image_data" => "Test Niche",
+            "discount" => 100,
+            "cta_text" => "Test Niche",
+            "redirect_link" => "Test Niche",
+            "start_date" => now(),
+            "end_date" => now()->addDays(5),
+        ]);
+        $campain = $team->campains()->create([
+            "title" => "Test Campain",
+            "description" => "This is a test campain",
+            "niche"  => "Test Niche",
+            "product_description" => "Test Niche",
+            "product_features" => "Test Niche",
+            "image_data" => "Test Niche",
+            "discount" => 100,
+            "cta_text" => "Test Niche",
+            "redirect_link" => "Test Niche",
+            "start_date" => now(),
+            "end_date" => now()->addDays(5),
+        ]);
+        $campain = $team->campains()->create([
+            "title" => "Test Campain",
+            "description" => "This is a test campain",
+            "niche"  => "Test Niche",
+            "product_description" => "Test Niche",
+            "product_features" => "Test Niche",
+            "image_data" => "Test Niche",
+            "discount" => 100,
+            "cta_text" => "Test Niche",
+            "redirect_link" => "Test Niche",
+            "start_date" => now(),
+            "end_date" => now()->addDays(5),
+        ]);
+        $campain = $team->campains()->create([
+            "title" => "Test Campain",
+            "description" => "This is a test campain",
+            "niche"  => "Test Niche",
+            "product_description" => "Test Niche",
+            "product_features" => "Test Niche",
+            "image_data" => "Test Niche",
+            "discount" => 100,
+            "cta_text" => "Test Niche",
+            "redirect_link" => "Test Niche",
+            "start_date" => now()->addDays(5),
+            "end_date" => now()->addDays(10),
+        ]);
+        $campain = $team->campains()->create([
+            "title" => "Test Campain",
+            "description" => "This is a test campain",
+            "niche"  => "Test Niche",
+            "product_description" => "Test Niche",
+            "product_features" => "Test Niche",
+            "image_data" => "Test Niche",
+            "discount" => 100,
+            "cta_text" => "Test Niche",
+            "redirect_link" => "Test Niche",
+            "start_date" => now(),
+            "end_date" => now()->addDays(5),
+        ]);
 
         Post::factory(50)->create([
             "team_id" => $team->id,
