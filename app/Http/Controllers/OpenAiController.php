@@ -18,19 +18,24 @@ class OpenAiController extends Controller
     /*
         * This function create a post desciption based on the information provided
     */
-    public function createPostDescription()
+    public function createPostDescription(Request $request)
     {
+        $postTitle = $request->input('postTitle');
+
+        if (!$postTitle) {
+            return response()->json(['error' => 'Post Title is required']);
+        }
+
         $result = OpenAI::chat()->create([
             'model' => $this->chatModel,
             'messages' => [
                 $this->basePromptChat,
-                ['role' => 'user', 'content' => "PostTitle: [Food Court Sale]"],
-                ['role' => 'user', 'content' => "PostDescription: [Get 50% off on all food items at the food court. Offer valid for a limited time only. Hurry!]"],
-                ['role' => 'system', 'content' => 'Write a catchy caption / decriptions for the post.']
+                ['role' => 'user', 'content' => "PostTitle: [" . $postTitle . "]"],
+                ['role' => 'system', 'content' => 'Write a catchy caption / decriptions for the post. No tags.'],
             ],
         ]);
 
-        dd($result->choices[0]);
+        return response()->json($result->choices[0]->message->content);
     }
     /*
         * This function create a post for a campain based on the information provided

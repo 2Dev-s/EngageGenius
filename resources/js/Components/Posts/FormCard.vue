@@ -48,8 +48,8 @@ import Vue3TagsInput from 'vue3-tags-input';
                             </p>
                         </template>
                         <template v-else>
-                            <draggable v-model="PostForm.files" @start="draggablee = true"
-                                @end="draggablee = false" item-key="id"
+                            <draggable v-model="PostForm.files" @start="draggablee = true" @end="draggablee = false"
+                                item-key="id"
                                 class="flex h-full w-full  gap-4 flex-wrap p-4 items-center justify-center">
                                 <template #item="{ element }">
                                     <div class=" bg-gray-900 p-2 px-4 rounded-lg flex-2">
@@ -141,7 +141,7 @@ import Vue3TagsInput from 'vue3-tags-input';
             <Vue3TagsInput :tags="PostForm.tags"
                 class="flex flex-col sm:flex-row items-center justify-between w-full p-4 text-gray-900 border border-gray-300 rounded-lg  text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Enter post tags" @on-tags-changed="handleChangeTag" />
-            
+
 
             <div class="flex gap-5 justify-between content-stretch flex-col lg:flex-row ">
                 <VDatePicker v-model="PostForm.postDate" mode="dateTime">
@@ -160,14 +160,14 @@ import Vue3TagsInput from 'vue3-tags-input';
         </form>
     </div>
 
-    <ContentTextarea :state="Modals" :content="PostForm.content"/>
+    <ContentTextarea :state="Modals" :content="PostForm.content" @saveTextarea="textareaSave" :postTitle="PostForm.title"/>
     <ContentMedia :state="Modals" />
-    <ContentSearch :state="Modals"/>
+    <ContentSearch :state="Modals" />
 </template>
 
 <script>
 export default {
-    props: ["PostForm","FormPostRoute"],
+    props: ["PostForm", "FormPostRoute"],
     data() {
         return {
             draggablee: false,
@@ -193,7 +193,7 @@ export default {
 
         submit() {
             if (this.PostForm.id) {
-            this.PostForm.post(route(this.FormPostRoute, this.PostForm.id ), {
+                this.PostForm.post(route(this.FormPostRoute, this.PostForm.id), {
                     onSuccess: () => {
                         console.log('success');
                     },
@@ -202,18 +202,21 @@ export default {
                     },
                     onFinish: () => { },
                 });
-            return;
+                return;
             }
 
             this.PostForm.post(route(this.FormPostRoute), {
                 onSuccess: () => {
                     console.log('success');
                 },
-                onError: (  ) => {
+                onError: () => {
                     console.log(error);
                 },
                 onFinish: () => { },
             });
+        },
+        textareaSave(data) {
+            this.PostForm.content = data;
         },
 
         handleChangeTag(tags) {
@@ -226,4 +229,3 @@ export default {
     }
 }
 </script>
-
