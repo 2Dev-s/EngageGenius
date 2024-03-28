@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Campain;
 use Illuminate\Http\Request;
 use OpenAI\Laravel\Facades\OpenAI;
 
@@ -21,18 +22,29 @@ class OpenAiController extends Controller
     public function createPostDescription(Request $request)
     {
         $postTitle = $request->input('postTitle');
+        $postData = $request->input('postData');
+        $postOldDesciption = $request->input('postOldDesciption');
 
-        if (!$postTitle) {
-            return response()->json(['error' => 'Post Title is required']);
+        if (!$postTitle) { return response()->json(['error' => 'Post Title is required']);}
+
+        $messageBlock = [
+            $this->basePromptChat,
+            ['role' => 'user', 'content' => "PostTitle: [" . $postTitle . "]"]
+        ];
+        
+        if ($postData) {
+            $messageBlock[] = ['role' => 'user', 'content' => "PostData: [" . $postData . "]"];
         }
 
+        if ($postOldDesciption) {
+            $messageBlock[] = ['role' => 'user', 'content' => "PostOldDesciption: [" . $postOldDesciption . "]"];
+        }
+
+        $messageBlock[] = ['role' => 'system', 'content' => 'Use what is anvailable to you, Write a catchy caption / decriptions for the post. No tags.'];      
+        
         $result = OpenAI::chat()->create([
             'model' => $this->chatModel,
-            'messages' => [
-                $this->basePromptChat,
-                ['role' => 'user', 'content' => "PostTitle: [" . $postTitle . "]"],
-                ['role' => 'system', 'content' => 'Write a catchy caption / decriptions for the post. No tags.'],
-            ],
+            'messages' => $messageBlock
         ]);
 
         return response()->json($result->choices[0]->message->content);
@@ -40,13 +52,13 @@ class OpenAiController extends Controller
     /*
         * This function create a post for a campain based on the information provided
     */
-    public function createPostFromCampain()
+    public function createPostFromCampain(Campain $campain)
     {
         $result = OpenAI::chat()->create([
             'model' => $this->chatModel,
             'messages' => [
                 $this->basePromptChat,
-                ['role' => 'user', 'content' => "CampainTitle: [Food Court Sale Camapin]"],
+                ['role' => 'user', 'content' => "CampainTitle: [" . $campain->title ."]"],
                 ['role' => 'user', 'content' => "CampainDescription: [Get 50% off on all food items at the food court. Offer valid for a limited time only. Hurry!]"],
                 ['role' => 'user', 'content' => "CampainNiche: [Food Sale Meat"],
                 ['role' => 'user', 'content' => "CampainProductFeatures: [Meat soo good you will never want to leave the food court.]"],
@@ -55,7 +67,7 @@ class OpenAiController extends Controller
             ],
         ]);
 
-        dd($result->choices[0]);
+        return $result->choices[0];
     }
     /*
         * This function create tags for a post based on the information provided

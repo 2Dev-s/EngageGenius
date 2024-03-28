@@ -12,20 +12,17 @@ use Illuminate\Support\Facades\Auth;
 class CampainController extends Controller
 {
     //
-    public function index()
-    {
+    public function index(){
         $campains = Auth::user()->currentTeam->campains;
         return inertia::render('Campains/Index', ['campains' => $campains]);   
     }
 
-    public function create()
-    {
+    public function create(){
         $promptTamplate = PromptTamplate::all();
         return inertia::render('Campains/Create', ['promptTamplates' => $promptTamplate]);
     }
 
-    public function edit(Campain $campain , Request $request)
-    {
+    public function edit(Campain $campain , Request $request){
         $user = Auth::user();
         $team = $user->currentTeam;
         if ($team->id != $campain->team_id) return redirect()->route('posts');
@@ -34,15 +31,13 @@ class CampainController extends Controller
         return inertia::render('Campains/Edit', ['campain' => $campain, 'promptTamplates' => $promptTamplate]);
     }
 
-    public function list()
-    {
+    public function list(){
         $campains = Auth::user()->currentTeam->campains;
         return inertia::render('Campains/List', ['campains' => $campains]);
     }
 
 
-    public function store(Request $request)
-    {
+    public function store(Request $request){
         $team = Auth::user()->currentTeam;
         $form = $request->all();
 
@@ -64,8 +59,7 @@ class CampainController extends Controller
         return redirect()->route('posts');
     }
 
-    public function update(Campain $id , Request $request)
-    {
+    public function update(Campain $id , Request $request){
         $user = Auth::user();
         $team = $user->currentTeam;
         if ($team->id != $id->team_id) return redirect()->route('posts');
@@ -88,11 +82,14 @@ class CampainController extends Controller
         return redirect()->route('posts');
     }
 
-    
     public function delete(Campain $campain)
     {
         if (!$campain) return;
         $campain->delete();
         return redirect()->route('posts');
+    }
+
+    public function generatePosts(Campain $campain, int $count ){
+
     }
 }
