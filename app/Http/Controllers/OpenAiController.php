@@ -54,20 +54,23 @@ class OpenAiController extends Controller
     */
     public function createPostFromCampain(Campain $campain)
     {
+        $tamplate = $campain->tamplate;
+
         $result = OpenAI::chat()->create([
             'model' => $this->chatModel,
             'messages' => [
                 $this->basePromptChat,
                 ['role' => 'user', 'content' => "CampainTitle: [" . $campain->title ."]"],
-                ['role' => 'user', 'content' => "CampainDescription: [Get 50% off on all food items at the food court. Offer valid for a limited time only. Hurry!]"],
-                ['role' => 'user', 'content' => "CampainNiche: [Food Sale Meat"],
-                ['role' => 'user', 'content' => "CampainProductFeatures: [Meat soo good you will never want to leave the food court.]"],
-                ['role' => 'user', 'content' => "CampainProductDescription: [red Wague meat form Japan, and the best beef in the world.]"],
-                ['role' => 'system', 'content' => 'Genretea a post for the campain. in this fromat [PostTitle: [REponce GEnerated] PostDescription: [REponce GEnerated]']
+                ['role' => 'user', 'content' => "CampainDescription: [" .$campain->description ."]"],
+                ['role' => 'user', 'content' => "CampainNiche: [" .$campain->niche ."]" ],
+                ['role' => 'user', 'content' => "CampainProductFeatures: [" .$campain->product_features ."]"],
+                ['role' => 'user', 'content' => "CampainProductDescription: [" .$campain->product_description ."]"],
+                ['role' => 'user', 'content' => "Use this tamplate when craeting the post: \n ". $tamplate->prompt ."\n\n end of tamplate"],
+                ['role' => 'system', 'content' => 'Genretea a post for the campain. in this fromat [PostTitle: [REponce GEnerated] PostDescription: [REponce GEnerated] no HAsh Tags']
             ],
         ]);
 
-        return $result->choices[0];
+        return $result->choices[0]->message->content;
     }
     /*
         * This function create tags for a post based on the information provided

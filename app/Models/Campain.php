@@ -34,4 +34,9 @@ class Campain extends Model
         return $this->hasMany(Post::class);
     }
 
+    public function tamplate()
+    {
+        return $this->belongsTo(PromptTamplate::class);
+    }
+
 }

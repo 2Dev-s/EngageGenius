@@ -36,7 +36,6 @@ class CampainController extends Controller
         return inertia::render('Campains/List', ['campains' => $campains]);
     }
 
-
     public function store(Request $request){
         $team = Auth::user()->currentTeam;
         $form = $request->all();
@@ -90,6 +89,21 @@ class CampainController extends Controller
     }
 
     public function generatePosts(Campain $campain, int $count ){
+        if (!$campain) return;
+        if ($count < 1) return;
+        $open = new OpenAiController();
+        $posts = [];
 
+        for ($i = 0; $i < $count; $i++) {
+          $posts[] = $open->createPostFromCampain($campain);
+        }
+
+        return $posts;
+    }
+
+    public function showGeneratedPosts(Campain $campain){
+        $testCapain = Campain::where('team_id', Auth::user()->currentTeam->id)->first();
+        $res = $this->generatePosts($testCapain, 5);
+        dd($res);
     }
 }

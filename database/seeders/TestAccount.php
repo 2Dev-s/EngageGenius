@@ -52,6 +52,8 @@ class TestAccount extends Seeder
             "title" => "Test Campain",
             "description" => "This is a test campain",
             "niche"  => "Test Niche",
+            "posts" => random_int(1, 10), 
+            "tamplate_id" => random_int(1, 10), 
             "product_description" => "Test Niche",
             "product_features" => "Test Niche",
             "image_data" => "Test Niche",
@@ -64,6 +66,8 @@ class TestAccount extends Seeder
         $campain = $team->campains()->create([
             "title" => "Test Campain",
             "description" => "This is a test campain",
+            "tamplate_id" => random_int(1, 10), 
+            "posts" => random_int(1, 10), 
             "niche"  => "Test Niche",
             "product_description" => "Test Niche",
             "product_features" => "Test Niche",
@@ -77,6 +81,8 @@ class TestAccount extends Seeder
         $campain = $team->campains()->create([
             "title" => "Test Campain",
             "description" => "This is a test campain",
+            "posts" => random_int(1, 10), 
+            "tamplate_id" => random_int(1, 10), 
             "niche"  => "Test Niche",
             "product_description" => "Test Niche",
             "product_features" => "Test Niche",
@@ -90,6 +96,8 @@ class TestAccount extends Seeder
         $campain = $team->campains()->create([
             "title" => "Test Campain",
             "description" => "This is a test campain",
+            "posts" => random_int(1, 10), 
+            "tamplate_id" => random_int(1, 10), 
             "niche"  => "Test Niche",
             "product_description" => "Test Niche",
             "product_features" => "Test Niche",
@@ -103,6 +111,8 @@ class TestAccount extends Seeder
         $campain = $team->campains()->create([
             "title" => "Test Campain",
             "description" => "This is a test campain",
+            "tamplate_id" => random_int(1, 10), 
+            "posts" => random_int(1, 10), 
             "niche"  => "Test Niche",
             "product_description" => "Test Niche",
             "product_features" => "Test Niche",
@@ -116,6 +126,8 @@ class TestAccount extends Seeder
         $campain = $team->campains()->create([
             "title" => "Test Campain",
             "description" => "This is a test campain",
+            "tamplate_id" => random_int(1, 10), 
+            "posts" => random_int(1, 10), 
             "niche"  => "Test Niche",
             "product_description" => "Test Niche",
             "product_features" => "Test Niche",
