@@ -44,7 +44,6 @@ Route::get('/subUserTest', function () {
 
 })->name('test');
 
-
 require __DIR__ . '/posts.php';
 require __DIR__ . '/jetstream.php';
 require __DIR__ . '/admin.php';
