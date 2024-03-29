@@ -8,9 +8,7 @@ Route::prefix('openai')->group(function () {
         Route::get('/createDesciption', [OpenAiController::class, 'createPostDescription'])->name('openai.create.post.description');
 /*         Route::post('/createPostFromCampain', [OpenAiController::class, 'index'])->name('openai.post.create.camplai'); */
     });
-/*     Route::prefix("image")->group(function ()  {
-        Route::post('/createPost', [OpenAiController::class, 'index'])->name('openai.post.create');
-        Route::post('/createPostFromCampain', [OpenAiController::class, 'index'])->name('openai.post.create');
-        Route::post('/createCampain', [OpenAiController::class, 'index'])->name('openai.post.create');
-    }); */
+    Route::prefix("image")->group(function ()  {
+        Route::get('/createPost', [OpenAiController::class, 'image'])->name('openai.post.create'); // http://localhost:8000/api/openai/image/createPost
+    });
 });

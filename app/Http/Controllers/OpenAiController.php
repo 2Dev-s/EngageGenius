@@ -19,8 +19,7 @@ class OpenAiController extends Controller
     /*
         * This function create a post desciption based on the information provided
     */
-    public function createPostDescription(Request $request)
-    {
+    public function createPostDescription(Request $request) {
         $postTitle = $request->input('postTitle');
         $postData = $request->input('postData');
         $postOldDesciption = $request->input('postOldDesciption');
@@ -74,8 +73,7 @@ class OpenAiController extends Controller
     /*
         * This function create tags for a post based on the information provided
     */
-    public function createPostTags()
-    {
+    public function createPostTags() {
         $result = OpenAI::chat()->create([
             'model' => $this->chatModel,
             'messages' => [
@@ -92,8 +90,8 @@ class OpenAiController extends Controller
     /*
         * This function is inted to be used for testing and development for new features
     */
-    public function index() // 
-    {
+/*     public function index()  {
+        
         $result = OpenAI::chat()->create([
             'model' => $this->chatModel,
             'messages' => [
@@ -105,5 +103,18 @@ class OpenAiController extends Controller
         ]);
 
         dd($result->choices[0]);
-    }
+    } */
+
+
+    public function image()  {
+        $image = OpenAI::images()->create([
+            'model' => 'dall-e-2',
+            'n' => 1,
+            'prompt' => 'jucy meat burger with cheese and tomato',
+            'response_format' => 'b64_json',
+        ]);
+
+        dd($image);
+
+    } 
 }
