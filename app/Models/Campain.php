@@ -14,6 +14,7 @@ class Campain extends Model
         "description",
         "niche",
         "tamplate_id",
+        "posts_count",
         "product_description",
         "product_features",
         "image_data",

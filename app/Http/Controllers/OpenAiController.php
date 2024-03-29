@@ -52,8 +52,7 @@ class OpenAiController extends Controller
     /*
         * This function create a post for a campain based on the information provided
     */
-    public function createPostFromCampain(Campain $campain)
-    {
+    public function createPostFromCampain(Campain $campain) {
         $tamplate = $campain->tamplate;
 
         $result = OpenAI::chat()->create([

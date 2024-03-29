@@ -25,4 +25,5 @@ Route::prefix("campains")->group(function () {
     Route::get('/edit/{campain}', [CampainController::class, 'edit'])->name('campains.edit');
     Route::post('/update/{id}', [CampainController::class, 'update'])->name('campains.update');
     Route::get('/delete/{campain}', [CampainController::class, 'delete'])->name('campains.delete');
+    Route::get('/generate/{campain}', [CampainController::class, 'generatePosts'])->name('campains.generate.post');
 });

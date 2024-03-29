@@ -45,6 +45,7 @@ class CampainController extends Controller
             'description' => $form['description'],
             'niche' => $form['niche'],
             'tamplate_id' => $form['tamplate_id'],
+            "posts_count" => $form['posts_count'], 
             'product_description' => $form['product_description'],
             'product_features' => $form['product_features'],
             'image_data' => $form['image_data'],
@@ -67,6 +68,7 @@ class CampainController extends Controller
             'title' => $form['title'],
             'description' => $form['description'],
             'niche' => $form['niche'],
+            'posts_count' => intval($form['posts_count']),
             'tamplate_id' => $form['tamplate_id'],
             'product_description' => $form['product_description'],
             'product_features' => $form['product_features'],
@@ -88,22 +90,28 @@ class CampainController extends Controller
         return redirect()->route('posts');
     }
 
-    public function generatePosts(Campain $campain, int $count ){
+    public function generatePosts(Campain $campain){
+        $count = intval($campain->posts_count);
         if (!$campain) return;
         if ($count < 1) return;
         $open = new OpenAiController();
         $posts = [];
 
         for ($i = 0; $i < $count; $i++) {
-          $posts[] = $open->createPostFromCampain($campain);
+            $res = $open->createPostFromCampain($campain);
+            $post = [
+                "title" => explode("\n", $res)[0],
+                "content" => explode("\n", $res)[1],
+                "team_id" => $campain->team_id,
+                "campain_id" => $campain->id,
+            ];
+           $posts[] = $post;
         }
 
-        return $posts;
+        $posts = $campain->posts()->createMany($posts);
+        if (!$posts) return;
+
+        return redirect()->route('posts.list');
     }
 
-    public function showGeneratedPosts(Campain $campain){
-        $testCapain = Campain::where('team_id', Auth::user()->currentTeam->id)->first();
-        $res = $this->generatePosts($testCapain, 5);
-        dd($res);
-    }
 }

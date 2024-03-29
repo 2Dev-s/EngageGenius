@@ -46,7 +46,7 @@ export default {
                     <span class="flex flex-col gap-2">
                         <h2>{{ item.title }}</h2>
                         <p class="w-1/2">{{ item.content.slice(0,100) + "..." }}</p>
-                        <p class="w-1/2">{{"Tags: " + item.tags.slice(0,100) + "..." }}</p>
+  <!--                       <p class="w-1/2">{{"Tags: " + item.tags.slice(0,100) + "..." }}</p> -->
                     </span>
                     <span class="flex flex-col justify-between">
                         <a class="bg-blue-600 px-4 py-2 rounded-md text-center w-24" :href="route('posts.edit',item.id)">Edit</a>
