@@ -14,7 +14,7 @@ class CampainController extends Controller
     //
     public function index(){
         $campains = Auth::user()->currentTeam->campains;
-        return inertia::render('Campains/Index', ['campains' => $campains]);   
+        return inertia::render('Campains/Index', ['campains' => $campains]);
     }
 
     public function create(){
@@ -31,10 +31,17 @@ class CampainController extends Controller
         return inertia::render('Campains/Edit', ['campain' => $campain, 'promptTamplates' => $promptTamplate]);
     }
 
-    public function list(){
-        $campains = Auth::user()->currentTeam->campains;
-        return inertia::render('Campains/List', ['campains' => $campains]);
+    public function update(Campain $id , Request $request)
+    {
+        $user = Auth::user();
+        $team = $user->currentTeam;
+        $campain = Campain::find($id)->first();
+        if ($team->id != $campain->team_id) return redirect()->route('posts');
+        $form = $request->all();
+        
+        dd($form);
     }
+
 
     public function store(Request $request){
         $team = Auth::user()->currentTeam;
@@ -82,7 +89,7 @@ class CampainController extends Controller
         
         return redirect()->route('posts');
     }
-
+    
     public function delete(Campain $campain)
     {
         if (!$campain) return;

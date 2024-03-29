@@ -22,12 +22,12 @@ class PostController extends Controller
         $team = Auth::user()->currentTeam;
         if (!$team) return redirect("/");
 
-        $campaigns = $team->campains()->where('ended', false)->get() ;
-        $posts = $team->posts()->where('published', false)->get() ;
+        $campaigns = $team->campains()->where('ended', false)->get();
+        $posts = $team->posts()->where('published', false)->get();
 
         if (!$campaigns) $campaigns = [];
         if (!$posts) $posts = [];
-        
+
         return Inertia::render('Posts/Index', [
             'posts' => $posts,
             'campaigns' => $campaigns
@@ -49,7 +49,7 @@ class PostController extends Controller
     public function list()
     {
         $team = Auth::user()->currentTeam;
-        
+
         return Inertia::render('Posts/List', [
             'posts' => $team->posts()->get()
         ]);
@@ -58,12 +58,12 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) 
+    public function store(Request $request)
     {
         $user = $request->user();
         $team = $user->currentTeam;
         $form = $request->all();
-        $form["tags"] = array_map(fn($tag): string => "#" .$tag, $form['tags']);
+        $form["tags"] = array_map(fn ($tag): string => "#" . $tag, $form['tags']);
         $form["tags"] = implode(" ", $form["tags"]);
 
         $post = [
@@ -73,10 +73,14 @@ class PostController extends Controller
             "publish_date" => Carbon::parse($form["postDate"]),
         ];
 
-        foreach ($form["socials"] as $social) {$post[$social] = true;};
+        if (!isset($from["socials"])) $form["socials"] = [];
+
+        foreach ($form["socials"] as $social) {
+            $post[$social] = true;
+        };
 
         $post = $team->posts()->create($post);
-        
+
         $path = "/user-" . $user->id . "/" . "team-" . $team->id . "/" . "postsFiles" . "/" . "post-" . $post->id  . "/";
 
         $photos = [];
@@ -84,7 +88,7 @@ class PostController extends Controller
         foreach ($form['files'] as $key => $photo) {
             $file = $photo['file'];
 
-            $file_path = $path ."photo-" . now()->unix() . "-" . rand(1,10000) . "." . $file->extension();
+            $file_path = $path . "photo-" . now()->unix() . "-" . rand(1, 10000) . "." . $file->extension();
 
             Storage::disk('public')->put($file_path, file_get_contents($file));
 
@@ -110,16 +114,17 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Post $post)
+    public function edit($id)
     {
-        
-        if (!$post) return;
+        $post = Post::find($id);
+        if (!$post or empty($post)) return;
+
         $photos = $post->photos();
-        $photos = $photos->orderBy('order')->get();   
+        $photos = $photos->orderBy('order')->get();
 
         $post = $post->attributesToArray();
         $post["tags"] = explode(" ", $post["tags"]);
-        $post["files"]= $photos;
+        $post["files"] = $photos;
 
         return Inertia::render('Posts/Edit', [
             'post' => $post
@@ -136,39 +141,41 @@ class PostController extends Controller
         $user = $request->user();
         $form = $request->all();
         $team = $user->currentTeam;
-        
+
         $photos = [];
 
-        $form["tags"] = array_map(fn($tag): string => "#" .$tag, $form['tags']);
+        $form["tags"] = array_map(fn ($tag): string => "#" . $tag, $form['tags']);
         $form["tags"] = implode(" ", $form["tags"]);
-        
+
         $post = [
             'title' => $form['title'],
             'content' => $form['content'],
             "tags" => $form["tags"],
             "publish_date" => Carbon::parse($form["postDate"]),
         ];
-        
-        if ($form["socials"]) foreach ($form["socials"] as $social) {$post[$social] = true;};
+
+        if ($form["socials"]) foreach ($form["socials"] as $social) {
+            $post[$social] = true;
+        };
 
         $post = $team->posts()->where('id', $form["id"])->update($post);
         if (!$post) return;
         $post = $team->posts()->where('id', $form["id"])->first();
 
-        $path = "/user-" . $user->id . "/" . "team-" . $team->id . "/" . "postsFiles" . "/" . "post-" .$post->id  . "/";
+        $path = "/user-" . $user->id . "/" . "team-" . $team->id . "/" . "postsFiles" . "/" . "post-" . $post->id  . "/";
         foreach ($form['files'] as $index => $photo) { // Loop through each photo
-            if($photo['origin'] == "server") { 
-                PostPhoto::where(['id' => $photo['id']])->update(['order' => $index]); 
+            if ($photo['origin'] == "server") {
+                PostPhoto::where(['id' => $photo['id']])->update(['order' => $index]);
                 continue;
             };
 
-            if($photo['origin'] == "client") {
+            if ($photo['origin'] == "client") {
                 $file = $photo['file'];
 
-                $file_path = $path ."photo-" . now()->unix() . "-" . rand(1,10000) . "." . $file->extension();
+                $file_path = $path . "photo-" . now()->unix() . "-" . rand(1, 10000) . "." . $file->extension();
 
                 Storage::disk('public')->put($file_path, file_get_contents($file));
-    
+
                 $photos[] = [
                     'path' => $file_path,
                     'order' => $index,
@@ -180,7 +187,6 @@ class PostController extends Controller
 
             return redirect()->route('posts');
         }
-
     }
 
     /**

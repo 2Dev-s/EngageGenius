@@ -11,6 +11,7 @@ Route::prefix("posts")->group(function () {
     Route::get('/', [PostController::class, 'index'])->name('posts');
     Route::get('/list', [PostController::class, 'list'])->name('posts.list');
     Route::get('/create', [PostController::class, 'create'])->name('posts.create');
+    Route::get('/edit/{id}', [PostController::class, 'edit'])->name('posts.edit');
     Route::post('/store', [PostController::class, 'store'])->name('posts.store');
     Route::get('/edit/{post}', [PostController::class, 'edit'])->name('posts.edit');
     Route::get('/delete/{post}', [PostController::class, 'delete'])->name('posts.delete');
