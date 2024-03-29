@@ -14,6 +14,7 @@ class Campain extends Model
         "description",
         "niche",
         "tamplate_id",
+        "posts_count",
         "product_description",
         "product_features",
         "image_data",
@@ -32,6 +33,11 @@ class Campain extends Model
     public function posts()
     {
         return $this->hasMany(Post::class);
+    }
+
+    public function tamplate()
+    {
+        return $this->belongsTo(PromptTamplate::class);
     }
 
 }

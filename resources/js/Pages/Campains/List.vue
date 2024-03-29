@@ -59,7 +59,7 @@ export default {
                             :href="route('campains.edit', item.id)">Edit</a>
                         <a class="bg-blue-600 px-4 py-2 rounded-md text-center w-24"
                             :href="route('campains.delete', item.id)">Delete</a>
-                        <a class="bg-blue-600 px-4 py-2 rounded-md text-center w-24">Generate</a>
+                        <a class="bg-blue-600 px-4 py-2 rounded-md text-center w-24" :href="route('campains.generate.post', item.id)">Generate</a>
                     </span>
                 </div>
             </div>

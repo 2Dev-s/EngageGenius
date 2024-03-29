@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('team_id')->constrained()->onDelete('cascade');
             $table->string("title")->nullable()->default(null);
             $table->text("description")->nullable()->default(null);
+            $table->integer("posts_count")->default(0);
             $table->text("niche")->nullable()->default(null);
             $table->foreignId("tamplate_id")->nullable()->default(null);
             $table->text("product_description");

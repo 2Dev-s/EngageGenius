@@ -32,7 +32,7 @@ export default {
                 product_features: '',
                 product_description: '',
                 image_data: '',
-                posts: null,
+                posts_count: null,
                 discount: null,
                 cta_text: '',
                 redirect_link: '',
@@ -44,6 +44,7 @@ export default {
     mounted() {
             this.FormData.title = this.campain.title
             this.FormData.description = this.campain.description
+            this.FormData.posts_count = this.campain.posts_count
             this.FormData.niche = this.campain.niche
             this.FormData.tamplate_id = this.campain.tamplate_id
             this.FormData.product_features = this.campain.product_features

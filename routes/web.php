@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MiniShopController;
 use App\Http\Controllers\ShortURLController;
@@ -21,7 +20,7 @@ Route::prefix('/minishop')->group(function () {
     Route::get('/orders', [MiniShopController::class, 'orders'])->name('minishop.orders');
 });
 
-Route::get('/subUserTest', function () {
+/* Route::get('/subUserTest', function () {
     $user = Auth::user();
 
     $subscription = $user->subscriptions()->create([
@@ -42,10 +41,13 @@ Route::get('/subUserTest', function () {
 
     dd($subscription);
 
-})->name('test');
+})->name('test'); */
+
+/* Route::get('/endpoint', [OpenAiController::class, 'index'])->name('test.endpoint'); */ // testing endpoint for open ai
 
 require __DIR__ . '/posts.php';
 require __DIR__ . '/jetstream.php';
 require __DIR__ . '/admin.php';
+require __DIR__ . '/externalapis.php';
 
 

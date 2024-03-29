@@ -24,6 +24,7 @@
         "laravel/socialite": "^5.11",
         "laravel/spark-paddle": "^5.0",
         "laravel/tinker": "^2.8",
+        "openai-php/laravel": "^0.8.1",
         "php-http/curl-client": "^2.3",
         "php-http/message": "^1.16",
         "samoritano/linkedin-api-php-client-v2": "^0.1.4",

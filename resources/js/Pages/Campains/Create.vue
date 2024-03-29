@@ -32,7 +32,7 @@ export default {
                 product_features: '',
                 product_description: '',
                 image_data: '',
-                posts: null,
+                posts_count: null,
                 discount: null,
                 cta_text: '',
                 redirect_link: '',
