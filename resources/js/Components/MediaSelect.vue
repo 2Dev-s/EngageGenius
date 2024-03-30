@@ -1,10 +1,13 @@
 <template>
-    <div
-        class="flex w-full h-96 p-4 gap-4 flex-wrap justify-center align-top overflow-y-auto text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-        <span class="w-full flex-1  bg-black" v-for="(item, index) in images" :key="index">
-
-        </span>
+    <div class="flex h-full w-full gap-4 flex-wrap p-4 items-center justify-start border">
+        <div class=" bg-gray-900 p-2 px-4 rounded-lg flex-2" v-for="(item, index) in images" :key="index">
+            <label :for="index">
+                <img src="element.url" class="object-contain h-24">
+            </label>
+            <input type="checkbox" :name="index" :value="index" :id="index" v-model="testForm.images"  >
+        </div>
     </div>
+
 </template>
 
 <script>
