@@ -1,13 +1,3 @@
-<script setup>
-import draggable from 'vuedraggable'
-import ContentTextarea from "@/Components/Posts/Modals/ContentTextarea.vue";
-import ContentMedia from "@/Components/Posts/Modals/ContentMedia.vue";
-import ContentSearch from "@/Components/Posts/Modals/ContentSearch.vue";
-
-import Modal from "@/Components/Modal.vue";
-import Vue3TagsInput from 'vue3-tags-input';
-</script>
-
 <template>
     <div
         class="flex flex-1 flex-col p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
@@ -53,7 +43,8 @@ import Vue3TagsInput from 'vue3-tags-input';
                                 class="flex h-full w-full  gap-4 flex-wrap p-4 items-center justify-center">
                                 <template #item="{ element }">
                                     <div class=" bg-gray-900 p-2 px-4 rounded-lg flex-2">
-                                        <img :src="element.url" class="object-contain h-14 ">
+                                        <img :src="element.urls.small" class="object-contain h-14 " v-if="element.origin == 'unsplash' ">
+                                        <img :src="element.url" class="object-contain h-14 " v-else>
                                     </div>
                                 </template>
                             </draggable>
@@ -162,10 +153,17 @@ import Vue3TagsInput from 'vue3-tags-input';
 
     <ContentTextarea :state="Modals" :content="PostForm.content" @saveTextarea="textareaSave" :postTitle="PostForm.title"/>
     <ContentMedia :state="Modals" />
-    <ContentSearch :state="Modals" />
+    <ContentSearch :state="Modals" @saveSlectedImages="saveSlectedImagesUpslash"/>
 </template>
 
 <script>
+import draggable from 'vuedraggable'
+import ContentTextarea from "@/Components/Posts/Modals/ContentTextarea.vue";
+import ContentMedia from "@/Components/Posts/Modals/ContentMedia.vue";
+import ContentSearch from "@/Components/Posts/Modals/ContentSearch.vue";
+
+import Vue3TagsInput from 'vue3-tags-input';
+
 export default {
     props: ["PostForm", "FormPostRoute"],
     data() {
@@ -215,8 +213,17 @@ export default {
                 onFinish: () => { },
             });
         },
+        
         textareaSave(data) {
             this.PostForm.content = data;
+        },
+
+        saveSlectedImagesUpslash(data) {
+            if (data.length == 0) return;
+
+            for(let i = 0; i < data.length; i++) {
+                this.PostForm.files.push(data[i]);
+            }
         },
 
         handleChangeTag(tags) {
@@ -225,7 +232,10 @@ export default {
     },
     components: {
         draggable,
-        Vue3TagsInput
+        Vue3TagsInput,
+        ContentTextarea,
+        ContentMedia,
+        ContentSearch
     }
 }
 </script>

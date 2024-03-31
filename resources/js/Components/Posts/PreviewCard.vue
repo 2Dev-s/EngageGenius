@@ -19,7 +19,8 @@
         <Splide class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <SplideSlide v-if="this.formData.files.length > 0"
                 v-for="( item, index ) in  this.formData.files " :key="index" class="w-full h-72 ">
-                <img :src="item.url" alt="" class="object-contain h-full w-auto text-center mx-auto">
+                <img :src="item.urls.regular" class="object-contain h-full w-auto text-center mx-auto" v-if="item.origin == 'unsplash'">
+                <img :src="item.url" alt="" class="object-contain h-full w-auto text-center mx-auto" v-else>
             </SplideSlide>
             <SplideSlide v-else>
                 <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" alt="" class="object-contain h-80 w-auto text-center mx-auto">
@@ -31,6 +32,8 @@
                 {{  formData.dynamicTagsState ? "#Dynammyc Tags" : " " }}
             </div>
             <button @click="tagState = !tagState">Show Tags</button>
+            <button @click="test">atdsasd Tags</button>
+
         </div>
     </div>
 </template>
@@ -44,6 +47,11 @@ export default {
             tagState: false,
         };
     },
+    methods: {
+        test() {
+            console.log(this.formData.files);
+        }
+    }
 }
 </script>
 
