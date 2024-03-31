@@ -52,22 +52,24 @@ class UnsplashApiController extends Controller
         // dd($test);
     }
 
-    public function getPhotos()
+    public function search(Request $request)
     {
+        $qurey = $request->query('qurey');
+        if (!$qurey) return response()->json(['error' => 'No query provided'], 400);
+        
         HttpClient::init([
             'applicationId'    => '0NsI0DLBaYUT4A5T8q87Ps-NEPU-Pi36h0KabcQZCZM',
             'secret'           => 'O6jwSrUQF4H4pn0I8JHxzttKmo7o9-hNUoknuqajRTQ',
-            'callbackUrl'      => route('unsplash-callback'),
+            'callbackUrl'      => route('unsplash.callback'),
             'utmSource'        => 'asd',
         ]);
 
-        $search = 'forest';
         $page = 3;
         $per_page = 15;
         $orientation = 'landscape';
 
-        dd(Search::photos($search, $page, $per_page, $orientation));
+        $photos = Search::photos($qurey, $page, $per_page, $orientation)->getResults();
 
-        return;
+        return response()->json($photos);
     }
 }

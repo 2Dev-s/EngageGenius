@@ -10,11 +10,6 @@ Route::prefix('linkedin')->group(function () {
     Route::get('/callback', [LinkedinApiController::class, 'callback'])->name('linkedin-callback');
 });
 
-Route::prefix("unsplash")->group(function () {
-    Route::get('/photos', [UnsplashApiController::class, 'getPhotos'])->middleware(['auth'])->name('unsplash-photos');
-    Route::get('/oauth', [UnsplashApiController::class, 'getOauth'])->middleware(['auth'])->name('unsplash-oauth');
-    Route::get('/callback', [UnsplashApiController::class, 'callback'])->name('unsplash-callback');
-});
 
 Route::prefix("twitter")->group(function () {
     Route::get('/oauth', [TwitterAPIController::class, 'getOauth'])->middleware(['auth'])->name('twitter-oauth');
