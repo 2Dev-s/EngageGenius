@@ -20,7 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::prefix('unsplash')->group(function () {
-    Route::get('/search/{query}', [UnsplashApiController::class, 'getPhotos']);
+    Route::get('/search/', [UnsplashApiController::class, 'getPhotos']);
 });
 
 require __DIR__ . '/openaiinternalapi.php';
