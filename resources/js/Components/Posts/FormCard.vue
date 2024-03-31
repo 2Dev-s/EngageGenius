@@ -43,7 +43,8 @@
                                 class="flex h-full w-full  gap-4 flex-wrap p-4 items-center justify-center">
                                 <template #item="{ element }">
                                     <div class=" bg-gray-900 p-2 px-4 rounded-lg flex-2">
-                                        <img :src="element.urls.small" class="object-contain h-14 " v-if="element.origin == 'unsplash' ">
+                                        <img :src="element.urls.small" class="object-contain h-14 "
+                                            v-if="element.origin == 'unsplash'">
                                         <img :src="element.url" class="object-contain h-14 " v-else>
                                     </div>
                                 </template>
@@ -142,7 +143,7 @@
                     </template>
                 </VDatePicker>
                 <span class="flex gap-4 flex-1  ">
-                    <button type="button"
+                    <button type="button" @click="test"
                         class=" flex-1  h-100 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Publish</button>
                     <button type="submit"
                         class=" flex-1  h-100 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Save</button>
@@ -151,9 +152,10 @@
         </form>
     </div>
 
-    <ContentTextarea :state="Modals" :content="PostForm.content" @saveTextarea="textareaSave" :postTitle="PostForm.title"/>
-    <ContentMedia :state="Modals" />
-    <ContentSearch :state="Modals" @saveSlectedImages="saveSlectedImagesUpslash"/>
+    <ContentTextarea :state="Modals" :content="PostForm.content" @saveTextarea="textareaSave"
+        :postTitle="PostForm.title" />
+    <ContentMedia :state="Modals" @savePhoto="savePhoto" />
+    <ContentSearch :state="Modals" @saveSlectedImages="saveSlectedImagesUpslash" />
 </template>
 
 <script>
@@ -213,22 +215,55 @@ export default {
                 onFinish: () => { },
             });
         },
-        
+
         textareaSave(data) {
             this.PostForm.content = data;
         },
 
         saveSlectedImagesUpslash(data) {
             if (data.length == 0) return;
-
-            for(let i = 0; i < data.length; i++) {
-                this.PostForm.files.push(data[i]);
+            
+            for (let i = 0; i < data.length; i++) {
+                this.urltoFile(data[i].links.download, 'test.png', 'image/png').then(file => {
+                    data[i].file = file;
+                    this.PostForm.files.push(data[i]);
+                });
             }
         },
 
         handleChangeTag(tags) {
             this.PostForm.tags = tags;
         },
+
+        savePhoto(photo) {
+            this.urltoFile(photo.url).then(file => {
+                    photo.file = file;
+                    this.PostForm.files.push(photo);
+                });
+            this.PostForm.files.push(photo);
+        },
+        
+        urltoFile(url, filename, mimeType) {
+            if (url.startsWith('data:')) {
+                var arr = url.split(','),
+                    mime = arr[0].match(/:(.*?);/)[1],
+                    bstr = atob(arr[arr.length - 1]),
+                    n = bstr.length,
+                    u8arr = new Uint8Array(n);
+                while (n--) {
+                    u8arr[n] = bstr.charCodeAt(n);
+                }
+                var file = new File([u8arr], filename, { type: mime || mimeType });
+                return Promise.resolve(file);
+            }
+            return fetch(url)
+                .then(res => res.arrayBuffer())
+                .then(buf => new File([buf], filename, { type: mimeType }));
+        },
+        test(){
+            console.log(this.PostForm);
+        }
+
     },
     components: {
         draggable,
