@@ -25,14 +25,5 @@ Route::prefix("unsplash")->group(function () {
     Route::get('/callback', [UnsplashApiController::class, 'callback'])->name('unsplash.callback');
 });
 
-Route::prefix("unsplash")->group(function () {
-    Route::get('/search', [UnsplashApiController::class, 'search'])->name('unsplash.search');
-    Route::get('/oauth', [UnsplashApiController::class, 'getOauth'])->name('unsplash.oauth');
-    Route::get('/callback', [UnsplashApiController::class, 'callback'])->name('unsplash.callback');
-});
-
-Route::prefix('unsplash')->group(function () {
-    Route::get('/search/', [UnsplashApiController::class, 'getPhotos']);
-});
 
 require __DIR__ . '/openaiinternalapi.php';
