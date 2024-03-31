@@ -106,15 +106,17 @@ class OpenAiController extends Controller
     } */
 
 
-    public function image()  {
-        $image = OpenAI::images()->create([
+    public function image(Request $request)  {
+        $iamgeData = $request->input('imageData');
+        if (!$iamgeData) { return response()->json(['error' => 'Image Data is required']);}
+
+        $response = OpenAI::images()->create([
             'model' => 'dall-e-2',
             'n' => 1,
-            'prompt' => 'jucy meat burger with cheese and tomato',
+            'prompt' => $iamgeData,
             'response_format' => 'b64_json',
         ]);
 
-        dd($image);
-
+        return response()->json($response->data);
     } 
 }
