@@ -60,6 +60,7 @@ export default {
         save() {
             if (this.selectedImages.length == 0) return;
             this.$emit('saveSlectedImages', this.selectedImages);
+            this.selectedImages = {};
             this.close();
         },
         search() {

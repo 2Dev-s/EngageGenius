@@ -32,8 +32,6 @@
                 {{  formData.dynamicTagsState ? "#Dynammyc Tags" : " " }}
             </div>
             <button @click="tagState = !tagState">Show Tags</button>
-            <button @click="test">atdsasd Tags</button>
-
         </div>
     </div>
 </template>
@@ -47,11 +45,7 @@ export default {
             tagState: false,
         };
     },
-    methods: {
-        test() {
-            console.log(this.formData.files);
-        }
-    }
+    methods: {}
 }
 </script>
 
