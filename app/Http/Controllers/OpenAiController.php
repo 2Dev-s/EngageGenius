@@ -105,6 +105,18 @@ class OpenAiController extends Controller
         dd($result->choices[0]);
     } */
 
+    public function generateImage($iamgeData)  {
+        if (!$iamgeData) { return; }
+
+        $response = OpenAI::images()->create([
+            'model' => 'dall-e-2',
+            'n' => 1,
+            'prompt' => $iamgeData,
+            'response_format' => 'b64_json',
+        ]);
+
+        return $response->data;
+    } 
 
     public function image(Request $request)  {
         $iamgeData = $request->input('imageData');

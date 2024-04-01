@@ -169,7 +169,7 @@ class PostController extends Controller
                 continue;
             };
 
-            if ($photo['origin'] == "client") {
+            if ($photo['origin'] !== "server") {
                 $file = $photo['file'];
 
                 $file_path = $path . "photo-" . now()->unix() . "-" . rand(1, 10000) . "." . $file->extension();
