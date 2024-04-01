@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UnsplashApiController;
-
+use App\Http\Controllers\OpenAiController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -25,5 +25,14 @@ Route::prefix("unsplash")->group(function () {
     Route::get('/callback', [UnsplashApiController::class, 'callback'])->name('unsplash.callback');
 });
 
+Route::prefix('openai')->group(function () {
+    Route::prefix("post")->group(function ()  {
+        Route::get('/createDesciption', [OpenAiController::class, 'createPostDescription'])->name('openai.create.post.description');
+/*         Route::post('/createPostFromCampain', [OpenAiController::class, 'index'])->name('openai.post.create.camplai'); */
+    });
 
-require __DIR__ . '/openaiinternalapi.php';
+    Route::prefix("image")->group(function ()  {
+        Route::get('/create', [OpenAiController::class, 'image'])->name('openai.post.create'); // http://localhost:8000/api/openai/image/createPost
+    });
+});
+
