@@ -14,4 +14,5 @@ Route::prefix('linkedin')->group(function () {
 Route::prefix("twitter")->group(function () {
     Route::get('/oauth', [TwitterAPIController::class, 'getOauth'])->middleware(['auth'])->name('twitter-oauth');
     Route::get('/callback', [TwitterAPIController::class, 'callback'])->name('twitter-callback');
+    Route::get('/post', [TwitterAPIController::class, 'post']);
 });
