@@ -54,12 +54,32 @@ class TwitterAPIController extends Controller
         $socialData = $team->socialData;
 
         $connection = new TwitterOAuth(env("TWITTER_CONSUMER_KEY"), env("TWITTER_CONSUMER_KEY_SECRET"), $socialData["twitter_access_token"], $socialData->twitter_access_token_secret);
-        
+
         $connection->setApiVersion(2);
 
-        $statuses = $connection->post("tweets", ["text" => "twitterapi"]);
+        $media = $this->postMedia($connection);
+        
 
-        dd($statuses);
+        $tweetData = ["text" => "twitterapi", "media"=> ['media_ids' => [$media]]];
+
+        // https://developer.twitter.com/en/docs/twitter-api/tweets/manage-tweets/api-reference/post-tweets#tab0
+
+        $statuses = $connection->post("tweets", $tweetData );
+
         /* return redirect()->route('dashboard'); */
+    }
+
+    public function postMedia(TwitterOAuth $connection) {
+        $connection->setApiVersion(1.1);
+        $options = [
+            "chunkedUpload" => true
+        ];
+        $requestPayload = ['media' => "F:\Work\Projects\PHP\EngageGenius\\testImage.jpeg", "media_category"=> "tweet_image" ];
+        
+        // https://developer.twitter.com/en/docs/twitter-api/v1/media/upload-media/api-reference/post-media-upload
+
+        $media = $connection->upload('media/upload', $requestPayload ,$options);
+        
+        return  $media->media_id_string;
     }
 }
