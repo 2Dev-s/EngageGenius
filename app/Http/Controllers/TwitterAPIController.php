@@ -14,7 +14,7 @@ use Abraham\TwitterOAuth\TwitterOAuth;
 class TwitterAPIController extends Controller
 {
     //
-    public function getOauth(Request $request)
+/*     public function getOauth(Request $request)
     {
 
         session('oauth_token', '');
@@ -28,7 +28,8 @@ class TwitterAPIController extends Controller
 
         return redirect($connection->url('oauth/authorize', ['oauth_token' => $request_token['oauth_token']]));
     }
-    public  function callback(Request $request){
+    public  function callback(Request $request)
+    {
         $request_token['oauth_token'] = session('oauth_token');
         $request_token['oauth_token_secret'] = session('oauth_token_secret');
 
@@ -42,10 +43,15 @@ class TwitterAPIController extends Controller
 
         return redirect()->route('posts');
     } */
-    public function oauth(Request $request) {
-        $token = Twitter::getRequestToken(route('twitter.callback'));
 
-/*         if (isset($token['oauth_token_secret'])) {
+
+    public function oauth(Request $request)
+    {
+        $token = Twitter::
+
+        );
+
+        /*         if (isset($token['oauth_token_secret'])) {
             $url = Twitter::getAuthenticateUrl($token['oauth_token']);
     
             Session::put('oauth_state', 'start');
@@ -57,24 +63,25 @@ class TwitterAPIController extends Controller
     
         return Redirect::route('twitter.error'); */
     }
+    
+    public  function callback(Request $request)
+    {
 
-    public  function callback(Request $request){
-        return;
-    }
+    } 
 
-    public function post(Post $post, Request $request) {
+    public function post(Post $post, Request $request)
+    {
         $team = Auth::user()->currentTeam;
-        $socialData = $team ->socialData;
+        $socialData = $team->socialData;
 
         $status = Twitter::usingCredentials(
             "kwA8XtEyiPGOdkvN3gJtNgToA",
             "YXEnfShva7emo93e98VlqUnkvUqaoCfJ0ennqYLEkAYcOSCTPU",
-            $socialData->twitter_access_token, 
-            $socialData->twitter_access_token_secret)->forApiV1()->postTweet(['status' => 'Laravel is beautiful', 'response_format' => 'json']);
+            $socialData->twitter_access_token,
+            $socialData->twitter_access_token_secret
+        )->forApiV1()->postTweet(['status' => 'Laravel is beautiful', 'response_format' => 'json']);
 
-        dd($status);    
+        dd($status);
         /* return redirect()->route('dashboard'); */
     }
-
-    
 }
