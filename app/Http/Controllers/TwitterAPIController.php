@@ -10,6 +10,7 @@ use Atymic\Twitter\Facade\Twitter;
 
 use Illuminate\Support\Facades\Auth;
 use Abraham\TwitterOAuth\TwitterOAuth;
+use Illuminate\Support\Facades\Storage;
 
 class TwitterAPIController extends Controller
 {
@@ -56,30 +57,48 @@ class TwitterAPIController extends Controller
 
         $connection = new TwitterOAuth(env("TWITTER_CONSUMER_KEY"), env("TWITTER_CONSUMER_KEY_SECRET"), $socialData["twitter_access_token"], $socialData->twitter_access_token_secret);
 
-        $media = $this->postMedia($connection);
-        $connection->setApiVersion(2);
+        $post = $team->posts->first();
+        
+        ;
 
         $data = [
-                "text" => "test",
+                "text" => $post->content . "\n\n" . $post->tags,
                 "media" => [
-                    "media_ids" => [$media]
+                    "media_ids" => $this->uploadPostMedia( $post, $connection)
                 ]
         ];
 
+        
+        $connection->setApiVersion(2); // Important to set the API version to 2
         // https://developer.twitter.com/en/docs/twitter-api/tweets/manage-tweets/api-reference/post-tweets#tab0
-
         $statuses = $connection->post("tweets", $data);
-        dd($statuses);
-        /* return redirect()->route('dashboard'); */
+
+        return redirect()->route('posts');
     }
 
-    public function postMedia(TwitterOAuth $connection)
+    public function uploadPostMedia(Post $post,TwitterOAuth $connection) {
+        $photos = $post->photos->toArray();
+        $mediaIds = [];
+
+        
+        foreach  ($photos as $photo) {
+            $path = Storage::path(str_replace("/",'\\',$photo["path"]));
+            $path = 'F:\Work\Projects\PHP\EngageGenius\\testImage.jpeg'; // palceholder for path fix erro
+            $media = $this->postMedia($path, $connection);
+            $mediaIds[] = $media;
+        }
+    
+
+        return $mediaIds;
+    }
+
+    public function postMedia(String $path, TwitterOAuth $connection)
     {
         $connection->setApiVersion(1.1);
         $options = [
             "chunkedUpload" => true
         ];
-        $requestPayload = ['media' => "F:\Work\Projects\PHP\EngageGenius\\testImage.jpeg", "media_category" => "tweet_image"];
+        $requestPayload = ['media' => $path, "media_category" => "tweet_image"];
 
         // https://developer.twitter.com/en/docs/twitter-api/v1/media/upload-media/api-reference/post-media-upload
 
