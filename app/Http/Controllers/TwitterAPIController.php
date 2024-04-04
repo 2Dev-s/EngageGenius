@@ -39,12 +39,13 @@ class TwitterAPIController extends Controller
         $team = Auth::user()->currentTeam;
         $socialData = $team->socialData;
 
+
         $res = $socialData->update([
             'twitter_access_token' => $access_token['oauth_token'],
             'twitter_access_token_secret' => $access_token['oauth_token_secret'],
         ]);
 
-    
+
         return redirect()->route('posts');
     }
 
@@ -55,31 +56,35 @@ class TwitterAPIController extends Controller
 
         $connection = new TwitterOAuth(env("TWITTER_CONSUMER_KEY"), env("TWITTER_CONSUMER_KEY_SECRET"), $socialData["twitter_access_token"], $socialData->twitter_access_token_secret);
 
-        $connection->setApiVersion(2);
-
         $media = $this->postMedia($connection);
+        $connection->setApiVersion(2);
         
-
-        $tweetData = ["text" => "twitterapi", "media"=> ['media_ids' => [$media]]];
+        $data = [
+                "text" => "test",
+                "media" => [
+                    "media_key" => [$media]
+                ]
+        ];
 
         // https://developer.twitter.com/en/docs/twitter-api/tweets/manage-tweets/api-reference/post-tweets#tab0
 
-        $statuses = $connection->post("tweets", $tweetData );
-
+        $statuses = $connection->post("tweets", $data);
+        dd($statuses);
         /* return redirect()->route('dashboard'); */
     }
 
-    public function postMedia(TwitterOAuth $connection) {
+    public function postMedia(TwitterOAuth $connection)
+    {
         $connection->setApiVersion(1.1);
         $options = [
             "chunkedUpload" => true
         ];
-        $requestPayload = ['media' => "F:\Work\Projects\PHP\EngageGenius\\testImage.jpeg", "media_category"=> "tweet_image" ];
-        
+        $requestPayload = ['media' => "F:\Work\Projects\PHP\EngageGenius\\testImage.jpeg", "media_category" => "tweet_image"];
+
         // https://developer.twitter.com/en/docs/twitter-api/v1/media/upload-media/api-reference/post-media-upload
 
-        $media = $connection->upload('media/upload', $requestPayload ,$options);
-        
+        $media = $connection->upload('media/upload', $requestPayload, $options);
+
         return  $media->media_id_string;
     }
 }

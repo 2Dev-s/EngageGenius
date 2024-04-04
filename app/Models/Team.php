@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Laravel\Jetstream\Events\TeamCreated;
 use Laravel\Jetstream\Events\TeamDeleted;
 use Laravel\Jetstream\Events\TeamUpdated;
@@ -42,17 +44,17 @@ class Team extends JetstreamTeam
         'deleted' => TeamDeleted::class,
     ];
 
-    public function posts()
+    public function posts() :HasMany
     {
         return $this->hasMany(Post::class);
     }
 
-    public function socialData()
+    public function socialData() : HasOne
     {
         return $this->hasOne(TeamSocialData::class);
     }
 
-    public function campains()
+    public function campains() :HasMany
     {
         return $this->hasMany(Campain::class);
     }
