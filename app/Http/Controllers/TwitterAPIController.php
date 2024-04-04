@@ -58,11 +58,11 @@ class TwitterAPIController extends Controller
 
         $media = $this->postMedia($connection);
         $connection->setApiVersion(2);
-        
+
         $data = [
                 "text" => "test",
                 "media" => [
-                    "media_key" => [$media]
+                    "media_ids" => [$media]
                 ]
         ];
 
