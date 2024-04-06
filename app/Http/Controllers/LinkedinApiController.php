@@ -36,7 +36,8 @@ class LinkedinApiController extends Controller
     {
         if (!$request->code) return;
 
-        // error: Refresh token is not available
+        /**
+        ERROR: Refresh token is not available */
 
         $accessToken = $this->connection->getAccessToken($request->code);
 

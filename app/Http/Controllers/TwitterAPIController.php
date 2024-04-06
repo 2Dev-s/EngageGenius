@@ -46,11 +46,13 @@ class TwitterAPIController extends Controller
         $connection = new TwitterOAuth("kwA8XtEyiPGOdkvN3gJtNgToA", "YXEnfShva7emo93e98VlqUnkvUqaoCfJ0ennqYLEkAYcOSCTPU", $request_token['oauth_token'], $request_token['oauth_token_secret']); // app as user
         $connection->setApiVersion(2);
 
-        /*
-        ERROR: [
-            'title' => 'unauthorized',
-            'type' => 'unauthorized'
-            ]
+        /**
+        ERROR: {
+           "title": "Unauthorized",
+           "type": "about:blank",
+           "status": 401,
+           "detail": "Unauthorized"
+        }
         */
 
         $result = $connection->post('tweets', ['text' => 'Hello World!'], ['jsonPayload' => true]);
