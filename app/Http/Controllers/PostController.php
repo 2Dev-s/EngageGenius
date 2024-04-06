@@ -81,7 +81,7 @@ class PostController extends Controller
 
         $post = $team->posts()->create($post);
 
-        $path = "/user-" . $user->id . "/" . "team-" . $team->id . "/" . "postsFiles" . "/" . "post-" . $post->id  . "/";
+        $path = "\\user-" . $user->id . "\\" . "team-" . $team->id . "\\" . "postsFiles" . "\\" . "post-" . $post->id  . "\\";
 
         $photos = [];
 
@@ -162,7 +162,7 @@ class PostController extends Controller
         if (!$post) return;
         $post = $team->posts()->where('id', $form["id"])->first();
 
-        $path = "/user-" . $user->id . "/" . "team-" . $team->id . "/" . "postsFiles" . "/" . "post-" . $post->id  . "/";
+        $path = "\\user-" . $user->id . "\\" . "team-" . $team->id . "\\" . "postsFiles" . "\\" . "post-" . $post->id  . "\\";
         foreach ($form['files'] as $index => $photo) { // Loop through each photo
             if ($photo['origin'] == "server") {
                 PostPhoto::where(['id' => $photo['id']])->update(['order' => $index]);
