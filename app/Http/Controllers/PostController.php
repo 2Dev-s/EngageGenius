@@ -14,6 +14,14 @@ use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
+public $socials = [
+    'twitter',
+    'pinterest',
+    'instagram',
+    'facebook',
+    'linkedin'
+];
+
     /**
      * Display a listing of the resource.
      */
@@ -73,10 +81,10 @@ class PostController extends Controller
             "publish_date" => Carbon::parse($form["postDate"]),
         ];
 
-        if (!isset($from["socials"])) $form["socials"] = [];
+        if (!isset($form['socials'])) $form["socials"] = [];
 
         foreach ($form["socials"] as $social) {
-            $post[$social] = true;
+            $post[$social] = ((in_array($social, $this->socials)) ? true : false);
         };
 
         $post = $team->posts()->create($post);
@@ -154,39 +162,41 @@ class PostController extends Controller
             "publish_date" => Carbon::parse($form["postDate"]),
         ];
 
-        if ($form["socials"]) foreach ($form["socials"] as $social) {
-            $post[$social] = true;
+        foreach ($form["socials"] as $social) {
+            $post[$social] = ((in_array($social, $this->socials)) ? true : false);
         };
+
+
 
         $post = $team->posts()->where('id', $form["id"])->update($post);
         if (!$post) return;
         $post = $team->posts()->where('id', $form["id"])->first();
 
         $path = "\\user-" . $user->id . "\\" . "team-" . $team->id . "\\" . "postsFiles" . "\\" . "post-" . $post->id  . "\\";
-        foreach ($form['files'] as $index => $photo) { // Loop through each photo
-            if ($photo['origin'] == "server") {
-                PostPhoto::where(['id' => $photo['id']])->update(['order' => $index]);
-                continue;
-            };
+        // foreach ($form['files'] as $index => $photo) { // Loop through each photo
+        //     if ($photo['origin'] == "server") {
+        //         PostPhoto::where(['id' => $photo['id']])->update(['order' => $index]);
+        //         continue;
+        //     };
 
-            if ($photo['origin'] !== "server") {
-                $file = $photo['file'];
+        //     if ($photo['origin'] == "client") {
+        //        $file = $photo['file'];
 
-                $file_path = $path . "photo-" . now()->unix() . "-" . rand(1, 10000) . "." . $file->extension();
+        //         $file_path = $path . "photo-" . now()->unix() . "-" . rand(1, 1000            if ($photo['origin'] !== "server") {
 
-                Storage::disk('public')->put($file_path, file_get_contents($file));
+        //             torage::disk('public')->put($file_path, file_get_contents($file));
 
-                $photos[] = [
-                    'path' => $file_path,
-                    'order' => $index,
-                ];
-                if (count($photos) > 0) $post->photos()->createMany($photos);
-                continue;
-            };
+        //         $photos[] = [
+        //             'path' => $file_path,
+        //             'order' => $index,
+        //         ];
+        //         if (count($photos) > 0) $post->photos()->createMany($photos);
+        //         continue;
+        //     };
 
 
-            return redirect()->route('posts');
-        }
+        //     return redirect()->route('posts');
+        // }
     }
 
     /**
@@ -198,6 +208,7 @@ class PostController extends Controller
         $post->delete();
         return redirect()->route('posts');
     }
+
 
     public function publish(Post $post, Request $req)
     {
