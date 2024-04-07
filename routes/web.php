@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CampainController;
 use App\Http\Controllers\MiniShopController;
 use App\Http\Controllers\ShortURLController;
 
@@ -43,7 +44,9 @@ Route::prefix('/minishop')->group(function () {
 
 })->name('test'); */
 
-/* Route::get('/endpoint', [OpenAiController::class, 'index'])->name('test.endpoint'); */ // testing endpoint for open ai
+/* /* Route::get('/endpoint', [OpenAiController::class, 'index'])->name('test.endpoint') */
+
+ Route::get('/endpoint', [CampainController::class, 'test'])->name('test.endpoint'); 
 
 require __DIR__ . '/posts.php';
 require __DIR__ . '/jetstream.php';

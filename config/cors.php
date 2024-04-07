@@ -15,11 +15,11 @@ return [
     |
     */
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie'],
+    'paths' => ['api/*', 'sanctum/csrf-cookie', "posts/create"],
 
-    'allowed_methods' => ['*'],
+    'allowed_methods' => ['GET'],
 
-    'allowed_origins' => ['*','unsplash.com','*.unsplash.com'],
+    'allowed_origins' => ['*.unsplash.com/*'],
 
     'allowed_origins_patterns' => [],
 
