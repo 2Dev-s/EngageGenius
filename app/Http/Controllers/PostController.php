@@ -198,4 +198,18 @@ class PostController extends Controller
         $post->delete();
         return redirect()->route('posts');
     }
+
+    public function publish(Post $post, Request $req)
+    {
+        $twitter = new TwitterAPIController();
+        (($req->Twitter) ? $twitter->post($post->id) : ''); // if request has twitter return post function
+        (($req->Pinterest) ? 'return post function' : ''); // if request has Pinterest return post function
+        (($req->Instagram) ? 'return post function' : ''); // if request has Instagram return post function
+        (($req->Facebook) ? 'return post function' : ''); // if request has Facebook return post function
+        (($req->Linkedin) ? 'return post function' : ''); // if request has Linkedin return post function
+
+        $post->update([
+            'published' => true
+        ]);
+    }
 }
