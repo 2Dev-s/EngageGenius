@@ -57,7 +57,7 @@ class TwitterAPIController extends Controller
 
         $connection = new TwitterOAuth(env("TWITTER_CONSUMER_KEY"), env("TWITTER_CONSUMER_KEY_SECRET"), $socialData["twitter_access_token"], $socialData->twitter_access_token_secret);
 
-        $post = Post::find(52);
+        $post = Post::find(53);
 
         $data = [
                 "text" => $post->content . "\n\n" . $post->tags,
@@ -78,7 +78,7 @@ class TwitterAPIController extends Controller
         $photos = $post->photos->toArray();
 
         if (count($photos) > 4) {
-            $photos = array_slice($photos, 0, 3);
+            $photos = array_slice($photos, 0, 3); // Twitter only allows 4 photos per tweet
         }
 
 
@@ -87,8 +87,7 @@ class TwitterAPIController extends Controller
 
         foreach  ($photos as $photo) {
             $path = Storage::path("\\public\\" . $photo["path"]);
- /*            $path = 'F:\Work\Projects\PHP\EngageGenius\\testImage.jpeg'; // palceholder for path fix erro */
-
+            
             $media = $this->postMedia($path, $connection);
             $mediaIds[] = $media;
         }

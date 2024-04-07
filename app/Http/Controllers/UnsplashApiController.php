@@ -21,37 +21,6 @@ class UnsplashApiController extends Controller
         'write_collections' */
     ];
 
-    /*     public function __construct()
-    {
-        $this->connection = HttpClient::init([
-            'applicationId'    => '0NsI0DLBaYUT4A5T8q87Ps-NEPU-Pi36h0KabcQZCZM',
-            'secret'           => 'O6jwSrUQF4H4pn0I8JHxzttKmo7o9-hNUoknuqajRTQ',
-            'callbackUrl'      => route('unsplash-callback'),
-            'utmSource'         => 'asd',
-      ]);
-    } */
-
-    public function getOauth()
-    {
-        $this->connection =
-            $connection = HttpClient::$connection->getConnectionUrl($this->scopes);
-
-        return redirect($connection);
-    }
-
-    public function callback(Request $request)
-    {
-        $code = $request->code;
-        if (!$code) return;
-
-        dd(HttpClient::$connection->generateToken($code));
-
-        // error: "expires" is not set on the token
-        $test = Search::photos('flowers');
-
-        // dd($test);
-    }
-
     public function search(Request $request)
     {
         $qurey = $request->query('qurey');

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TwitterAPIController;
 use App\Http\Controllers\LinkedinApiController;
 use App\Http\Controllers\FacebookApiController;
-
+use App\Http\Controllers\PinterestController;
 
 Route::prefix('linkedin')->group(function () {
     Route::get('/oauth', [LinkedinApiController::class, 'oauth'])->middleware(['auth'])->name('linkedin-oauth');
@@ -20,4 +20,9 @@ Route::prefix("twitter")->group(function () {
 Route::prefix('facebook')->group(function () {
     Route::get('/oauth', [FacebookApiController::class, 'getOauth'])->middleware(['auth'])->name('facebook-oauth');
     Route::get('/callback', [FacebookApiController::class, 'callback'])->name('facebook-callback');
+});
+
+Route::prefix('pinterest')->group(function () {
+    Route::get('/oauth', [PinterestController::class, 'oauth'])->middleware(['auth'])->name('pinterest-oauth');
+    Route::get('/callback', [PinterestController::class, 'callback'])->name('pinterest-callback');
 });

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('tags')->nullable();
             $table->dateTime("publish_date")->default(now());
 
-            $table->boolean('twitter')->default(false);;
+            $table->boolean('twitter')->default(false);
             $table->boolean('pinterest')->default(false);
             $table->boolean('linkedin')->default(false);
             $table->boolean('instagram')->default(false);
