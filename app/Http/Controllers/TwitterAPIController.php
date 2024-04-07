@@ -50,14 +50,12 @@ class TwitterAPIController extends Controller
         return redirect()->route('posts');
     }
 
-    public function post(Post $post, Request $request)
+    public function post(Post $post)
     {
         $team = Auth::user()->currentTeam;
         $socialData = $team->socialData;
 
         $connection = new TwitterOAuth(env("TWITTER_CONSUMER_KEY"), env("TWITTER_CONSUMER_KEY_SECRET"), $socialData["twitter_access_token"], $socialData->twitter_access_token_secret);
-
-        $post = Post::find(53);
 
         $data = [
                 "text" => $post->content . "\n\n" . $post->tags,
