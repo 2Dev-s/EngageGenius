@@ -11,21 +11,20 @@ class LinkedinApiController extends Controller
 {
     private $connection;
     private $scopes = [
-        'profile',
-
+       "w_member_social",
     ];
 
     public function __construct()
     {
         $this->connection = new Client(
-            '86zk0gugysvjqz',
-            'IcoXfQZUSzeCqe8Q'
+            '77irngxzr7ujjl',
+            'b4ZKLnNWBOp7PYuu'
         );
 
         $this->connection->setRedirectUrl(route('linkedin-callback'));
     }
 
-    public function getOauth()
+    public function oauth()
     {
         $loginUrl = $this->connection->getLoginUrl($this->scopes);
 
@@ -37,7 +36,7 @@ class LinkedinApiController extends Controller
         if (!$request->code) return;
 
         // error: Refresh token is not available
-
+        
         $accessToken = $this->connection->getAccessToken($request->code);
 
 
