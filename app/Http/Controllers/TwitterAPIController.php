@@ -58,7 +58,7 @@ class TwitterAPIController extends Controller
         $connection = new TwitterOAuth(env("TWITTER_CONSUMER_KEY"), env("TWITTER_CONSUMER_KEY_SECRET"), $socialData["twitter_access_token"], $socialData->twitter_access_token_secret);
 
         $post = Post::find(52);
-        
+
         $data = [
                 "text" => $post->content . "\n\n" . $post->tags,
                 "media" => [
@@ -69,7 +69,7 @@ class TwitterAPIController extends Controller
         $connection->setApiVersion(2); // Important to set the API version to 2
         // https://developer.twitter.com/en/docs/twitter-api/tweets/manage-tweets/api-reference/post-tweets#tab0
         $statuses = $connection->post("tweets", $data);
-        
+
         dd($data, $statuses);
         return redirect()->route('posts');
     }
@@ -81,18 +81,18 @@ class TwitterAPIController extends Controller
             $photos = array_slice($photos, 0, 3);
         }
 
-        
+
         $mediaIds = [];
 
-        
+
         foreach  ($photos as $photo) {
             $path = Storage::path("\\public\\" . $photo["path"]);
  /*            $path = 'F:\Work\Projects\PHP\EngageGenius\\testImage.jpeg'; // palceholder for path fix erro */
- 
+
             $media = $this->postMedia($path, $connection);
             $mediaIds[] = $media;
         }
-    
+
 
         return $mediaIds;
     }

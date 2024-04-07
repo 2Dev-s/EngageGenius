@@ -30,7 +30,7 @@ class OpenAiController extends Controller
             $this->basePromptChat,
             ['role' => 'user', 'content' => "PostTitle: [" . $postTitle . "]"]
         ];
-        
+
         if ($postData) {
             $messageBlock[] = ['role' => 'user', 'content' => "PostData: [" . $postData . "]"];
         }
@@ -39,8 +39,8 @@ class OpenAiController extends Controller
             $messageBlock[] = ['role' => 'user', 'content' => "PostOldDesciption: [" . $postOldDesciption . "]"];
         }
 
-        $messageBlock[] = ['role' => 'system', 'content' => 'Use what is anvailable to you, Write a catchy caption / decriptions for the post. No tags.'];      
-        
+        $messageBlock[] = ['role' => 'system', 'content' => 'Use what is anvailable to you, Write a catchy caption / decriptions for the post. No tags.'];
+
         $result = OpenAI::chat()->create([
             'model' => $this->chatModel,
             'messages' => $messageBlock
@@ -91,7 +91,7 @@ class OpenAiController extends Controller
         * This function is inted to be used for testing and development for new features
     */
 /*     public function index()  {
-        
+
         $result = OpenAI::chat()->create([
             'model' => $this->chatModel,
             'messages' => [
@@ -130,5 +130,5 @@ class OpenAiController extends Controller
         ]);
 
         return response()->json($response->data);
-    } 
+    }
 }
