@@ -7,7 +7,7 @@ use App\Http\Controllers\FacebookApiController;
 
 
 Route::prefix('linkedin')->group(function () {
-    Route::get('/oauth', [LinkedinApiController::class, 'getOauth'])->middleware(['auth'])->name('linkedin-oauth');
+    Route::get('/oauth', [LinkedinApiController::class, 'oauth'])->middleware(['auth'])->name('linkedin-oauth');
     Route::get('/callback', [LinkedinApiController::class, 'callback'])->name('linkedin-callback');
 });
 

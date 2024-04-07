@@ -143,7 +143,7 @@
                     </template>
                 </VDatePicker>
                 <span class="flex gap-4 flex-1  ">
-                    <button type="button" @click="test"
+                    <button type="button" @click="test()"
                         class=" flex-1  h-100 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Publish</button>
                     <button type="submit"
                         class=" flex-1  h-100 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Save</button>
@@ -159,12 +159,12 @@
 </template>
 
 <script>
-import draggable from 'vuedraggable'
 import ContentTextarea from "@/Components/Posts/Modals/ContentTextarea.vue";
 import ContentMedia from "@/Components/Posts/Modals/ContentMedia.vue";
 import ContentSearch from "@/Components/Posts/Modals/ContentSearch.vue";
 
 import Vue3TagsInput from 'vue3-tags-input';
+import draggable from 'vuedraggable'
 
 export default {
     props: ["PostForm", "FormPostRoute"],
@@ -222,9 +222,8 @@ export default {
 
         saveSlectedImagesUpslash(data) {
             if (data.length == 0) return;
-            
             for (let i = 0; i < data.length; i++) {
-                this.urltoFile(data[i].links.download, 'test.png', 'image/png').then(file => {
+                this.urltoFile(data[i].urls.full, 'test.jpeg', 'image/jpeg').then(file => {
                     data[i].file = file;
                     this.PostForm.files.push(data[i]);
                 });
@@ -237,12 +236,11 @@ export default {
 
         savePhoto(photo) {
             this.urltoFile(photo.url).then(file => {
-                    photo.file = file;
-                    this.PostForm.files.push(photo);
-                });
-            this.PostForm.files.push(photo);
+                photo.file = file;
+                this.PostForm.files.push(photo);
+            });
         },
-        
+
         urltoFile(url, filename, mimeType) {
             if (url.startsWith('data:')) {
                 var arr = url.split(','),
@@ -260,10 +258,6 @@ export default {
                 .then(res => res.arrayBuffer())
                 .then(buf => new File([buf], filename, { type: mimeType }));
         },
-        test(){
-            console.log(this.PostForm);
-        }
-
     },
     components: {
         draggable,
