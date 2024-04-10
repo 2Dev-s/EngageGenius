@@ -13,6 +13,11 @@ import VueSplide from '@splidejs/vue-splide';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
+import PrimeVue from 'primevue/config';
+import Lara from "./presets/lara";
+
+
+
 createInertiaApp({
     title: (title) => `${appName}`,
     resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
@@ -20,8 +25,12 @@ createInertiaApp({
         return createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
+            .use(PrimeVue, {
+                unstyled: true,
+                pt: Lara
+            })
             .use(VCalendar, {})
-            .use( VueSplide )
+            .use(VueSplide)
             .mount(el);
     },
     progress: {

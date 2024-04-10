@@ -136,12 +136,14 @@
 
 
             <div class="flex gap-5 justify-between content-stretch flex-col lg:flex-row ">
+
                 <VDatePicker v-model="PostForm.postDate" mode="dateTime">
                     <template #default="{ inputValue, inputEvents }">
                         <input :value="inputValue" v-on="inputEvents" type="text"
                             class="flex-1 w-full h-100 text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                     </template>
                 </VDatePicker>
+                
                 <span class="flex gap-4 flex-1  ">
                     <button type="button" @click="test()"
                         class=" flex-1  h-100 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Publish</button>
@@ -165,6 +167,9 @@ import ContentSearch from "@/Components/Posts/Modals/ContentSearch.vue";
 
 import Vue3TagsInput from 'vue3-tags-input';
 import draggable from 'vuedraggable'
+
+
+import Calendar from 'primevue/calendar';
 
 export default {
     props: ["PostForm", "FormPostRoute"],
@@ -260,6 +265,7 @@ export default {
         },
     },
     components: {
+        Calendar,
         draggable,
         Vue3TagsInput,
         ContentTextarea,

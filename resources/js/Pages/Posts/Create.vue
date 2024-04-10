@@ -4,6 +4,8 @@ import FromCard from '@/Components/Posts/FormCard.vue';
 import PreviewCard from '@/Components/Posts/PreviewCard.vue';
 import { useForm } from '@inertiajs/vue3'
 
+import PrimeFrormCard from '@/Components/Posts/PrimeFrormCard.vue';
+
 const createFrom = useForm({
     title: '',
     content: '',
