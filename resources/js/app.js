@@ -1,17 +1,14 @@
 import './bootstrap';
 import '../css/app.css';
-
 import '@splidejs/vue-splide/css';
+import 'v-calendar/style.css';
 
 import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 
-
 import VCalendar from 'v-calendar';
-import 'v-calendar/style.css';
-
 import VueSplide from '@splidejs/vue-splide';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';

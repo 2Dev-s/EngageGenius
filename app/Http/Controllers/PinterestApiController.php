@@ -14,10 +14,10 @@ class PinterestApiController extends Controller
 
     public function __construct()
     {
-        $this->connection = new Pinterest('CLIENT_ID', 'CLIENT_SECRET');
+        $this->connection = new Pinterest('PINTEREST_CLIENT_ID', 'PINTEREST_CLIENT_SECRET');
     }
 
-    public function getOauth()
+    public function oauth()
     {
         return redirect($this->connection->auth->getLoginUrl(route('pinterest-callback'), $this->scopes));
     }

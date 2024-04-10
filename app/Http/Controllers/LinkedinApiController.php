@@ -39,7 +39,6 @@ class LinkedinApiController extends Controller
         
         $accessToken = $this->connection->getAccessToken($request->code);
 
-
         return $accessToken;
     }
 }
