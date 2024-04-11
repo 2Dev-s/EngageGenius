@@ -3,6 +3,7 @@ namespace App\Actions\Post;
 
 use Illuminate\Contracts\Cache\Store;
 use App\Http\Requests\Post\StoreRequest;
+use App\Models\Post;
 use Carbon\Carbon;
 
 const SOCIALS = [
@@ -14,6 +15,42 @@ const SOCIALS = [
 ];
 class CreatePost
 {
+
+    private function handleTags($tags) { // handles tags and returns them as a string
+        if ($tags && count($tags) > 0) {
+            $tags = array_map(fn ($tag): string => "#" . $tag, $tags);
+            $tags = implode(" ", $tags);
+            return $tags;
+        }
+
+        return null;
+    }
+
+    private function handlePhotos($files, Post $post) { // handles photos and returns them as an array
+        
+        if ($files && count($files) > 0) {
+            $files = array_map(function ($file, $i) { // sets order for each file (made for reusability of funtion in update method)
+                $file["position"] = $i;
+                return $file;
+            }, $files, array_keys($files));
+
+            $post->createPhotos($files);
+        }
+
+        return;
+    }
+
+    private function handleSocials($socials) { // handles socials and returns them as an array
+
+        $selectedSocials = [];
+
+        foreach (SOCIALS as $social) {
+            $selectedSocials[$social] = ((in_array($social, $socials)) ? true : false);
+        };
+
+        return $selectedSocials;
+    }
+
     public function handel(StoreRequest $request)
     {
         $user = $request->user();
@@ -26,30 +63,13 @@ class CreatePost
             "title"=> $form['title'],
             "description"=> $form['description'],
             "publish_date" => Carbon::parse($form["publish_date"]),
+            "tags" => $this->handleTags($form["tags"]),
+            ...$this->handleSocials($form["socials"]), // merges socials array with post array  (array with key value of socail and if going to be posted or not)
         ];
-
-        if ($form["tags"] && count($form["tags"]) > 0) {
-            $form["tags"] = array_map(fn ($tag): string => "#" . $tag, $form['tags']);
-            $form["tags"] = implode(" ", $form["tags"]);
-            $post["tags"] = $form["tags"];
-        }
-
-        if ($form['socials'] && count($form['socials']) > 0 ) {
-            foreach ($form["socials"] as $social) {
-                if (in_array($social, SOCIALS)) { // check if social is a valid social
-                    $post[$social] = true;
-                }
-            };
-        }
 
         $post = $team->posts()->create($post);
         
-        $form['files'] = array_map(function ($file, $i) { // sets order for each file (made for reusability of funtion in update method)
-            $file["position"] = $i;
-            return $file;
-          }, $form['files'], array_keys($form['files']));
-
-        $post->createPhotos($form['files']);
+        $this->handlePhotos($form['files'], $post);
         
         return;
     }
