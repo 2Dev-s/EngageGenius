@@ -18,8 +18,8 @@ class CreatePost
 
     private function handleTags($tags) { // handles tags and returns them as a string
         if ($tags && count($tags) > 0) {
-            $tags = array_map(fn ($tag): string => "#" . $tag, $tags);
-            $tags = implode(" ", $tags);
+            $tags = array_map(fn ($tag): string => "#" . $tag, $tags); // adds # to each tag [1, 2, 3] > [#1, #2, #3]
+            $tags = implode(" ", $tags); // joins tags with space [#1, #2, #3] > "#1 #2 #3"
             return $tags;
         }
 
@@ -45,14 +45,13 @@ class CreatePost
         $selectedSocials = [];
 
         foreach (SOCIALS as $social) {
-            $selectedSocials[$social] = ((in_array($social, $socials)) ? true : false);
+            $selectedSocials[$social] = ((in_array($social, $socials)) ? true : false); // checks if social is in the array of socials and sets it to true or false
         };
 
         return $selectedSocials;
     }
 
-    public function handel(StoreRequest $request)
-    {
+    public function handel(StoreRequest $request) { // handles the request and creates the post handels the logik behind it
         $user = $request->user();
         $team = $user->currentTeam;
         
@@ -60,9 +59,9 @@ class CreatePost
         if (!$team) return redirect("/");
 
         $post = [
-            "title"=> $form['title'],
-            "description"=> $form['description'],
-            "publish_date" => Carbon::parse($form["publish_date"]),
+            "title"=> $form['title'], // no valiation do to requeirent in the request
+            "description"=> $form['description'], // ^
+            "publish_date" => Carbon::parse($form["publish_date"]), // ^ 
             "tags" => $this->handleTags($form["tags"]),
             ...$this->handleSocials($form["socials"]), // merges socials array with post array  (array with key value of socail and if going to be posted or not)
         ];
