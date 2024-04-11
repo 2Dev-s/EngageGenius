@@ -1,3 +1,15 @@
+<script setup>
+
+const socailMediaArray = [
+    { name: 'Twitter', value: 'post_to_twitter' },
+    { name: 'Pinterest', value: 'post_to_pinterest' },
+    { name: 'Instagram', value: 'post_to_instagram' },
+    { name: 'Facebook', value: 'post_to_facebook' },
+    { name: 'LinkedIn', value: 'post_to_linkedin' },
+];
+
+</script>
+
 <template>
     <div
         class="flex flex-1 flex-col p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
@@ -7,7 +19,7 @@
                 placeholder="Post Title" v-model="PostForm.title">
 
             <div class="flex justify-center align-center items-center">
-                <textarea id="message" rows="4" v-model="PostForm.content"
+                <textarea id="message" rows="4" v-model="PostForm.description"
                     class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Write your thoughts here..."></textarea>
                 <div class="absolute">
@@ -78,56 +90,23 @@
                 Dimanyc Tags System API
 
                 <label class="felx items-center cursor-pointer ">
-                    <input type="checkbox" value="" class="sr-only peer" v-model="PostForm.dynamicTagsState">
+                    <input type="checkbox" value="" class="sr-only peer" v-model="PostForm.api_tags">
                     <div
                         class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
                     </div>
                 </label>
             </div>
-
-
+            
             <ul
-                class="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                class="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white"> 
+                <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600" v-for="social in socailMediaArray" :key="social.name">
                     <div class="flex items-center ps-3">
-                        <input id="vue-checkbox-list" type="checkbox" value="twitter" v-model="PostForm.socials"
+                        <input id="vue-checkbox-list" type="checkbox" :value="social.value" v-model="PostForm.socials"
                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
                         <label for="vue-checkbox-list"
-                            class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Twitter</label>
+                            class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ social.name }}</label>
                     </div>
-                </li>
-                <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                    <div class="flex items-center ps-3">
-                        <input id="react-checkbox-list" type="checkbox" value="pinterest" v-model="PostForm.socials"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                        <label for="react-checkbox-list"
-                            class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Pinterest</label>
-                    </div>
-                </li>
-                <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                    <div class="flex items-center ps-3">
-                        <input id="angular-checkbox-list" type="checkbox" value="instagram" v-model="PostForm.socials"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                        <label for="angular-checkbox-list"
-                            class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Instagram</label>
-                    </div>
-                </li>
-                <li class="w-full dark:border-gray-600">
-                    <div class="flex items-center ps-3">
-                        <input id="laravel-checkbox-list" type="checkbox" value="facebook" v-model="PostForm.socials"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                        <label for="laravel-checkbox-list"
-                            class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Facebook</label>
-                    </div>
-                </li>
-                <li class="w-full dark:border-gray-600">
-                    <div class="flex items-center ps-3">
-                        <input id="laravel-checkbox-list" type="checkbox" value="linkedin" v-model="PostForm.socials"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                        <label for="laravel-checkbox-list"
-                            class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">LinkedIn</label>
-                    </div>
-                </li>
+                </li> 
             </ul>
 
             <Vue3TagsInput :tags="PostForm.tags"
@@ -137,7 +116,7 @@
 
             <div class="flex gap-5 justify-between content-stretch flex-col lg:flex-row ">
 
-                <VDatePicker v-model="PostForm.postDate" mode="dateTime">
+                <VDatePicker v-model="PostForm.publish_date" mode="dateTime">
                     <template #default="{ inputValue, inputEvents }">
                         <input :value="inputValue" v-on="inputEvents" type="text"
                             class="flex-1 w-full h-100 text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
@@ -154,11 +133,12 @@
         </form>
     </div>
 
-    <ContentTextarea :state="Modals" :content="PostForm.content" @saveTextarea="textareaSave"
+    <ContentTextarea :state="Modals" :content="PostForm.description" @saveTextarea="textareaSave"
         :postTitle="PostForm.title" />
     <ContentMedia :state="Modals" @savePhoto="savePhoto" />
     <ContentSearch :state="Modals" @saveSlectedImages="saveSlectedImagesUpslash" />
 </template>
+
 
 <script>
 import ContentTextarea from "@/Components/Posts/Modals/ContentTextarea.vue";
@@ -170,6 +150,7 @@ import draggable from 'vuedraggable'
 
 
 import Calendar from 'primevue/calendar';
+
 
 export default {
     props: ["PostForm", "FormPostRoute"],
@@ -214,7 +195,7 @@ export default {
                 onSuccess: () => {
                     console.log('success');
                 },
-                onError: () => {
+                onError: (error) => {
                     console.log(error);
                 },
                 onFinish: () => { },
@@ -222,7 +203,7 @@ export default {
         },
 
         textareaSave(data) {
-            this.PostForm.content = data;
+            this.PostForm.description = data;
         },
 
         saveSlectedImagesUpslash(data) {
@@ -263,7 +244,7 @@ export default {
                 .then(res => res.arrayBuffer())
                 .then(buf => new File([buf], filename, { type: mimeType }));
         },
-    },
+    },  
     components: {
         Calendar,
         draggable,

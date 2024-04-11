@@ -27,7 +27,7 @@ class PostFactory extends Factory
     {
         return [
             'title' => $this->faker->sentence,
-            'content' => $this->faker->paragraph,
+            'description' => $this->faker->paragraph,
             'tags' => 'laravel,php,testing,unit,feature,workshop,laracasts',
             'created_at' => now(),
             "publish_date" => now()->addDays(rand(1, 30)),

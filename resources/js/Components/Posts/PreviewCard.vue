@@ -8,12 +8,12 @@
                     alt="Rounded avatar">
                 <span class="flex flex-col">
                     <span>{{ $page.props.auth.user.current_team.name }}</span>
-                    <span>{{ this.formData.postDate.toString() }}</span>
+                    <span>{{ this.formData.publish_date.toString() }}</span>
                 </span>
             </span>
         </div>
         <p class="py-4 ">
-           {{ formData.content }}
+           {{ formData.description }}
         </p>
 
         <Splide class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
@@ -29,7 +29,7 @@
         <div>
             <div class=" h-auto py-4 text-gray-500" v-if="tagState">
                 {{  formData.tags.length > 0 ? formData.tags.map(x => "#" + x).join(" ") : "how to win friends and influence people review,how to win friends and influence people summary,how to win friends and influence people,how to win friends,how to make friends,dale carnegie,leadership,book summary" }}
-                {{  formData.dynamicTagsState ? "#Dynammyc Tags" : " " }}
+                {{  formData.api_tags ? "#Dynammyc Tags" : " " }}
             </div>
             <button @click="tagState = !tagState">Show Tags</button>
         </div>

@@ -14,18 +14,21 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('content');
+            $table->text('description');
             $table->text('tags')->nullable();
             $table->dateTime("publish_date")->default(now());
 
-            $table->boolean('twitter')->default(false);
-            $table->boolean('pinterest')->default(false);
-            $table->boolean('linkedin')->default(false);
-            $table->boolean('instagram')->default(false);
-            $table->boolean('facebook')->default(false);
+            $table->boolean('post_to_twitter')->default(false);
+            $table->boolean('post_to_pinterest')->default(false);
+            $table->boolean('post_to_linkedin')->default(false);
+            $table->boolean('post_to_instagram')->default(false);
+            $table->boolean('post_to_facebook')->default(false);
+
+            $table->boolean('api_tags')->default(false);
 
             $table->foreignId('team_id')->constrained()->onDelete('cascade');
             $table->foreignId('campain_id')->nullable();
+
             $table->boolean('published')->default(false);
             $table->timestamps();
         });

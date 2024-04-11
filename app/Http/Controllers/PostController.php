@@ -2,24 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Post\CreatePost;
+
+use ImageService;
 use Carbon\Carbon;
 use App\Models\Post;
-use App\Models\PostPhoto;
 use Inertia\Inertia;
+use App\Models\PostPhoto;
+use Illuminate\Support\Arr;
+
 use Illuminate\Http\Request;
 use function PHPSTORM_META\map;
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\Post\StoreRequest;
 
 class PostController extends Controller
 {
 public $socials = [
-    'twitter',
-    'pinterest',
-    'instagram',
-    'facebook',
-    'linkedin'
+    'post_to_twitter',
+    'post_to_pinterest',
+    'post_to_facebook',
+    'post_to_instagram',
+    'post_to_linkedin'
 ];
 
     /**
@@ -66,48 +71,12 @@ public $socials = [
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request, CreatePost $createPost)
     {
-        $user = $request->user();
-        $team = $user->currentTeam;
-        $form = $request->all();
-        $form["tags"] = array_map(fn ($tag): string => "#" . $tag, $form['tags']);
-        $form["tags"] = implode(" ", $form["tags"]);
+        $request->validated();
 
-        $post = [
-            'title' => $form['title'],
-            'content' => $form['content'],
-            "tags" => $form["tags"],
-            "publish_date" => Carbon::parse($form["postDate"]),
-        ];
-
-        if (!isset($form['socials'])) $form["socials"] = [];
-
-        foreach ($form["socials"] as $social) {
-            $post[$social] = ((in_array($social, $this->socials)) ? true : false);
-        };
-
-        $post = $team->posts()->create($post);
-
-        $path = "\\user-" . $user->id . "\\" . "team-" . $team->id . "\\" . "postsFiles" . "\\" . "post-" . $post->id  . "\\";
-
-        $photos = [];
-
-        foreach ($form['files'] as $key => $photo) {
-            $file = $photo['file'];
-
-            $file_path = $path . "photo-" . now()->unix() . "-" . rand(1, 10000) . "." . $file->extension();
-
-            Storage::disk('public')->put($file_path, file_get_contents($file));
-
-            $photos[] = [
-                'path' => $file_path,
-                'order' => $key,
-            ];
-        }
-
-        if (count($photos) > 0) $post->photos()->createMany($photos);
-
+        $createPost->handel($request);
+        
         return redirect()->route('posts');
     }
 
@@ -131,9 +100,12 @@ public $socials = [
         $photos = $photos->orderBy('order')->get();
 
         $post = $post->attributesToArray();
+        
         $post["tags"] = explode(" ", $post["tags"]);
-        $post["files"] = $photos;
+        $post["tags"] = array_map(fn ($tag): string => str_replace("#", "", $tag), $post['tags']);
 
+        $post["files"] = $photos;
+        
         return Inertia::render('Posts/Edit', [
             'post' => $post
         ]);
@@ -166,37 +138,27 @@ public $socials = [
             $post[$social] = ((in_array($social, $this->socials)) ? true : false);
         };
 
+        $team->posts()->where('id', $form["id"])->update($post);
 
-
-        $post = $team->posts()->where('id', $form["id"])->update($post);
-        if (!$post) return;
         $post = $team->posts()->where('id', $form["id"])->first();
+        
+        $form['files'] = array_map(function ($file, $i) {
+            $file["position"] = $i;
+            return $file;
+          }, $form['files'], array_keys($form['files']));
 
-        $path = "\\user-" . $user->id . "\\" . "team-" . $team->id . "\\" . "postsFiles" . "\\" . "post-" . $post->id  . "\\";
-        // foreach ($form['files'] as $index => $photo) { // Loop through each photo
-        //     if ($photo['origin'] == "server") {
-        //         PostPhoto::where(['id' => $photo['id']])->update(['order' => $index]);
-        //         continue;
-        //     };
+        $oldPhotos = Arr::where($form['files'], function ($value, int $key) {
+            return ($value['origin'] == "server");
+        });
 
-        //     if ($photo['origin'] == "client") {
-        //        $file = $photo['file'];
+        $newPhotos = Arr::where($form['files'], function ($value, int $key) {
+            return ($value['origin'] !== "server" );
+        });
 
-        //         $file_path = $path . "photo-" . now()->unix() . "-" . rand(1, 1000            if ($photo['origin'] !== "server") {
+        if (count($newPhotos) > 0) $post->createPhotos($newPhotos);
+        if (count($oldPhotos) > 0) $post->updatePhotos($oldPhotos);
 
-        //             torage::disk('public')->put($file_path, file_get_contents($file));
-
-        //         $photos[] = [
-        //             'path' => $file_path,
-        //             'order' => $index,
-        //         ];
-        //         if (count($photos) > 0) $post->photos()->createMany($photos);
-        //         continue;
-        //     };
-
-
-        //     return redirect()->route('posts');
-        // }
+        return redirect()->route('posts');
     }
 
     /**
