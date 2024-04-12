@@ -10,6 +10,14 @@ function postHandleTags(array|null $tags) : string | null { // handles tags and 
 
     return null;
 }
+function postHandleTagsUnpack(string|null $tags): array { // handles tags and returns them as an array
+    if ($tags) {
+        $tags = explode(" ", $tags); // splits tags by space "#1 #2 #3" > ["#1", "#2", "#3"]
+        $tags = array_map(fn ($tag): string => str_replace("#", "", $tag), $tags); // removes # from each tag ["#1", "#2", "#3"] > ["1", "2", "3"]
+        return $tags;
+    }
+    return [];
+}
 function postHandleSocials(array $socials): array { // handles socials and returns them as an array
 
     $selectedSocials = [];

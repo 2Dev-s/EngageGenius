@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Post;
+namespace App\Http\Requests\InternalPostSystem;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -11,8 +11,7 @@ class StoreRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        if ($this->user()->currentTeam->id !== null) return true;
-        return false;
+        return true;
     }
 
     /**

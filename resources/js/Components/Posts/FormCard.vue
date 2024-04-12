@@ -96,17 +96,19 @@ const socailMediaArray = [
                     </div>
                 </label>
             </div>
-            
+
             <ul
-                class="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white"> 
-                <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600" v-for="social in socailMediaArray" :key="social.name">
+                class="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600"
+                    v-for="social in socailMediaArray" :key="social.name">
                     <div class="flex items-center ps-3">
                         <input id="vue-checkbox-list" type="checkbox" :value="social.value" v-model="PostForm.socials"
                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
                         <label for="vue-checkbox-list"
-                            class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ social.name }}</label>
+                            class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ social.name
+                            }}</label>
                     </div>
-                </li> 
+                </li>
             </ul>
 
             <Vue3TagsInput :tags="PostForm.tags"
@@ -122,7 +124,7 @@ const socailMediaArray = [
                             class="flex-1 w-full h-100 text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                     </template>
                 </VDatePicker>
-                
+
                 <span class="flex gap-4 flex-1  ">
                     <button type="button" @click="test()"
                         class=" flex-1  h-100 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Publish</button>
@@ -147,13 +149,11 @@ import ContentSearch from "@/Components/Posts/Modals/ContentSearch.vue";
 
 import Vue3TagsInput from 'vue3-tags-input';
 import draggable from 'vuedraggable'
-
-
 import Calendar from 'primevue/calendar';
 
 
 export default {
-    props: ["PostForm", "FormPostRoute"],
+    props: ["PostForm", "FormPostRoute",],
     data() {
         return {
             draggablee: false,
@@ -177,30 +177,7 @@ export default {
             }
         },
 
-        submit() {
-            if (this.PostForm.id) {
-                this.PostForm.post(route(this.FormPostRoute, this.PostForm.id), {
-                    onSuccess: () => {
-                        console.log('success');
-                    },
-                    onError: (error) => {
-                        console.log(error);
-                    },
-                    onFinish: () => { },
-                });
-                return;
-            }
-
-            this.PostForm.post(route(this.FormPostRoute), {
-                onSuccess: () => {
-                    console.log('success');
-                },
-                onError: (error) => {
-                    console.log(error);
-                },
-                onFinish: () => { },
-            });
-        },
+        submit() { this.$emit("submitForm"); },
 
         textareaSave(data) {
             this.PostForm.description = data;
@@ -244,7 +221,7 @@ export default {
                 .then(res => res.arrayBuffer())
                 .then(buf => new File([buf], filename, { type: mimeType }));
         },
-    },  
+    },
     components: {
         Calendar,
         draggable,

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Post;
+namespace App\Http\Requests\InternalPostSystem;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -11,7 +11,7 @@ class UpdateReqest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -26,7 +26,6 @@ class UpdateReqest extends FormRequest
             "title" =>  ["required", "string"],
             "description" =>  ["required", "string"],
             "tags" => ["nullable", "array"],
-            "files" => ["array"],
             "publish_date" => ["required", "date"],
             "socials" => ["array"],
         ];

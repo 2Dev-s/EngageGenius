@@ -2,28 +2,25 @@
 
 namespace App\Http\Controllers\InternalPostSystem;
 
-use UpdatePost;
+
 use App\Models\Post;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-use App\Actions\Post\CreatePost;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\Post\StoreRequest;
 
-use App\Http\Requests\Post\UpdateReqest;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\ExternalAPIEndpoints\TwitterAPIController;
+
+use Illuminate\Support\Facades\Auth;
+
+use App\Actions\InternalPostSystem\CreatePost;
+use App\Actions\InternalPostSystem\UpdatePost;
+
+use App\Http\Requests\InternalPostSystem\StoreRequest;
+use App\Http\Requests\InternalPostSystem\UpdateReqest;
+
 
 class PostController extends Controller
 {
-public $socials = [
-    'post_to_twitter',
-    'post_to_pinterest',
-    'post_to_facebook',
-    'post_to_instagram',
-    'post_to_linkedin'
-];
-
     /**
      * Display a listing of the resource.
      */
@@ -80,23 +77,16 @@ public $socials = [
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        $post = Post::find($id);
         if (!$post or empty($post)) return;
 
-        $photos = $post->photos();
-        $photos = $photos->orderBy('order')->get();
+        $postData = $post->attributesToArray();
+        $postData["tags"] = postHandleTagsUnpack($post["tags"]);
+        $postData["files"] = $post->photos()->orderBy('order')->get();
 
-        $post = $post->attributesToArray();
-        
-        $post["tags"] = explode(" ", $post["tags"]);
-        $post["tags"] = array_map(fn ($tag): string => str_replace("#", "", $tag), $post['tags']);
-
-        $post["files"] = $photos;
-        
         return Inertia::render('Posts/Edit', [
-            'post' => $post
+            'post' => $postData
         ]);
     }
 

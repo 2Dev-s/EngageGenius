@@ -14,12 +14,24 @@ const createFrom = useForm({
     publish_date: new Date(),
 });
 
+const submitFunction = () => {
+    createFrom.post(route('posts.store'), {
+        onSuccess: () => {
+            console.log('success');
+        },
+        onError: (error) => {
+            console.log(error);
+        },
+        onFinish: () => { },
+    });
+}
+
 </script>
 
 <template>
     <UserLayout title="Posts">
         <div class="container mx-auto flex flex-col lg:flex-row gap-5 ">
-            <FromCard :PostForm="createFrom" FormPostRoute="posts.store"/>
+            <FromCard :PostForm="createFrom" FormPostRoute="posts.store" @submitForm="submitFunction()" />
             <PreviewCard :formData="createFrom" />
         </div>
     </UserLayout>
