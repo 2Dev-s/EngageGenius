@@ -23,5 +23,4 @@ class ImageService
         return $file_path;
     }
 
-
 }

@@ -2,20 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\Post\CreatePost;
-
 use ImageService;
+
 use Carbon\Carbon;
 use App\Models\Post;
 use Inertia\Inertia;
 use App\Models\PostPhoto;
 use Illuminate\Support\Arr;
-
 use Illuminate\Http\Request;
+
 use function PHPSTORM_META\map;
+use App\Actions\Post\CreatePost;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Post\StoreRequest;
+use App\Http\Requests\Post\UpdateReqest;
+use UpdatePost;
 
 class PostController extends Controller
 {
@@ -81,14 +83,6 @@ public $socials = [
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit($id)
@@ -114,49 +108,11 @@ public $socials = [
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
+    public function update(UpdateReqest $request, Post $post, UpdatePost $updatePost)
     {
-        if (!$post) return;
+        $request->validated();
 
-        $user = $request->user();
-        $form = $request->all();
-        $team = $user->currentTeam;
-
-        $photos = [];
-
-        $form["tags"] = array_map(fn ($tag): string => "#" . $tag, $form['tags']);
-        $form["tags"] = implode(" ", $form["tags"]);
-
-        $post = [
-            'title' => $form['title'],
-            'content' => $form['content'],
-            "tags" => $form["tags"],
-            "publish_date" => Carbon::parse($form["postDate"]),
-        ];
-
-        foreach ($form["socials"] as $social) {
-            $post[$social] = ((in_array($social, $this->socials)) ? true : false);
-        };
-
-        $team->posts()->where('id', $form["id"])->update($post);
-
-        $post = $team->posts()->where('id', $form["id"])->first();
-        
-        $form['files'] = array_map(function ($file, $i) {
-            $file["position"] = $i;
-            return $file;
-          }, $form['files'], array_keys($form['files']));
-
-        $oldPhotos = Arr::where($form['files'], function ($value, int $key) {
-            return ($value['origin'] == "server");
-        });
-
-        $newPhotos = Arr::where($form['files'], function ($value, int $key) {
-            return ($value['origin'] !== "server" );
-        });
-
-        if (count($newPhotos) > 0) $post->createPhotos($newPhotos);
-        if (count($oldPhotos) > 0) $post->updatePhotos($oldPhotos);
+        $updatePost->handle($request, $post);
 
         return redirect()->route('posts');
     }
