@@ -28,16 +28,12 @@ class UpdatePost
         $post = $team->posts()->where('id', $form["id"])->first();
         $files = postAddOrderAttributetoPhotos($form['files']);
 
-
-        $oldPhotos = Arr::where($files, function ($value, int $key) {
-            return ($value['origin'] == "server");
-        });
-
-        $newPhotos = Arr::where($files, function ($value, int $key) {
-            return ($value['origin'] !== "server" );
-        });
+        $oldPhotos = Arr::where($files, function ($value) { return ($value['origin'] == "server"); });
+        $newPhotos = Arr::where($files, function ($value) { return ($value['origin'] !== "server" ); });
 
         if (count($newPhotos) > 0) $post->createPhotos($newPhotos);
         if (count($oldPhotos) > 0) $post->updatePhotos($oldPhotos);
+
+        return;
     }
 }

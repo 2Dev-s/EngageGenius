@@ -1,8 +1,7 @@
 <?php
 
-require_once __DIR__ . "/Post/consts.php";
-
-function postHandleTags(array|null $tags) : array | null { // handles tags and returns them as a string
+require_once  __DIR__ .  "/constants.php";
+function postHandleTags(array|null $tags) : string | null { // handles tags and returns them as a string
     if ($tags && count($tags) > 0) {
         $tags = array_map(fn ($tag): string => "#" . $tag, $tags); // adds # to each tag [1, 2, 3] > [#1, #2, #3]
         $tags = implode(" ", $tags); // joins tags with space [#1, #2, #3] > "#1 #2 #3"
@@ -11,8 +10,7 @@ function postHandleTags(array|null $tags) : array | null { // handles tags and r
 
     return null;
 }
-
-function  postHandleSocials(array $socials): array { // handles socials and returns them as an array
+function postHandleSocials(array $socials): array { // handles socials and returns them as an array
 
     $selectedSocials = [];
 

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 const SOCIALS = [
     'post_to_twitter',
