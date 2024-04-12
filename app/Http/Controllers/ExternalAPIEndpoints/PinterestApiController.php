@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\ExternalAPIEndpoints;
+
 
 use Illuminate\Http\Request;
 use DirkGroenen\Pinterest\Pinterest;
-
+use App\Http\Controllers\Controller;
 class PinterestApiController extends Controller
 {
     public $connection;

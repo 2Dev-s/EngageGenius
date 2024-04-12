@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PostController;
-use App\Http\Controllers\CampainController;
+use App\Http\Controllers\InternalPostSystem\PostController;
+use App\Http\Controllers\InternalPostSystem\CampainController;
+
 
 
 Route::prefix("posts")->group(function () {

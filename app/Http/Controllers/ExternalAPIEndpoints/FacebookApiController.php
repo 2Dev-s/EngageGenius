@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\ExternalAPIEndpoints;
 
 use Illuminate\Http\Request;
 use Facebook\Facebook;
-
+use App\Http\Controllers\Controller;
 class FacebookApiController extends Controller
 {
     public $connection;

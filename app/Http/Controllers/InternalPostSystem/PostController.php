@@ -1,23 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\InternalPostSystem;
 
-use ImageService;
-
-use Carbon\Carbon;
+use UpdatePost;
 use App\Models\Post;
 use Inertia\Inertia;
-use App\Models\PostPhoto;
-use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
-
-use function PHPSTORM_META\map;
 use App\Actions\Post\CreatePost;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Post\StoreRequest;
+
 use App\Http\Requests\Post\UpdateReqest;
-use UpdatePost;
+use App\Http\Controllers\ExternalAPIEndpoints\TwitterAPIController;
 
 class PostController extends Controller
 {

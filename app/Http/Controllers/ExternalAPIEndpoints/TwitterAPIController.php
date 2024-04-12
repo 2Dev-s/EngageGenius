@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\ExternalAPIEndpoints;
+
 
 use App\Models\Post;
 
@@ -11,7 +12,7 @@ use Atymic\Twitter\Facade\Twitter;
 use Illuminate\Support\Facades\Auth;
 use Abraham\TwitterOAuth\TwitterOAuth;
 use Illuminate\Support\Facades\Storage;
-
+use App\Http\Controllers\Controller;
 class TwitterAPIController extends Controller
 {
 

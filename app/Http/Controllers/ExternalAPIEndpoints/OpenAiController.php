@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\ExternalAPIEndpoints;
+
 
 use App\Models\Campain;
 use Illuminate\Http\Request;
 use OpenAI\Laravel\Facades\OpenAI;
-
+use App\Http\Controllers\Controller;
 class OpenAiController extends Controller
 {
     //

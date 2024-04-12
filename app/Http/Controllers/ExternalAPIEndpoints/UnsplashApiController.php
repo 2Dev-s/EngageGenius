@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\ExternalAPIEndpoints;
+
 
 use Illuminate\Http\Request;
 use Unsplash\HttpClient;
 use Unsplash\Search;
-
+use App\Http\Controllers\Controller;
 class UnsplashApiController extends Controller
 {
     private $connection;

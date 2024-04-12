@@ -1,16 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\InternalPostSystem;
 
 use Carbon\Carbon;
 use Inertia\Inertia;
 use App\Models\Campain;
+
 use Illuminate\Http\Request;
 use App\Models\PromptTamplate;
+
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Support\Facades\Storage;
 
-use function DI\string;
+use App\Http\Controllers\ExternalAPIEndpoints\OpenAiController;
 
 class CampainController extends Controller
 {

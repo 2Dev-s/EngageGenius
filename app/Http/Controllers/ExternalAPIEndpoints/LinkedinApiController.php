@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\ExternalAPIEndpoints;
 
 use Illuminate\Http\Request;
 use LinkedIn\Client;
 use LinkedIn\Scope;
 use LinkedIn\AccessToken;
-
+use App\Http\Controllers\Controller;
 class LinkedinApiController extends Controller
 {
     private $connection;

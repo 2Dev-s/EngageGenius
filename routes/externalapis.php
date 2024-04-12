@@ -1,11 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PinterestController;
-use App\Http\Controllers\TwitterAPIController;
-use App\Http\Controllers\FacebookApiController;
-use App\Http\Controllers\LinkedinApiController;
-use App\Http\Controllers\PinterestApiController;
+use App\Http\Controllers\ExternalAPIEndpoints\TwitterAPIController;
+use App\Http\Controllers\ExternalAPIEndpoints\FacebookApiController;
+use App\Http\Controllers\ExternalAPIEndpoints\LinkedinApiController;
+use App\Http\Controllers\ExternalAPIEndpoints\PinterestApiController;
+
+
 
 Route::prefix('linkedin')->group(function () {
     Route::get('/oauth', [LinkedinApiController::class, 'oauth'])->middleware(['auth'])->name('linkedin-oauth');

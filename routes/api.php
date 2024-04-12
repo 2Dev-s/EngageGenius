@@ -2,8 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UnsplashApiController;
-use App\Http\Controllers\OpenAiController;
+use App\Http\Controllers\ExternalAPIEndpoints\OpenAiController;
+use App\Http\Controllers\ExternalAPIEndpoints\UnsplashApiController;
+
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
