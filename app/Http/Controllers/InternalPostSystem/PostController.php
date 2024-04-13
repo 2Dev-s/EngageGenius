@@ -83,6 +83,7 @@ class PostController extends Controller
 
         $postData = $post->attributesToArray();
         $postData["tags"] = postHandleTagsUnpack($post["tags"]);
+        $postData["socials"] = postHandleSocialsToArray($postData);
         $postData["files"] = $post->photos()->orderBy('order')->get();
 
         return Inertia::render('Posts/Edit', [

@@ -46,7 +46,7 @@ export default {
                     v-for="(item, index) in sortedPosts" :key="index">
                     <span class="flex flex-col gap-2">
                         <h2>{{ item.title }}</h2>
-                        <p class="w-1/2">{{ item.desciption.slice(0, 100) + "..." }}</p>
+                        <p class="w-1/2">{{ item.description.slice(0, 100) + "..." }}</p>
                         <!--                       <p class="w-1/2">{{"Tags: " + item.tags.slice(0,100) + "..." }}</p> -->
                     </span>
                     <span class="flex flex-col justify-between">

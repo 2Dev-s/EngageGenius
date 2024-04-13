@@ -42,6 +42,8 @@ onMounted(() => {
         EditForm.description = post.description;
         EditForm.tags = post.tags;
         EditForm.publish_date = Date(post.publish_date);
+        EditForm.socials = post.socials;
+        
         EditForm.files = post.files.map((file) => {
             let newFile = file;
             newFile["origin"] = "server";

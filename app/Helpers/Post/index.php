@@ -28,6 +28,15 @@ function postHandleSocials(array $socials): array { // handles socials and retur
 
     return $selectedSocials;
 }
+function postHandleSocialsToArray(array $postAttrs): array { // handles socials and returns them as an array
+    $socials = [];
+    foreach (SOCIALS as $social) {
+        if ($postAttrs[$social] == true) {
+            $socials[] = $social;
+        }
+    }
+    return $socials;
+}
 function postAddOrderAttributetoPhotos(array $files): array { // handles photos and returns them as an array
         
     if ($files && count($files) > 0) {
