@@ -105,8 +105,7 @@ const socailMediaArray = [
                         <input id="vue-checkbox-list" type="checkbox" :value="social.value" v-model="PostForm.socials"
                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
                         <label for="vue-checkbox-list"
-                            class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ social.name
-                            }}</label>
+                            class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ social.name }}</label>
                     </div>
                 </li>
             </ul>
@@ -135,8 +134,7 @@ const socailMediaArray = [
         </form>
     </div>
 
-    <ContentTextarea :state="Modals" :content="PostForm.description" @saveTextarea="textareaSave"
-        :postTitle="PostForm.title" />
+    <ContentTextarea :state="Modals" :content="PostForm.description" @saveTextarea="textareaSave" :postTitle="PostForm.title" />
     <ContentMedia :state="Modals" @savePhoto="savePhoto" />
     <ContentSearch :state="Modals" @saveSlectedImages="saveSlectedImagesUpslash" />
 </template>

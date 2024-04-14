@@ -117,19 +117,20 @@ class OpenAiController extends Controller
         ]);
 
         return $response->data;
-    } 
+    }
 
     public function image(Request $request)  {
-        $iamgeData = $request->input('imageData');
-        if (!$iamgeData) { return response()->json(['error' => 'Image Data is required']);}
+//        $iamgeData = $request->input('imageData');
+//        if (!$iamgeData) { return response()->json(['error' => 'Image Data is required']);}
+//
+//        $response = OpenAI::images()->create([
+//            'model' => 'dall-e-2',
+//            'n' => 1,
+//            'prompt' => $iamgeData,
+//            'response_format' => 'b64_json',
+//        ]);
 
-        $response = OpenAI::images()->create([
-            'model' => 'dall-e-2',
-            'n' => 1,
-            'prompt' => $iamgeData,
-            'response_format' => 'b64_json',
-        ]);
-
+        return true;
         return response()->json($response->data);
     }
 }

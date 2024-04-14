@@ -37,7 +37,7 @@ export default {
                 }
             });
         };
-        
+
         if (this.campaigns.length > 0) {
             this.calendarCampainEvents = this.campaigns.map((campain) => {
                 return {
@@ -73,27 +73,33 @@ export default {
 
 <template>
     <UserLayout>
-        <div class="container mx-auto flex flex-col md:flex-row gap-4 h-full sm:h-screen ">
-            <div
-                class="flex flex-col flex-3 h-full w-full border bg-white border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 gap-5 px-4 py-4">
+        <div class="container mx-auto flex flex-col md:flex-row gap-4 h-full sm:h-screen">
+            <div class="flex flex-col flex-3 h-full w-full rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 gap-5 px-4 py-4">
                 <div class="flex flex-col gap-2 ">
-                    <a class="bg-blue-800 py-2 rounded-xl text-sm text-center" :href="route('posts.create')">Create
-                        Post</a>
-                    <a class="bg-blue-800 py-2 rounded-xl text-sm text-center" :href="route('campains.create')">Create
-                        Campain</a>
-                    <!--                     <a class="bg-blue-800 py-2 rounded-xl text-sm text-center">Browse Gallery</a> -->
-
-                    <a class="bg-blue-800 py-2 rounded-xl mt-5 text-sm text-center" :href="route('posts.list')">Edit Posts</a>
-                    <a class="bg-blue-800 py-2 rounded-xl text-sm text-center":href="route('campains.list')">Edit Campains</a>
-                    <!--                     <a class="bg-blue-800 py-2 rounded-xl text-sm text-center" href="#">Upload Photos</a> -->
-
-                    <a class="bg-blue-800 py-2 rounded-xl mt-5 text-sm text-center" :href="route('posts.list')">Delete Posts</a>
-                    <a class="bg-blue-800 py-2 rounded-xl text-sm text-center" :href="route('campains.list')">Delete Campains</a>
-                    <!--                     <a class="bg-blue-800 py-2 rounded-xl text-sm text-center" href="#">Delete Photos</a> -->
+                    <div class="flex justify-center gap-4">
+                        <a class="bg-blue-800 py-2 rounded-xl w-full text-sm text-center" :href="route('posts.create')">Create Post</a>
+                        <a class="bg-blue-800 py-2 rounded-xl w-full text-sm text-center" :href="route('posts.list')">Edit Posts</a>
+                        <a class="bg-blue-800 py-2 rounded-xl w-full text-sm text-center" :href="route('posts.list')">Delete Posts</a>
+                    </div>
                 </div>
-                <div id="calendarCampain" ref="calendarCampainRef" class="h-full w-full " />
+                <div id="calendarCampain" ref="calendarCampainRef" />
             </div>
-            <div id="calendar" ref="calendarRef" class="h-full w-full flex-grow" />
+
+            <div class="flex flex-col flex-3 h-full w-full rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 gap-5 px-4 py-4">
+                <div class="flex flex-col gap-2 ">
+                    <div class="flex justify-center gap-4">
+                        <a class="bg-blue-800 py-2 rounded-xl w-full text-sm text-center" :href="route('campains.create')">Create Campain</a>
+                        <a class="bg-blue-800 py-2 rounded-xl w-full text-sm text-center" :href="route('campains.list')">Edit Campains</a>
+                        <a class="bg-blue-800 py-2 rounded-xl w-full text-sm text-center" :href="route('campains.list')">Delete Campains</a>
+                    </div>
+                </div>
+                <div id="calendar" ref="calendarRef" />
+            </div>
         </div>
     </UserLayout>
 </template>
+
+
+<!-- <a class="bg-blue-800 py-2 rounded-xl text-sm text-center">Browse Gallery</a> -->
+<!-- <a class="bg-blue-800 py-2 rounded-xl text-sm text-center" href="#">Upload Photos</a> -->
+<!-- <a class="bg-blue-800 py-2 rounded-xl text-sm text-center" href="#">Delete Photos</a> -->
