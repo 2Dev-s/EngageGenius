@@ -2,6 +2,7 @@ import './bootstrap';
 import '../css/app.css';
 import '@splidejs/vue-splide/css';
 import 'v-calendar/style.css';
+import 'primeicons/primeicons.css'
 
 import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';
@@ -14,7 +15,7 @@ import VueSplide from '@splidejs/vue-splide';
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 import PrimeVue from 'primevue/config';
-import Lara from "./presets/lara";
+import Lara from "@/presets/lara";
 
 
 

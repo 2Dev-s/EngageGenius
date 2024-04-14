@@ -23,6 +23,7 @@
         "@schedule-x/calendar": "^1.18.0",
         "@schedule-x/theme-default": "^1.18.0",
         "@splidejs/vue-splide": "^0.6.12",
+        "primeicons": "^7.0.0",
         "primevue": "^3.51.0",
         "v-calendar": "^3.1.2",
         "vue3-tags-input": "^1.0.12",
