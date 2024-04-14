@@ -56,9 +56,11 @@ class PostController extends Controller
     public function list()
     {
         $team = Auth::user()->currentTeam;
-
+        $campains = $team->campains->toArray();
         return Inertia::render('Posts/List', [
-            'posts' => $team->posts()->get()
+            'posts' => $team->posts()->get(),
+            'campains' => $campains,
+            "socials" => POSTSOCIALS
         ]);
     }
 

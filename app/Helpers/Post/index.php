@@ -22,7 +22,7 @@ function postHandleSocials(array $socials): array { // handles socials and retur
 
     $selectedSocials = [];
 
-    foreach (SOCIALS as $social) {
+    foreach (POSTSOCIALS as $social) {
         $selectedSocials[$social] = ((in_array($social, $socials)) ? true : false); // checks if social is in the array of socials and sets it to true or false
     };
 
@@ -30,7 +30,7 @@ function postHandleSocials(array $socials): array { // handles socials and retur
 }
 function postHandleSocialsToArray(array $postAttrs): array { // handles socials and returns them as an array
     $socials = [];
-    foreach (SOCIALS as $social) {
+    foreach (POSTSOCIALS as $social) {
         if ($postAttrs[$social] == true) {
             $socials[] = $social;
         }

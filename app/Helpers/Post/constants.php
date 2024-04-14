@@ -1,6 +1,6 @@
 <?php
 
-const SOCIALS = [
+const POSTSOCIALS = [
     'post_to_twitter',
     'post_to_pinterest',
     'post_to_facebook',
