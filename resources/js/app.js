@@ -17,8 +17,6 @@ const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 import PrimeVue from 'primevue/config';
 import Lara from "@/presets/lara";
 
-
-
 createInertiaApp({
     title: (title) => `${appName}`,
     resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
