@@ -4,316 +4,494 @@
             <div class="flex flex-col gap-4 h-full sm:h-screen">
                 <div class="flex flex-col items-center gap-4 mt-5">
                     <InputText placeholder="Search" id="searchQ"
-                        class="pl-10 w-full dark:bg-gray-800 dark:border-gray-700" v-model="searchQuery" />
+                        class="pl-10 w-full dark:bg-gray-800 dark:border-gray-700" v-model="searchQuery"
+                        @change="filter()" />
 
                     <div class="flex w-full gap-5 align-middle justify-center flex-wrap ">
-                        <Calendar v-model="publish_date" selectionMode="range" :manualInput="false" class="flex-2" :pt="{
-                            input: 'dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300 rounded h-12',
-                            panel: 'dark:bg-gray-800 dark:border-gray-700 text-white',
-                        }" />
-                        <Dropdown :options="props.campains" optionLabel="title" optionValue="id" v-model="campain"
-                            placeholder="Select a Campain" class="dark:bg-gray-800 dark:border-gray-700 h-12" :pt="{
-                                panel: 'dark:bg-gray-800 dark:border-gray-700 text-white overflow-y-auto rounded-b-lg ',
-                            }" />
-                        <MultiSelect placeholder="Select Socials" :options="props.socials" v-model="socials"
-                            display="chip" class="dark:bg-gray-800 dark:border-gray-700 h-12" :pt="{
+                        <Calendar v-model="publish_date" selectionMode="range" @change="filter()" :manualInput="false"
+                            class="flex-2" :pt="{
+                                input: 'dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300 rounded h-12',
                                 panel: 'dark:bg-gray-800 dark:border-gray-700 text-white',
-                                wrapper: 'overflow-y-auto'
                             }" />
-                        <ToggleButton onLabel="Published" offLabel="Not Published"
+                        <Dropdown :options="props.campains" @change="filter()" optionLabel="title" optionValue="id"
+                            v-model="campain" placeholder="Select a Campain"
+                            class="dark:bg-gray-800 dark:border-gray-700 h-12" filter showClear :pt="{
+                                root: ({ props, state }) => ({
+                                    class: [
+                                        // Display and Position
+                                        'inline-flex',
+                                        'relative',
+                                        // Shape
+                                        'rounded-md',
+                                        // Color and Background
+                                        'bg-surface-0 dark:bg-surface-900',
+                                        'border',
+                                        { 'border-surface-300 dark:border-surface-600': !props.invalid },
+                                        // Invalid State
+                                        { 'border-red-500 dark:border-red-400': props.invalid },
+                                        // Transitions
+                                        'transition-all',
+                                        'duration-200',
+                                        // States
+                                        { 'hover:border-primary-500 dark:hover:border-primary-300': !props.invalid },
+                                        { 'outline-none outline-offset-0 ring ring-primary-400/50 dark:ring-primary-300/50': state.focused },
+                                        // Misc
+                                        'cursor-pointer',
+                                        'select-none',
+                                        { 'opacity-60': props.disabled, 'pointer-events-none': props.disabled, 'cursor-default': props.disabled }
+                                    ]
+                                }),
+                                input: ({ props }) => ({
+                                    class: [
+                                        //Font
+                                        'font-sans',
+                                        'leading-none',
+                                        // Display
+                                        'block',
+                                        'flex-auto',
+                                        // Color and Background
+                                        'bg-transparent',
+                                        'border-0',
+                                        { 'text-surface-800 dark:text-white/80': props.modelValue != null, 'text-surface-400 dark:text-surface-500': props.modelValue == null },
+                                        'placeholder:text-surface-400 dark:placeholder:text-surface-500',
+                                        // Sizing and Spacing
+                                        'w-[1%]',
+                                        'p-3',
+                                        { 'pr-7': props.showClear },
+                                        //Shape
+                                        'rounded-none',
+                                        // Transitions
+                                        'transition',
+                                        'duration-200',
+
+                                        // States
+                                        'focus:outline-none focus:shadow-none',
+                                        // Misc
+                                        'relative',
+                                        'cursor-pointer',
+                                        'overflow-hidden overflow-ellipsis',
+                                        'whitespace-nowrap',
+                                        'appearance-none'
+                                    ]
+                                }),
+                                trigger: {
+                                    class: ['flex items-center justify-center', 'shrink-0', 'bg-transparent', 'text-surface-500', 'w-12', 'rounded-tr-md', 'rounded-br-md']
+                                },
+                                panel: {
+                                    class: ['absolute top-0 left-0', 'border-0 dark:border', 'rounded-md', 'shadow-md', 'bg-surface-0 dark:bg-surface-800', 'text-surface-800 dark:text-white/80', 'dark:border-surface-700']
+                                },
+                                wrapper: {
+                                    class: ['max-h-[200px]', 'overflow-auto']
+                                },
+                                list: {
+                                    class: 'py-3 list-none m-0'
+                                },
+                                item: ({ context }) => ({
+                                    class: [
+                                        // Font
+                                        'font-normal',
+                                        'leading-none',
+                                        // Position
+                                        'relative',
+                                        // Shape
+                                        'border-0',
+                                        'rounded-none',
+                                        // Spacing
+                                        'm-0',
+                                        'py-3 px-5',
+                                        // Color
+                                        { 'text-surface-700 dark:text-white/80': !context.focused && !context.selected && !context.disabled },
+                                        { 'text-surface-600 dark:text-white/70': !context.focused && !context.selected && context.disabled },
+                                        { 'bg-surface-200 dark:bg-surface-600/60 text-surface-700 dark:text-white/80': context.focused && !context.selected },
+                                        { 'bg-primary-100 dark:bg-primary-400/40 text-primary-700 dark:text-white/80': context.focused && context.selected },
+                                        { 'bg-primary-50 dark:bg-primary-400/40 text-primary-700 dark:text-white/80': !context.focused && context.selected },
+                                        //States
+                                        { 'hover:bg-surface-100 dark:hover:bg-surface-600/80': !context.focused && !context.selected },
+                                        { 'hover:text-surface-700 hover:bg-surface-100 dark:hover:text-white dark:hover:bg-surface-600/80': context.focused && !context.selected },
+                                        'focus-visible:outline-none focus-visible:outline-offset-0 focus-visible:ring focus-visible:ring-inset focus-visible:ring-primary-400/50 dark:focus-visible:ring-primary-300/50',
+                                        // Transitions
+                                        'transition-shadow',
+                                        'duration-200',
+                                        // Misc
+                                        { 'pointer-events-none cursor-default': context.disabled },
+                                        { 'cursor-pointer': !context.disabled },
+                                        'overflow-hidden',
+                                        'whitespace-nowrap'
+                                    ]
+                                }),
+                                itemgroup: {
+                                    class: ['font-bold', 'm-0', 'py-3 px-5', 'text-surface-800 dark:text-white/80', 'bg-surface-0 dark:bg-surface-600/80', 'cursor-auto']
+                                },
+                                emptymessage: {
+                                    class: ['leading-none', 'py-3 px-5', 'text-surface-800 dark:text-white/80', 'bg-transparent']
+                                },
+                                header: {
+                                    class: ['py-3 px-5', 'm-0', 'border-b', 'rounded-tl-md', 'rounded-tr-md', 'text-surface-700 dark:text-white/80', 'bg-surface-100 dark:bg-surface-800', 'border-surface-300 dark:border-surface-700']
+                                },
+                                filtercontainer: {
+                                    class: 'relative'
+                                },
+                                filterinput: {
+                                    class: ['font-sans', 'leading-none', 'pr-7 py-3 px-3', '-mr-7', 'w-full', 'text-surface-700 dark:text-white/80', 'bg-surface-0 dark:bg-surface-900', 'border-surface-200 dark:border-surface-700', 'border', 'rounded-lg', 'appearance-none', 'transition', 'duration-200', 'hover:border-primary-500 dark:hover:border-primary-300', 'focus:ring focus:outline-none focus:outline-offset-0', 'focus:ring-primary-400/50 dark:focus:ring-primary-300/50', 'appearance-none']
+                                },
+                                filtericon: {
+                                    class: ['absolute', 'top-1/2 right-3', '-mt-2']
+                                },
+                                clearicon: {
+                                    class: ['text-surface-500', 'absolute', 'top-1/2', 'right-12', '-mt-2']
+                                },
+                                transition: {
+                                    enterFromClass: 'opacity-0 scale-y-[0.8]',
+                                    enterActiveClass: 'transition-[transform,opacity] duration-[120ms] ease-[cubic-bezier(0,0,0.2,1)]',
+                                    leaveActiveClass: 'transition-opacity duration-100 ease-linear',
+                                    leaveToClass: 'opacity-0'
+                                }
+                            }" />
+                        <MultiSelect placeholder="Select Socials" @change="filter()" :options="props.socials"
+                            v-model="socials" display="chip" class="dark:bg-gray-800 dark:border-gray-700 h-12" :pt="{
+                                panel: 'dark:bg-gray-800 dark:border-gray-700 text-white',
+                                wrapper: 'overflow-y-auto',
+                                token: {
+                                    class: ['inline-flex items-center', 'py-1.5 px-3 mr-2', 'rounded-[1.14rem]', 'bg-surface-200 dark:bg-surface-700', 'text-surface-700 dark:text-white/70', 'cursor-default']
+                                },
+                            }" />
+
+                        <ToggleButton onLabel="Published" offLabel="Not Published" @change="filter()"
                             class="dark:bg-gray-800 dark:border-gray-700 h-12" v-model="publish_state" />
-                        <Chips v-model="tags" class="dark:bg-gray-800 dark:border-gray-700 h-12" />
+                        <Chips v-model="tags" class="dark:bg-gray-800 dark:border-gray-700 " :pt="{
+                            token: {
+                                class: ['inline-flex items-center', 'py-1.5 px-3', 'rounded-[1.14rem]', 'text-surface-700 dark:text-white/70', 'bg-surface-200 dark:bg-surface-700']
+                            },
+                            input: {
+                                class: ['font-sans text-base leading-[1.2]', 'w-full', 'p-0 m-0', 'appearance-none rounded-none', 'border-0 outline-none', 'shadow-none', 'text-surface-700 dark:text-white/80', 'bg-transparent']
+                            },
+                            container: ({ state, props }) => ({
+                                class: [
+                                    // Font
+                                    'font-sans text-base leading-none',
+                                    // Flex
+                                    'flex items-center flex-wrap gap-2',
+                                    // Spacing
+                                    'm-0 py-1.5 px-3',
+                                    // Size
+                                    'w-full',
+                                    'min-h-[2.877rem]',
+                                    // Shape
+                                    'list-none',
+                                    'rounded-md',
+                                    // Color
+                                    'text-surface-700 dark:text-white/80',
+                                    'bg-surface-0 dark:bg-surface-900',
+                                    'border',
+                                    { 'border-surface-300 dark:border-surface-600': !props.invalid },
+                                    // Invalid State
+                                    { 'border-red-500 dark:border-red-400': props.invalid },
+                                    // States
+                                    { 'hover:border-primary-500 dark:hover:border-primary-400': !props.invalid },
+                                    'focus:outline-none focus:outline-offset-0',
+                                    { 'ring ring-primary-400/50 dark:ring-primary-300/50': state.focused },
+                                    { 'ring ring-primary-400/50 dark:ring-primary-300/50': state.hovered },
+                                    // Transition
+                                    'transition-colors duration-200',
+                                    // Misc
+                                    'cursor-text overflow-hidden',
+                                    'appearance-none'
+                                ]
+                            })
+                        }" />
                     </div>
                 </div>
 
                 <Card class="w-full dark:bg-gray-900 dark:border-gray-700">
                     <template #content>
-                        <DataView :value="props.posts" paginator :rows="10" :pt="{paginator: {
-    root: {
-        class: ['flex items-center justify-center flex-wrap', 'px-4 py-2', 'border-0', 'bg-surface-0 dark:bg-surface-800', 'text-surface-500 dark:text-white/60']
-    },
-    firstpagebutton: ({ context }) => ({
-        class: [
-          'relative',
-          // Flex & Alignment
-          'inline-flex items-center justify-center',
-          // Shape
-          'border-0 rounded-full dark:rounded-md',
-          // Size
-          'min-w-[3rem] h-12 m-[0.143rem]',
-          'leading-none',
-          // Color
-          'text-surface-500 dark:text-white/60',
-          // State
-          {
-            'hover:bg-surface-50 dark:hover:bg-surface-700/70': !context.disabled,
-            'focus:outline-none focus:outline-offset-0 focus:ring focus:ring-primary-400/50 dark:focus:ring-primary-300/50': !context.disabled
-          },
-          // Transition
-          'transition duration-200',
-          // Misc
-          'user-none overflow-hidden',
-          { 'cursor-default pointer-events-none opacity-60': context.disabled }
-        ]
-    }),
-    previouspagebutton: ({ context }) => ({
-        class: [
-          'relative',
-          // Flex & Alignment
-          'inline-flex items-center justify-center',
-          // Shape
-          'border-0 rounded-full dark:rounded-md',
-          // Size
-          'min-w-[3rem] h-12 m-[0.143rem]',
-          'leading-none',
-          // Color
-          'text-surface-500 dark:text-white/60',
-          // State
-          {
-            'hover:bg-surface-50 dark:hover:bg-surface-700/70': !context.disabled,
-            'focus:outline-none focus:outline-offset-0 focus:ring focus:ring-primary-400/50 dark:focus:ring-primary-300/50': !context.disabled
-          },
-          // Transition
-          'transition duration-200',
-          // Misc
-          'user-none overflow-hidden',
-          { 'cursor-default pointer-events-none opacity-60': context.disabled }
-        ]
-    }),
-    nextpagebutton: ({ context }) => ({
-        class: [
-          'relative',
-          // Flex & Alignment
-          'inline-flex items-center justify-center',
-          // Shape
-          'border-0 rounded-full dark:rounded-md',
-          // Size
-          'min-w-[3rem] h-12 m-[0.143rem]',
-          'leading-none',
-          // Color
-          'text-surface-500 dark:text-white/60',
-          // State
-          {
-            'hover:bg-surface-50 dark:hover:bg-surface-700/70': !context.disabled,
-            'focus:outline-none focus:outline-offset-0 focus:ring focus:ring-primary-400/50 dark:focus:ring-primary-300/50': !context.disabled
-          },
-          // Transition
-          'transition duration-200',
-          // Misc
-          'user-none overflow-hidden',
-          { 'cursor-default pointer-events-none opacity-60': context.disabled }
-        ]
-    }),
-    lastpagebutton: ({ context }) => ({
-        class: [
-          'relative',
-          // Flex & Alignment
-          'inline-flex items-center justify-center',
-          // Shape
-          'border-0 rounded-full dark:rounded-md',
-          // Size
-          'min-w-[3rem] h-12 m-[0.143rem]',
-          'leading-none',
-          // Color
-          'text-surface-500 dark:text-white/60',
-          // State
-          {
-            'hover:bg-surface-50 dark:hover:bg-surface-700/70': !context.disabled,
-            'focus:outline-none focus:outline-offset-0 focus:ring focus:ring-primary-400/50 dark:focus:ring-primary-300/50': !context.disabled
-          },
-          // Transition
-          'transition duration-200',
-          // Misc
-          'user-none overflow-hidden',
-          { 'cursor-default pointer-events-none opacity-60': context.disabled }
-        ]
-    }),
-    pagebutton: ({ context }) => ({
-        class: [
-          'relative',
-          // Flex & Alignment
-          'inline-flex items-center justify-center',
-          // Shape
-          'border-0 rounded-full dark:rounded-md',
-          // Size
-          'min-w-[3rem] h-12 m-[0.143rem]',
-          'leading-none',
-          // Color
-          'text-surface-500 dark:text-white/80',
-          {
-            'bg-primary-50 border-primary-50 dark:border-transparent text-primary-700 dark:text-surface-0 dark:bg-primary-400/30': context.active
-          },
-          // State
-          {
-            'hover:bg-surface-50 dark:hover:bg-surface-700/70': !context.disabled && !context.active,
-            'focus:outline-none focus:outline-offset-0 focus:ring focus:ring-primary-400/50 dark:focus:ring-primary-300/50': !context.disabled
-          },
-          // Transition
-          'transition duration-200',
-          // Misc
-          'user-none overflow-hidden',
-          { 'cursor-default pointer-events-none opacity-60': context.disabled }
-        ]
-    }),
-    rowperpagedropdown: {
-        root: ({ props, state }) => ({
-              class: [
-                // Display and Position
-                'inline-flex',
-                'relative',
-                // Shape
-                'h-12',
-                'rounded-md',
-                // Spacing
-                'mx-2',
-                // Color and Background
-                'bg-surface-0 dark:bg-surface-900',
-                'border border-surface-300 dark:border-surface-700',
-                // Transitions
-                'transition-all',
-                'duration-200',
-                // States
-                'hover:border-primary-500 dark:hover:border-primary-300',
-                { 'focus:outline-none focus:outline-offset-0 focus:ring focus:ring-primary-400/50 dark:focus:ring-primary-300/50': !state.focused },
-                // Misc
-                'cursor-pointer',
-                'select-none',
-                { 'opacity-60': props.disabled, 'pointer-events-none': props.disabled, 'cursor-default': props.disabled }
-              ]
-      }),
-        input: {
-            class: ['font-sans', 'leading-5', 'block', 'flex-auto', 'bg-transparent', 'border-0', 'text-surface-800 dark:text-white/80', 'w-[1%]', 'p-3 pr-0', 'rounded-none', 'transition', 'duration-200', 'focus:outline-none focus:shadow-none', 'relative', 'cursor-pointer', 'overflow-hidden overflow-ellipsis', 'whitespace-nowrap', 'appearance-none']
-        },
-        trigger: {
-            class: ['flex items-center justify-center', 'shrink-0', 'bg-transparent', 'text-surface-500', 'w-12', 'rounded-tr-md', 'rounded-br-md']
-        },
-        panel: {
-            class: ['absolute top-0 left-0', 'border-0 dark:border', 'rounded-md', 'shadow-md', 'bg-surface-0 dark:bg-surface-800', 'text-surface-800 dark:text-white/80', 'dark:border-surface-700']
-        },
-        wrapper: {
-            class: ['max-h-[200px]', 'overflow-auto']
-        },
-        list: {
-            class: 'py-3 list-none m-0'
-        },
-        item: ({ context }) => ({
-              class: [
-                // Font
-                'font-normal',
-                'leading-none',
-                // Position
-                'relative',
-                // Shape
-                'border-0',
-                'rounded-none',
-                // Spacing
-                'm-0',
-                'py-3 px-5',
-                // Color
-                { 'text-surface-700 dark:text-white/80': !context.focused && !context.selected },
-                { 'bg-surface-50 dark:bg-surface-600/60 text-surface-700 dark:text-white/80': context.focused && !context.selected },
-                { 'bg-primary-100 dark:bg-primary-400/40 text-primary-700 dark:text-white/80': context.focused && context.selected },
-                { 'bg-primary-50 dark:bg-primary-400/40 text-primary-700 dark:text-white/80': !context.focused && context.selected },
-                //States
-                { 'hover:bg-surface-100 dark:hover:bg-surface-600/80': !context.focused && !context.selected },
-                { 'hover:text-surface-700 hover:bg-surface-100 dark:hover:text-white dark:hover:bg-surface-600/80': context.focused && !context.selected },
-                // Transitions
-                'transition-shadow',
-                'duration-200',
-                // Misc
-                'cursor-pointer',
-                'overflow-hidden',
-                'whitespace-nowrap'
-              ]
-      })
-    },
-    jumptopageinput: {
-        root: {
-            class: 'inline-flex mx-2'
-        },
-        input: {
-            root: {
-                class: ['relative', 'font-sans', 'leading-none', 'block', 'flex-auto', 'text-surface-600 dark:text-surface-200', 'placeholder:text-surface-400 dark:placeholder:text-surface-500', 'bg-surface-0 dark:bg-surface-900', 'border border-surface-300 dark:border-surface-600', 'w-[1%] max-w-[3rem]', 'p-3 m-0', 'rounded-md', 'transition', 'duration-200', 'hover:border-primary-500 dark:hover:border-primary-400', 'focus:outline-none focus:shadow-none', 'focus:outline-none focus:outline-offset-0 focus:ring focus:ring-primary-500/50 dark:focus:ring-primary-400/50', 'cursor-pointer', 'overflow-hidden overflow-ellipsis', 'whitespace-nowrap', 'appearance-none']
-            }
-        }
-    },
-    jumptopagedropdown: {
-        root: ({ props, state }) => ({
-              class: [
-                // Display and Position
-                'inline-flex',
-                'relative',
-                // Shape
-                'h-12',
-                'rounded-md',
-                // Color and Background
-                'bg-surface-0 dark:bg-surface-900',
-                'border border-surface-300 dark:border-surface-700',
-                // Transitions
-                'transition-all',
-                'duration-200',
-                // States
-                'hover:border-primary-500 dark:hover:border-primary-300',
-                { 'focus:outline-none focus:outline-offset-0 focus:ring focus:ring-primary-400/50 dark:focus:ring-primary-300/50': !state.focused },
-                // Misc
-                'cursor-pointer',
-                'select-none',
-                { 'opacity-60': props.disabled, 'pointer-events-none': props.disabled, 'cursor-default': props.disabled }
-              ]
-      }),
-        input: {
-            class: ['font-sans', 'leading-none', 'block', 'flex-auto', 'bg-transparent', 'border-0', 'text-surface-800 dark:text-white/80', 'w-[1%]', 'p-3', 'rounded-none', 'transition', 'duration-200', 'focus:outline-none focus:shadow-none', 'relative', 'cursor-pointer', 'overflow-hidden overflow-ellipsis', 'whitespace-nowrap', 'appearance-none']
-        },
-        trigger: {
-            class: ['flex items-center justify-center', 'shrink-0', 'bg-transparent', 'text-surface-500', 'w-12', 'rounded-tr-md', 'rounded-br-md']
-        },
-        panel: {
-            class: ['absolute top-0 left-0', 'border-0 dark:border', 'rounded-md', 'shadow-md', 'bg-surface-0 dark:bg-surface-800', 'text-surface-800 dark:text-white/80', 'dark:border-surface-700']
-        },
-        wrapper: {
-            class: ['max-h-[200px]', 'overflow-auto']
-        },
-        list: {
-            class: 'py-3 list-none m-0'
-        },
-        item: ({ context }) => ({
-              class: [
-                // Font
-                'font-normal',
-                'leading-none',
-                // Position
-                'relative',
-                // Shape
-                'border-0',
-                'rounded-none',
-                // Spacing
-                'm-0',
-                'py-3 px-5',
-                // Color
-                { 'text-surface-700 dark:text-white/80': !context.focused && !context.selected },
-                { 'bg-surface-50 dark:bg-surface-600/60 text-surface-700 dark:text-white/80': context.focused && !context.selected },
-                { 'bg-primary-100 dark:bg-primary-400/40 text-primary-700 dark:text-white/80': context.focused && context.selected },
-                { 'bg-primary-50 dark:bg-primary-400/40 text-primary-700 dark:text-white/80': !context.focused && context.selected },
-                //States
-                { 'hover:bg-surface-100 dark:hover:bg-surface-600/80': !context.focused && !context.selected },
-                { 'hover:text-surface-700 hover:bg-surface-100 dark:hover:text-white dark:hover:bg-surface-600/80': context.focused && !context.selected },
-                // Transitions
-                'transition-shadow',
-                'duration-200',
-                // Misc
-                'cursor-pointer',
-                'overflow-hidden',
-                'whitespace-nowrap'
-              ]
-      })
-    },
-    start: {
-        class: 'mr-auto'
-    },
-    end: {
-        class: 'ml-auto'
-    }
-}}">
+                        <DataView :value="filteredArray" paginator :rows="10" :pt="{
+                            paginator: {
+                                root: {
+                                    class: ['flex items-center justify-center flex-wrap', 'px-4 py-2', 'border-0', 'bg-surface-0 dark:bg-surface-800', 'text-surface-500 dark:text-white/60']
+                                },
+                                firstpagebutton: ({ context }) => ({
+                                    class: [
+                                        'relative',
+                                        // Flex & Alignment
+                                        'inline-flex items-center justify-center',
+                                        // Shape
+                                        'border-0 rounded-full dark:rounded-md',
+                                        // Size
+                                        'min-w-[3rem] h-12 m-[0.143rem]',
+                                        'leading-none',
+                                        // Color
+                                        'text-surface-500 dark:text-white/60',
+                                        // State
+                                        {
+                                            'hover:bg-surface-50 dark:hover:bg-surface-700/70': !context.disabled,
+                                            'focus:outline-none focus:outline-offset-0 focus:ring focus:ring-primary-400/50 dark:focus:ring-primary-300/50': !context.disabled
+                                        },
+                                        // Transition
+                                        'transition duration-200',
+                                        // Misc
+                                        'user-none overflow-hidden',
+                                        { 'cursor-default pointer-events-none opacity-60': context.disabled }
+                                    ]
+                                }),
+                                previouspagebutton: ({ context }) => ({
+                                    class: [
+                                        'relative',
+                                        // Flex & Alignment
+                                        'inline-flex items-center justify-center',
+                                        // Shape
+                                        'border-0 rounded-full dark:rounded-md',
+                                        // Size
+                                        'min-w-[3rem] h-12 m-[0.143rem]',
+                                        'leading-none',
+                                        // Color
+                                        'text-surface-500 dark:text-white/60',
+                                        // State
+                                        {
+                                            'hover:bg-surface-50 dark:hover:bg-surface-700/70': !context.disabled,
+                                            'focus:outline-none focus:outline-offset-0 focus:ring focus:ring-primary-400/50 dark:focus:ring-primary-300/50': !context.disabled
+                                        },
+                                        // Transition
+                                        'transition duration-200',
+                                        // Misc
+                                        'user-none overflow-hidden',
+                                        { 'cursor-default pointer-events-none opacity-60': context.disabled }
+                                    ]
+                                }),
+                                nextpagebutton: ({ context }) => ({
+                                    class: [
+                                        'relative',
+                                        // Flex & Alignment
+                                        'inline-flex items-center justify-center',
+                                        // Shape
+                                        'border-0 rounded-full dark:rounded-md',
+                                        // Size
+                                        'min-w-[3rem] h-12 m-[0.143rem]',
+                                        'leading-none',
+                                        // Color
+                                        'text-surface-500 dark:text-white/60',
+                                        // State
+                                        {
+                                            'hover:bg-surface-50 dark:hover:bg-surface-700/70': !context.disabled,
+                                            'focus:outline-none focus:outline-offset-0 focus:ring focus:ring-primary-400/50 dark:focus:ring-primary-300/50': !context.disabled
+                                        },
+                                        // Transition
+                                        'transition duration-200',
+                                        // Misc
+                                        'user-none overflow-hidden',
+                                        { 'cursor-default pointer-events-none opacity-60': context.disabled }
+                                    ]
+                                }),
+                                lastpagebutton: ({ context }) => ({
+                                    class: [
+                                        'relative',
+                                        // Flex & Alignment
+                                        'inline-flex items-center justify-center',
+                                        // Shape
+                                        'border-0 rounded-full dark:rounded-md',
+                                        // Size
+                                        'min-w-[3rem] h-12 m-[0.143rem]',
+                                        'leading-none',
+                                        // Color
+                                        'text-surface-500 dark:text-white/60',
+                                        // State
+                                        {
+                                            'hover:bg-surface-50 dark:hover:bg-surface-700/70': !context.disabled,
+                                            'focus:outline-none focus:outline-offset-0 focus:ring focus:ring-primary-400/50 dark:focus:ring-primary-300/50': !context.disabled
+                                        },
+                                        // Transition
+                                        'transition duration-200',
+                                        // Misc
+                                        'user-none overflow-hidden',
+                                        { 'cursor-default pointer-events-none opacity-60': context.disabled }
+                                    ]
+                                }),
+                                pagebutton: ({ context }) => ({
+                                    class: [
+                                        'relative',
+                                        // Flex & Alignment
+                                        'inline-flex items-center justify-center',
+                                        // Shape
+                                        'border-0 rounded-full dark:rounded-md',
+                                        // Size
+                                        'min-w-[3rem] h-12 m-[0.143rem]',
+                                        'leading-none',
+                                        // Color
+                                        'text-surface-500 dark:text-white/80',
+                                        {
+                                            'bg-primary-50 border-primary-50 dark:border-transparent text-primary-700 dark:text-surface-0 dark:bg-primary-400/30': context.active
+                                        },
+                                        // State
+                                        {
+                                            'hover:bg-surface-50 dark:hover:bg-surface-700/70': !context.disabled && !context.active,
+                                            'focus:outline-none focus:outline-offset-0 focus:ring focus:ring-primary-400/50 dark:focus:ring-primary-300/50': !context.disabled
+                                        },
+                                        // Transition
+                                        'transition duration-200',
+                                        // Misc
+                                        'user-none overflow-hidden',
+                                        { 'cursor-default pointer-events-none opacity-60': context.disabled }
+                                    ]
+                                }),
+                                rowperpagedropdown: {
+                                    root: ({ props, state }) => ({
+                                        class: [
+                                            // Display and Position
+                                            'inline-flex',
+                                            'relative',
+                                            // Shape
+                                            'h-12',
+                                            'rounded-md',
+                                            // Spacing
+                                            'mx-2',
+                                            // Color and Background
+                                            'bg-surface-0 dark:bg-surface-900',
+                                            'border border-surface-300 dark:border-surface-700',
+                                            // Transitions
+                                            'transition-all',
+                                            'duration-200',
+                                            // States
+                                            'hover:border-primary-500 dark:hover:border-primary-300',
+                                            { 'focus:outline-none focus:outline-offset-0 focus:ring focus:ring-primary-400/50 dark:focus:ring-primary-300/50': !state.focused },
+                                            // Misc
+                                            'cursor-pointer',
+                                            'select-none',
+                                            { 'opacity-60': props.disabled, 'pointer-events-none': props.disabled, 'cursor-default': props.disabled }
+                                        ]
+                                    }),
+                                    input: {
+                                        class: ['font-sans', 'leading-5', 'block', 'flex-auto', 'bg-transparent', 'border-0', 'text-surface-800 dark:text-white/80', 'w-[1%]', 'p-3 pr-0', 'rounded-none', 'transition', 'duration-200', 'focus:outline-none focus:shadow-none', 'relative', 'cursor-pointer', 'overflow-hidden overflow-ellipsis', 'whitespace-nowrap', 'appearance-none']
+                                    },
+                                    trigger: {
+                                        class: ['flex items-center justify-center', 'shrink-0', 'bg-transparent', 'text-surface-500', 'w-12', 'rounded-tr-md', 'rounded-br-md']
+                                    },
+                                    panel: {
+                                        class: ['absolute top-0 left-0', 'border-0 dark:border', 'rounded-md', 'shadow-md', 'bg-surface-0 dark:bg-surface-800', 'text-surface-800 dark:text-white/80', 'dark:border-surface-700']
+                                    },
+                                    wrapper: {
+                                        class: ['max-h-[200px]', 'overflow-auto']
+                                    },
+                                    list: {
+                                        class: 'py-3 list-none m-0'
+                                    },
+                                    item: ({ context }) => ({
+                                        class: [
+                                            // Font
+                                            'font-normal',
+                                            'leading-none',
+                                            // Position
+                                            'relative',
+                                            // Shape
+                                            'border-0',
+                                            'rounded-none',
+                                            // Spacing
+                                            'm-0',
+                                            'py-3 px-5',
+                                            // Color
+                                            { 'text-surface-700 dark:text-white/80': !context.focused && !context.selected },
+                                            { 'bg-surface-50 dark:bg-surface-600/60 text-surface-700 dark:text-white/80': context.focused && !context.selected },
+                                            { 'bg-primary-100 dark:bg-primary-400/40 text-primary-700 dark:text-white/80': context.focused && context.selected },
+                                            { 'bg-primary-50 dark:bg-primary-400/40 text-primary-700 dark:text-white/80': !context.focused && context.selected },
+                                            //States
+                                            { 'hover:bg-surface-100 dark:hover:bg-surface-600/80': !context.focused && !context.selected },
+                                            { 'hover:text-surface-700 hover:bg-surface-100 dark:hover:text-white dark:hover:bg-surface-600/80': context.focused && !context.selected },
+                                            // Transitions
+                                            'transition-shadow',
+                                            'duration-200',
+                                            // Misc
+                                            'cursor-pointer',
+                                            'overflow-hidden',
+                                            'whitespace-nowrap'
+                                        ]
+                                    })
+                                },
+                                jumptopageinput: {
+                                    root: {
+                                        class: 'inline-flex mx-2'
+                                    },
+                                    input: {
+                                        root: {
+                                            class: ['relative', 'font-sans', 'leading-none', 'block', 'flex-auto', 'text-surface-600 dark:text-surface-200', 'placeholder:text-surface-400 dark:placeholder:text-surface-500', 'bg-surface-0 dark:bg-surface-900', 'border border-surface-300 dark:border-surface-600', 'w-[1%] max-w-[3rem]', 'p-3 m-0', 'rounded-md', 'transition', 'duration-200', 'hover:border-primary-500 dark:hover:border-primary-400', 'focus:outline-none focus:shadow-none', 'focus:outline-none focus:outline-offset-0 focus:ring focus:ring-primary-500/50 dark:focus:ring-primary-400/50', 'cursor-pointer', 'overflow-hidden overflow-ellipsis', 'whitespace-nowrap', 'appearance-none']
+                                        }
+                                    }
+                                },
+                                jumptopagedropdown: {
+                                    root: ({ props, state }) => ({
+                                        class: [
+                                            // Display and Position
+                                            'inline-flex',
+                                            'relative',
+                                            // Shape
+                                            'h-12',
+                                            'rounded-md',
+                                            // Color and Background
+                                            'bg-surface-0 dark:bg-surface-900',
+                                            'border border-surface-300 dark:border-surface-700',
+                                            // Transitions
+                                            'transition-all',
+                                            'duration-200',
+                                            // States
+                                            'hover:border-primary-500 dark:hover:border-primary-300',
+                                            { 'focus:outline-none focus:outline-offset-0 focus:ring focus:ring-primary-400/50 dark:focus:ring-primary-300/50': !state.focused },
+                                            // Misc
+                                            'cursor-pointer',
+                                            'select-none',
+                                            { 'opacity-60': props.disabled, 'pointer-events-none': props.disabled, 'cursor-default': props.disabled }
+                                        ]
+                                    }),
+                                    input: {
+                                        class: ['font-sans', 'leading-none', 'block', 'flex-auto', 'bg-transparent', 'border-0', 'text-surface-800 dark:text-white/80', 'w-[1%]', 'p-3', 'rounded-none', 'transition', 'duration-200', 'focus:outline-none focus:shadow-none', 'relative', 'cursor-pointer', 'overflow-hidden overflow-ellipsis', 'whitespace-nowrap', 'appearance-none']
+                                    },
+                                    trigger: {
+                                        class: ['flex items-center justify-center', 'shrink-0', 'bg-transparent', 'text-surface-500', 'w-12', 'rounded-tr-md', 'rounded-br-md']
+                                    },
+                                    panel: {
+                                        class: ['absolute top-0 left-0', 'border-0 dark:border', 'rounded-md', 'shadow-md', 'bg-surface-0 dark:bg-surface-800', 'text-surface-800 dark:text-white/80', 'dark:border-surface-700']
+                                    },
+                                    wrapper: {
+                                        class: ['max-h-[200px]', 'overflow-auto']
+                                    },
+                                    list: {
+                                        class: 'py-3 list-none m-0'
+                                    },
+                                    item: ({ context }) => ({
+                                        class: [
+                                            // Font
+                                            'font-normal',
+                                            'leading-none',
+                                            // Position
+                                            'relative',
+                                            // Shape
+                                            'border-0',
+                                            'rounded-none',
+                                            // Spacing
+                                            'm-0',
+                                            'py-3 px-5',
+                                            // Color
+                                            { 'text-surface-700 dark:text-white/80': !context.focused && !context.selected },
+                                            { 'bg-surface-50 dark:bg-surface-600/60 text-surface-700 dark:text-white/80': context.focused && !context.selected },
+                                            { 'bg-primary-100 dark:bg-primary-400/40 text-primary-700 dark:text-white/80': context.focused && context.selected },
+                                            { 'bg-primary-50 dark:bg-primary-400/40 text-primary-700 dark:text-white/80': !context.focused && context.selected },
+                                            //States
+                                            { 'hover:bg-surface-100 dark:hover:bg-surface-600/80': !context.focused && !context.selected },
+                                            { 'hover:text-surface-700 hover:bg-surface-100 dark:hover:text-white dark:hover:bg-surface-600/80': context.focused && !context.selected },
+                                            // Transitions
+                                            'transition-shadow',
+                                            'duration-200',
+                                            // Misc
+                                            'cursor-pointer',
+                                            'overflow-hidden',
+                                            'whitespace-nowrap'
+                                        ]
+                                    })
+                                },
+                                start: {
+                                    class: 'mr-auto'
+                                },
+                                end: {
+                                    class: 'ml-auto'
+                                }
+                            }
+                        }">
                             <template #list="slotProps">
                                 <div class="flex flex-col items-center justify-center gap-2">
                                     <div v-for="(item, index) in slotProps.items" :key="index"
@@ -323,6 +501,9 @@
                                             class="rounded-lg overflow-hidden w-full h-full  col-span-2 flex flex-col items-center align-middle">
                                             <img alt="" :src="determineTumnail(item)" class="w-full object-fill"
                                                 width="300" height="200">
+                                            <!--                                              <div class="bg-black w-full object-fill h-full text-center flex justify-center items-center aspect-video" v-else>
+                                                <span class="text-2xl">EngageGenius</span>
+                                             </div>    -->
                                         </div>
 
                                         <div class="flex flex-col w-full flex-1 gap-2 col-span-5 text-white">
@@ -557,13 +738,43 @@ const props = defineProps(['posts', 'campains', 'socials']);
 const searchQuery = ref('');
 const publish_date = ref(null);
 
-const campain = ref(0);
+const campain = ref(null);
 const publish_state = ref(false);
 
 const socials = ref([]);
 const tags = ref([]);
 
 const confirm = useConfirm();
+
+const filteredArray = ref([]);
+
+const filter = () => {
+    console.log(campain.value);
+    filteredArray.value = props.posts.filter(post => {
+
+        let search = true;
+        let date = true;
+        let campainID = true;
+
+        if (searchQuery.value) {
+            search = post.title.toLowerCase().includes(searchQuery.value.toLowerCase()) || post.description.toLowerCase().includes(searchQuery.value.toLowerCase());
+        }
+
+        /*         if (campain.value != 0 || campain.value != null){;
+                    campainID = post.campain_id === campain.value;
+                } */
+        /* 
+                if ( publish_date.value[0]){
+                    date = post.publish_date >= publish_date.value[0] && post.publish_date <= publish_date.value[1];
+                } */
+
+        return search && date && campainID;
+    });
+}
+
+onMounted(() => {
+    filter();
+});
 
 const createConfrimDeletePost = (post) => {
     confirm.require({

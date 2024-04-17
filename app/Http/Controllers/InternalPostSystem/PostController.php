@@ -73,7 +73,7 @@ class PostController extends Controller
 
         $createPost->handel($request);
         
-        return redirect()->route('posts');
+        return redirect()->route('posts.list');
     }
 
     /**
@@ -102,7 +102,7 @@ class PostController extends Controller
 
         $updatePost->handle($request, $post);
 
-        return redirect()->route('posts');
+        return redirect()->route('posts.list');
     }
 
     /**
@@ -111,8 +111,10 @@ class PostController extends Controller
     public function delete(Post $post)
     {
         if (!$post) return;
+        
         $post->delete();
-        return redirect()->route('posts');
+
+        return redirect()->route('posts.list');
     }
 
 
