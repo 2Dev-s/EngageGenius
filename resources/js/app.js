@@ -16,6 +16,7 @@ const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 import PrimeVue from 'primevue/config';
 import Lara from "@/presets/lara";
+import ConfirmationService from 'primevue/confirmationservice';
 
 createInertiaApp({
     title: (title) => `${appName}`,
@@ -24,6 +25,7 @@ createInertiaApp({
         return createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
+            .use(ConfirmationService)
             .use(PrimeVue, {
                 unstyled: true,
                 pt: Lara

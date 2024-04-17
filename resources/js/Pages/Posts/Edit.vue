@@ -52,6 +52,7 @@ onMounted(() => {
         });
 
         EditForm.files.sort((a, b) => a.order - b.order);
+
     }
 })
 

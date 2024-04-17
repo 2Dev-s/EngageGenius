@@ -33,6 +33,12 @@ class CreatePost
             $files = postAddOrderAttributetoPhotos($form['files']);
             if (count($files) > 0) $post->createPhotos($files);
         }
+        
+        $thumbnail = $post->photos()->first();
+        if ($thumbnail) {
+            $post->update(["thumbnail_path" => $thumbnail->path]);
+        }
+
         return;
     }
 }

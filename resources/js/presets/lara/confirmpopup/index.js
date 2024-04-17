@@ -1,106 +1,109 @@
 export default {
-    root: {
+    root: ({ state }) => ({
         class: [
             // Shape
             'rounded-lg',
             'shadow-lg',
             'border-0',
-
-            // Positioning
-            'z-40 transform origin-center',
-            'mt-3 absolute left-0 top-0',
-
+            // Size
+            'max-h-[90vh]',
+            'w-[50vw]',
+            'm-0',
             // Color
             'dark:border',
             'dark:border-surface-700',
-            'bg-surface-0 dark:bg-surface-800',
-            'text-surface-700 dark:text-surface-0/80',
-
-            // Before: Arrow
-            'before:absolute before:w-0 before:-top-3 before:h-0 before:border-transparent before:border-solid before:ml-6 before:border-x-[0.75rem] before:border-b-[0.75rem] before:border-t-0 before:border-b-surface-0 dark:before:border-b-surface-800'
+            // Transitions
+            'transform',
+            'scale-100',
+            // Maximized State
+            {
+                'transition-none': state.maximized,
+                'transform-none': state.maximized,
+                '!w-screen': state.maximized,
+                '!h-screen': state.maximized,
+                '!max-h-full': state.maximized,
+                '!top-0': state.maximized,
+                '!left-0': state.maximized
+            }
         ]
+    }),
+    header: {
+        class: ['flex items-center justify-between', 'shrink-0', 'p-6', 'border-t-0', 'rounded-tl-lg', 'rounded-tr-lg', 'bg-surface-0 dark:bg-surface-800', 'text-surface-700 dark:text-surface-0/80']
     },
-    content: {
-        class: 'p-5 items-center flex'
+    title: {
+        class: ['font-bold text-lg']
     },
-    icon: {
-        class: 'text-2xl mr-4'
+    icons: {
+        class: ['flex items-center']
     },
-    footer: {
+    closeButton: {
+        class: ['relative', 'flex items-center justify-center', 'mr-2', 'last:mr-0', 'w-8 h-8', 'border-0', 'rounded-full', 'text-surface-500', 'bg-transparent', 'transition duration-200 ease-in-out', 'hover:text-surface-700 dark:hover:text-white/80', 'hover:bg-surface-100 dark:hover:bg-surface-800/80', 'focus:outline-none focus:outline-offset-0 focus:ring focus:ring-inset', 'focus:ring-primary-400/50 dark:focus:ring-primary-300/50', 'overflow-hidden']
+    },
+    maximizablebutton: {
+        class: ['relative', 'flex items-center justify-center', 'mr-2', 'last:mr-0', 'w-8 h-8', 'border-0', 'rounded-full', 'text-surface-500', 'bg-transparent', 'transition duration-200 ease-in-out', 'hover:text-surface-700 dark:hover:text-white/80', 'hover:bg-surface-100 dark:hover:bg-surface-800/80', 'focus:outline-none focus:outline-offset-0 focus:ring focus:ring-inset', 'focus:ring-primary-400/50 dark:focus:ring-primary-300/50', 'overflow-hidden']
+    },
+    closeButtonIcon: {
+        class: ['inline-block', 'w-4', 'h-4']
+    },
+    maximizableicon: {
+        class: ['inline-block', 'w-4', 'h-4']
+    },
+    content: ({ state, instance }) => ({
         class: [
-            // Flexbox and Alignment
-            'flex items-center justify-end',
-            'shrink-0',
-            'text-right',
-            'gap-2',
-
             // Spacing
             'px-6',
-            'pb-6',
-
+            'pb-8',
+            'pt-0',
             // Shape
-            'border-t-0',
-            'rounded-b-lg',
-
+            {
+                grow: state.maximized,
+                'rounded-bl-lg': !instance.$slots.footer,
+                'rounded-br-lg': !instance.$slots.footer
+            },
             // Colors
             'bg-surface-0 dark:bg-surface-800',
-            'text-surface-700 dark:text-surface-0/80'
+            'text-surface-700 dark:text-surface-0/80',
+            // Misc
+            'overflow-y-auto'
         ]
+    }),
+    footer: {
+        class: ['flex items-center justify-end', 'shrink-0', 'text-right', 'gap-2', 'px-6', 'pb-6', 'border-t-0', 'rounded-b-lg', 'bg-surface-0 dark:bg-surface-800', 'text-surface-700 dark:text-surface-0/80']
     },
-    rejectbutton: {
-        root: {
-            class: [
-                'relative',
-
-                // Alignments
-                'items-center inline-flex text-center align-bottom justify-center',
-
-                // Sizes & Spacing
-                'px-4 py-3 leading-none',
-
-                // Shape
-                'rounded-md',
-
-                // Color
-                'text-primary-500 dark:text-primary-400',
-
-                // States
-                'hover:bg-primary-300/20',
-                'focus:outline-none focus:outline-offset-0 focus:ring',
-                'focus:ring-primary-400/50 dark:focus:ring-primary-300/50'
-            ]
-        }
-    },
-    acceptbutton: {
-        root: {
-            class: [
-                'relative',
-
-                // Alignments
-                'items-center inline-flex text-center align-bottom justify-center',
-
-                // Sizes & Spacing
-                'px-4 py-3 leading-none',
-
-                // Shape
-                'rounded-md',
-
-                // Color
-                'text-white dark:text-surface-900',
-                'bg-primary-500 dark:bg-primary-400',
-                'border border-primary-500 dark:border-primary-400',
-
-                // States
-                'hover:bg-primary-600 dark:hover:bg-primary-300 hover:border-primary-600 dark:hover:border-primary-300',
-                'focus:outline-none focus:outline-offset-0 focus:ring',
-                'focus:ring-primary-400/50 dark:focus:ring-primary-300/50'
-            ]
-        }
-    },
-    transition: {
-        enterFromClass: 'opacity-0 scale-y-[0.8]',
-        enterActiveClass: 'transition-[transform,opacity] duration-[120ms] ease-[cubic-bezier(0,0,0.2,1)]',
-        leaveActiveClass: 'transition-opacity duration-100 ease-linear',
-        leaveToClass: 'opacity-0'
+    mask: ({ props }) => ({
+        class: [
+            // Transitions
+            'transition-all',
+            'duration-300',
+            { 'p-5': !props.position == 'full' },
+            // Background and Effects
+            { 'has-[.mask-active]:bg-transparent bg-black/40': props.modal, 'has-[.mask-active]:backdrop-blur-none backdrop-blur-sm': props.modal }
+        ]
+    }),
+    transition: ({ props }) => props.position === 'top' ? {
+        enterFromClass: 'opacity-0 scale-75 translate-x-0 -translate-y-full translate-z-0 mask-active',
+        enterActiveClass: 'transition-all duration-200 ease-out',
+        leaveActiveClass: 'transition-all duration-200 ease-out',
+        leaveToClass: 'opacity-0 scale-75 translate-x-0 -translate-y-full translate-z-0 mask-active'
+    } : props.position === 'bottom' ? {
+        enterFromClass: 'opacity-0 scale-75 translate-y-full mask-active',
+        enterActiveClass: 'transition-all duration-200 ease-out',
+        leaveActiveClass: 'transition-all duration-200 ease-out',
+        leaveToClass: 'opacity-0 scale-75 translate-x-0 translate-y-full translate-z-0 mask-active'
+    } : props.position === 'left' || props.position === 'topleft' || props.position === 'bottomleft' ? {
+        enterFromClass: 'opacity-0 scale-75 -translate-x-full translate-y-0 translate-z-0 mask-active',
+        enterActiveClass: 'transition-all duration-200 ease-out',
+        leaveActiveClass: 'transition-all duration-200 ease-out',
+        leaveToClass: 'opacity-0 scale-75  -translate-x-full translate-y-0 translate-z-0 mask-active'
+    } : props.position === 'right' || props.position === 'topright' || props.position === 'bottomright' ? {
+        enterFromClass: 'opacity-0 scale-75 translate-x-full translate-y-0 translate-z-0 mask-active',
+        enterActiveClass: 'transition-all duration-200 ease-out',
+        leaveActiveClass: 'transition-all duration-200 ease-out',
+        leaveToClass: 'opacity-0 scale-75 translate-x-full translate-y-0 translate-z-0 mask-active'
+    } : {
+        enterFromClass: 'opacity-0 scale-75 mask-active',
+        enterActiveClass: 'transition-all duration-200 ease-out',
+        leaveActiveClass: 'transition-all duration-200 ease-out',
+        leaveToClass: 'opacity-0 scale-75 mask-active'
     }
 };

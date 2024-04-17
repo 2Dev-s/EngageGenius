@@ -15,6 +15,7 @@ class Post extends Model
         'title',
         'description',
         'tags',
+        "thumbnail_path",
         'publish_date',
         'post_to_twitter',
         'post_to_pinterest',
@@ -45,6 +46,10 @@ class Post extends Model
         foreach ($photos as $photo) {
             PostPhoto::where(['id' => $photo['id']])->update(['order' => $photo['position']]);
         }
+    }
+
+    public function setThumbnail(){
+
     }
     public function team()
     {

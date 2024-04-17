@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('description');
             $table->text('tags')->nullable();
             $table->dateTime("publish_date")->default(now());
-
+            $table->string('thumbnail_path')->nullable();
             $table->boolean('post_to_twitter')->default(false);
             $table->boolean('post_to_pinterest')->default(false);
             $table->boolean('post_to_linkedin')->default(false);
