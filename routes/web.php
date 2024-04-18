@@ -22,6 +22,13 @@ Route::prefix('/minishop')->group(function () {
     Route::get('/orders', [MiniShopController::class, 'orders'])->name('minishop.orders');
 });
 
+Route::get("/tos", function () {
+    dd('tos');
+})->name('tos')
+;
+Route::get("/privacy-policy", function () {
+    dd('privacy-policy');
+})->name('privacy.policy');
 /* Route::get('/subUserTest', function () {
     $user = Auth::user();
 

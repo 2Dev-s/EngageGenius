@@ -3,16 +3,40 @@
         <div class="container mx-auto h-fit">
             <div class="flex flex-col gap-4 h-full sm:h-screen">
                 <div class="flex flex-col items-center gap-4 mt-5">
-                    <InputText placeholder="Search" id="searchQ"
-                        class="pl-10 w-full dark:bg-gray-800 dark:border-gray-700" v-model="searchQuery"
-                        @change="filter()" />
+                    <IconField iconPosition="left" class="w-full" :pt="{
+                        root: ({ props }) => ({
+                            class: [
+                                'relative',
+                                '[&>input]:w-full',
+                                '[&>*:first-child]:absolute',
+                                '[&>*:first-child]:top-1/2',
+                                '[&>*:first-child]:-mt-2',
+                                '[&>*:first-child]:leading-none',
+                                '[&>*:first-child]:text-surface-900/60 dark:[&>*:first-child]:text-white/60',
+                                {
+                                    '[&>*:first-child]:right-3': props.iconPosition === 'right',
+                                    '[&>*:first-child]:left-3': props.iconPosition === 'left'
+                                },
+                                {
+                                    '[&>*:last-child]:pr-10': props.iconPosition === 'right',
+                                    '[&>*:last-child]:pl-10': props.iconPosition === 'left'
+                                }
+                            ]
+                        })
+                    }">
+                        <InputIcon>
+                            <i class="pi pi-search" />
+                        </InputIcon>
+                        <InputText placeholder="Search" id="searchQ"
+                            class="pl-10 w-full dark:bg-gray-800 dark:border-gray-700" v-model="searchQuery"
+                            @change="filter()" />
+                    </IconField>
 
                     <div class="flex w-full gap-5 align-middle justify-center flex-wrap ">
-                        <Calendar v-model="publish_date" selectionMode="range" @change="filter()" :manualInput="false"
-                            class="flex-2" :pt="{
-                                input: 'dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300 rounded h-12',
-                                panel: 'dark:bg-gray-800 dark:border-gray-700 text-white',
-                            }" />
+
+                        <Calendar v-model="publish_date" selectionMode="range" @date-select="filter()" @clear-click="filter()" 
+                            :manualInput="false" class="flex w-fit " :numberOfMonths="2" :showButtonBar="true" />
+
                         <Dropdown :options="props.campains" @change="filter()" optionLabel="title" optionValue="id"
                             v-model="campain" placeholder="Select a Campain"
                             class="dark:bg-gray-800 dark:border-gray-700 h-12" filter showClear :pt="{
@@ -147,6 +171,7 @@
                                     leaveToClass: 'opacity-0'
                                 }
                             }" />
+
                         <MultiSelect placeholder="Select Socials" @change="filter()" :options="props.socials"
                             v-model="socials" display="chip" class="dark:bg-gray-800 dark:border-gray-700 h-12" :pt="{
                                 panel: 'dark:bg-gray-800 dark:border-gray-700 text-white',
@@ -156,8 +181,9 @@
                                 },
                             }" />
 
-                        <ToggleButton onLabel="Published" offLabel="Not Published" @change="filter()"
-                            class="dark:bg-gray-800 dark:border-gray-700 h-12" v-model="publish_state" />
+                        <SelectButton v-model="publish_state" :options="publishFilterOptions" optionLabel="label"
+                            optionValue="value" aria-labelledby="basic" class="rounded-md h-12" @change="filter()" />
+
                         <Chips v-model="tags" class="dark:bg-gray-800 dark:border-gray-700 " :pt="{
                             token: {
                                 class: ['inline-flex items-center', 'py-1.5 px-3', 'rounded-[1.14rem]', 'text-surface-700 dark:text-white/70', 'bg-surface-200 dark:bg-surface-700']
@@ -198,7 +224,7 @@
                                     'appearance-none'
                                 ]
                             })
-                        }" />
+                        }" @add="filter()" @remove="filter()" />
                     </div>
                 </div>
 
@@ -733,13 +759,18 @@ import Tag from 'primevue/tag';
 import ConfirmDialog from 'primevue/confirmdialog';
 import { useConfirm } from "primevue/useconfirm";
 
+import IconField from 'primevue/iconfield';
+import InputIcon from 'primevue/inputicon';
+
+import SelectButton from 'primevue/selectbutton'
+    ;
 const props = defineProps(['posts', 'campains', 'socials']);
 
 const searchQuery = ref('');
 const publish_date = ref(null);
 
 const campain = ref(null);
-const publish_state = ref(false);
+const publish_state = ref(null);
 
 const socials = ref([]);
 const tags = ref([]);
@@ -748,27 +779,56 @@ const confirm = useConfirm();
 
 const filteredArray = ref([]);
 
+const publishFilterOptions = [
+    { label: 'Published', value: true },
+    { label: 'Not Published', value: false }
+];
+
 const filter = () => {
-    console.log(campain.value);
     filteredArray.value = props.posts.filter(post => {
 
         let search = true;
         let date = true;
         let campainID = true;
+        let ifPublish = true;
+        let socialsState = true;
+        let hasTags = true;
 
         if (searchQuery.value) {
             search = post.title.toLowerCase().includes(searchQuery.value.toLowerCase()) || post.description.toLowerCase().includes(searchQuery.value.toLowerCase());
         }
 
-        /*         if (campain.value != 0 || campain.value != null){;
-                    campainID = post.campain_id === campain.value;
-                } */
-        /* 
-                if ( publish_date.value[0]){
-                    date = post.publish_date >= publish_date.value[0] && post.publish_date <= publish_date.value[1];
-                } */
+        if (publish_state.value != null) {
+            ifPublish = post.published == publish_state.value;
+        }
 
-        return search && date && campainID;
+        if (campain.value != null) {
+            ;
+            campainID = post.campain_id == campain.value;
+        }
+
+        if (socials.value.length > 0) {
+            socialsState = socials.value.every(social => post[social] == 1);
+        }
+
+        if (publish_date.value != null) {
+
+            const dateFrom = new Date(publish_date.value[0]);
+
+            const dateCheck = new Date(post.publish_date);
+
+            date = dateCheck >= dateFrom;
+
+            if (publish_date.value[1]) {
+                date = dateCheck >= dateFrom && dateCheck <= new Date(publish_date.value[1]);
+            }
+        }
+
+        if (tags.value.length > 0) {
+            hasTags = tags.value.every(tag => post.tags.includes(tag));
+        }
+
+        return search && ifPublish && campainID && socialsState && date && hasTags;
     });
 }
 
@@ -812,7 +872,7 @@ const getCampainName = (id) => {
 
 const determineTumnail = (post) => {
     if (post.thumbnail_path) {
-        return '/storage/' + post.thumbnail_path;
+        return '/storage' + post.thumbnail_path;
     }
     return "https://via.placeholder.com/600x400";
 }
