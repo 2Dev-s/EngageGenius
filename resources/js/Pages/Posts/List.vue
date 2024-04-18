@@ -746,24 +746,18 @@ import { onMounted, ref } from 'vue'
 import DataView from 'primevue/dataview';
 import Card from 'primevue/card';
 import Chips from 'primevue/chips';
-
 import Calendar from 'primevue/calendar';
 import MultiSelect from 'primevue/multiselect';
-import ToggleButton from 'primevue/togglebutton';
 import Dropdown from 'primevue/dropdown';
 import InputText from 'primevue/inputtext';
-
 import SpeedDial from 'primevue/speeddial';
-import Tag from 'primevue/tag';
-
 import ConfirmDialog from 'primevue/confirmdialog';
 import { useConfirm } from "primevue/useconfirm";
-
+import Tag from 'primevue/tag';
 import IconField from 'primevue/iconfield';
 import InputIcon from 'primevue/inputicon';
+import SelectButton from 'primevue/selectbutton';
 
-import SelectButton from 'primevue/selectbutton'
-    ;
 const props = defineProps(['posts', 'campains', 'socials']);
 
 const searchQuery = ref('');
