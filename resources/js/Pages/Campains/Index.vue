@@ -1,7 +1,5 @@
 <template>
-    <UserLayout>
 
-    </UserLayout>
 </template>
 
 <script>
@@ -12,6 +10,7 @@ export default {
     setup () {
         return {}
     },
+    layout: [UserLayout],
     components: {
         UserLayout
     }

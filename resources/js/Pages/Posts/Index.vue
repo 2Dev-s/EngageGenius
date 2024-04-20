@@ -4,12 +4,14 @@ import { createCalendar, viewMonthGrid } from '@schedule-x/calendar'
 import '@schedule-x/theme-default/dist/index.css'
 
 import { ref } from 'vue'
+import { Link } from '@inertiajs/vue3';
 
 export default {
     props: {
         posts: Array,
         campaigns: Array,
     },
+    layout: [UserLayout],
     data: () => ({
         calendar: null,
         calendarCampain: null,
@@ -66,20 +68,20 @@ export default {
         this.calendarCampain.render(this.$refs.calendarCampainRef)
     },
     components: {
-        UserLayout
+        UserLayout,
+        Link
     }
 }
 </script>
 
 <template>
-    <UserLayout>
         <div class="container mx-auto flex flex-col md:flex-row gap-4 h-full sm:h-screen">
             <div class="flex flex-col flex-3 h-full w-full rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 gap-5 px-4 py-4">
                 <div class="flex flex-col gap-2 ">
                     <div class="flex justify-center gap-4">
-                        <a class="bg-blue-800 py-2 rounded-xl w-full text-sm text-center" :href="route('posts.create')">Create Post</a>
-                        <a class="bg-blue-800 py-2 rounded-xl w-full text-sm text-center" :href="route('posts.list')">Edit Posts</a>
-                        <a class="bg-blue-800 py-2 rounded-xl w-full text-sm text-center" :href="route('posts.list')">Delete Posts</a>
+                        <Link class="bg-blue-800 py-2 rounded-xl w-full text-sm text-center" :href="route('posts.create')">Create Post</Link>
+                        <Link class="bg-blue-800 py-2 rounded-xl w-full text-sm text-center" :href="route('posts.list')">Edit Posts</Link>
+                        <Link class="bg-blue-800 py-2 rounded-xl w-full text-sm text-center" :href="route('posts.list')">Delete Posts</Link>
                     </div>
                 </div>
                 <div id="calendarCampain" ref="calendarCampainRef" />
@@ -88,15 +90,14 @@ export default {
             <div class="flex flex-col flex-3 h-full w-full rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 gap-5 px-4 py-4">
                 <div class="flex flex-col gap-2 ">
                     <div class="flex justify-center gap-4">
-                        <a class="bg-blue-800 py-2 rounded-xl w-full text-sm text-center" :href="route('campains.create')">Create Campain</a>
-                        <a class="bg-blue-800 py-2 rounded-xl w-full text-sm text-center" :href="route('campains.list')">Edit Campains</a>
-                        <a class="bg-blue-800 py-2 rounded-xl w-full text-sm text-center" :href="route('campains.list')">Delete Campains</a>
+                        <Link class="bg-blue-800 py-2 rounded-xl w-full text-sm text-center" :href="route('campains.create')">Create Campain</Link>
+                        <Link class="bg-blue-800 py-2 rounded-xl w-full text-sm text-center" :href="route('campains.list')">Edit Campains</Link>
+                        <Link class="bg-blue-800 py-2 rounded-xl w-full text-sm text-center" :href="route('campains.list')">Delete Campains</Link>
                     </div>
                 </div>
                 <div id="calendar" ref="calendarRef" />
             </div>
         </div>
-    </UserLayout>
 </template>
 
 

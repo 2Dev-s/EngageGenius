@@ -1,5 +1,4 @@
 <template>
-    <UserLayout>
         <div class="container mx-auto flex flex-col gap-5">
             <FormCard :FormData="FormData" :templates="promptTamplates"/>
             <div class="flex justify-end gap-4">
@@ -9,7 +8,6 @@
                     Campain</button>
             </div>
         </div>
-    </UserLayout>
 </template>
 
 <script>
@@ -22,6 +20,7 @@ export default {
     setup() {
         return {}
     },
+    layout: [UserLayout],
     data() {
         return {
             FormData: useForm({

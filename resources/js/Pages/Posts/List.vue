@@ -1,5 +1,5 @@
 <template>
-    <UserLayout>
+
         <div class="container mx-auto">
             <div class="flex flex-col gap-4 h-full">
                 <div class="flex flex-col items-center gap-4 mt-5">
@@ -623,7 +623,6 @@
                 </Card>
             </div>
         </div>
-    </UserLayout>
 
     <ConfirmDialog class="bg-gray-900 text-white " :pt="{
         root: ({ state }) => ({
@@ -735,7 +734,7 @@
         }
     }">
     </ConfirmDialog>
-
+    
 </template>
 
 
@@ -758,6 +757,7 @@ import IconField from 'primevue/iconfield';
 import InputIcon from 'primevue/inputicon';
 import SelectButton from 'primevue/selectbutton';
 
+defineOptions({ layout: UserLayout })
 const props = defineProps(['posts', 'campains', 'socials']);
 
 const searchQuery = ref('');

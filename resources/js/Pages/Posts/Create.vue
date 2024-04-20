@@ -4,6 +4,8 @@ import FromCard from '@/Components/Posts/FormCard.vue';
 import PreviewCard from '@/Components/Posts/PreviewCard.vue';
 import { useForm } from '@inertiajs/vue3'
 
+defineOptions({ layout: UserLayout });
+
 const createFrom = useForm({
     title: '',
     description: '',
@@ -29,10 +31,8 @@ const submitFunction = () => {
 </script>
 
 <template>
-    <UserLayout title="Posts">
-        <div class="container mx-auto flex flex-col lg:flex-row gap-5 ">
-            <FromCard :PostForm="createFrom" FormPostRoute="posts.store" @submitForm="submitFunction()" />
-            <PreviewCard :formData="createFrom" />
-        </div>
-    </UserLayout>
+    <div class="container mx-auto flex flex-col lg:flex-row gap-5 ">
+        <FromCard :PostForm="createFrom" FormPostRoute="posts.store" @submitForm="submitFunction()" />
+        <PreviewCard :formData="createFrom" />
+    </div>
 </template>

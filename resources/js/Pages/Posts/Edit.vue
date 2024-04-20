@@ -6,6 +6,7 @@ import { useForm } from '@inertiajs/vue3'
 import { onMounted } from 'vue';
 
 const props = defineProps(['post']);
+defineOptions({ layout: UserLayout });
 
 const EditForm = useForm({
     id: null,
@@ -59,10 +60,8 @@ onMounted(() => {
 </script>
 
 <template>
-    <UserLayout title="Posts">
         <div class="container mx-auto flex flex-col lg:flex-row gap-5 ">
             <FromCard :PostForm="EditForm" FormPostRoute="posts.update" @submitForm="submitFunction()" />
             <PreviewCard :formData="EditForm" />
         </div>
-    </UserLayout>
 </template>
