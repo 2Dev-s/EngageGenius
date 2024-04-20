@@ -1,17 +1,33 @@
 <template>
-    <aside class="w-60 -translate-x-48 bg-gray-900 p-4 fixed transition transform ease-in-out duration-1000 z-50 flex h-screen" :class="{
-            '-translate-x-48' : !props.state,
-            'translate-x-0' : props.state,
-        }">
-        
+    <aside class="w-60 bg-gray-900 p-4 fixed transition transform ease-in-out duration-1000 z-50 flex h-screen" :class="{
+        '-translate-x-48': !props.state,
+        'translate-x-0': props.state,
+    }">
+
+        <div class="w-full transition transform ease-in duration-300 flex items-center justify-between border-4 border-none absolute top-2 rounded-full h-12"
+            :class="{
+                'translate-x-30': props.state,
+                'translate-x-0': !props.state,
+                'scale-x-0': !props.state,
+            }">
+
+            <div class="flex pl-4 items-center space-x-2 ">
+                <div class="text-white font-extrabold text-xl">
+                    <a :href="route('home')">
+                        {{ app_name }}
+                    </a>
+                </div>
+            </div>
+        </div>
+
         <ToggleSIdeBarButton :state="props.state" @toggle-sidebar="emit('toggle-sidebar')" />
 
         <!-- MAX SIDEBAR-->
-        <div class="max hidden mt-20 flex-col space-y-2 w-full h-[calc(100vh)]" :class="{
-            'flex': props.state.value,
-            'hidden': !props.state.value,
+        <div class="max mt-20 flex-col space-y-2 w-full h-[calc(100vh)]" :class="{
+            'flex': props.state,
+            'hidden': !props.state,
         }">
-            <a :href=" route('home')"
+            <a :href="route('home')"
                 class="flex items-center p-2 text-white rounded-lg bg-gray-800 hover:bg-gray-950 group transition-all">
                 <svg class="w-6 h-6 transition duration-75 group-hover:text-gray-500" viewBox="0 0 24 24" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
@@ -106,9 +122,9 @@
             </a>
         </div>
 
-        <div class="mini mt-20 flex flex-col space-y-2 w-full h-[calc(100vh)]" :class="{
-            'flex': !props.state.value,
-            'hidden': props.state.value,
+        <div class="mini mt-20  flex-col space-y-2 w-full h-[calc(100vh)]" :class="{
+            'flex': !props.state,
+            'hidden': props.state,
         }">
             <a :href="route('home')"
                 class="hover:ml-8 justify-end  ml-2 text-gray-500 w-full bg-gray-800 p-3 rounded-lg shadow-xl transform ease-in-out duration-300 flex">
@@ -208,6 +224,40 @@ import ToggleSIdeBarButton from '@/Components/Layout/Sidebar/ToggleSIdeBarButton
 const props = defineProps(['state']);
 const emit = defineEmits(['toggle-sidebar']);
 
+const app_name = import.meta.env.VITE_APP_NAME;
+
+const Links = [
+    {
+        name: 'Home',
+        route: 'home',
+        icon: 'home',
+    },
+    {
+        name: 'Mini Shop',
+        route: 'minishop',
+        icon: 'shopping-cart',
+    },
+    {
+        name: 'Orders',
+        route: 'minishop.orders',
+        icon: 'shopping-bag',
+    },
+    {
+        name: 'Short URL',
+        route: 'shorturl',
+        icon: 'link',
+    },
+    {
+        name: 'Pricing',
+        route: 'pricing',
+        icon: 'cash',
+    },
+    {
+        name: 'Posts',
+        route: 'posts',
+        icon: 'newspaper',
+    },
+];
 </script>
 
 <style lang="scss" scoped></style>
