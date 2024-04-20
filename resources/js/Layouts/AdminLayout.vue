@@ -15,7 +15,6 @@ import Banner from '@/Components/Banner.vue';
                             fill='currentColor' fill-rule='evenodd' />
                     </svg>
 
-
                     <div>Loading ...</div>
                 </div>
             </div>

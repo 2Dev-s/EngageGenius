@@ -1,44 +1,48 @@
 <script setup>
-import Dropdown from '@/Components/Dropdown.vue';
-import DropdownLink from '@/Components/DropdownLink.vue';
+import { ref } from 'vue';
 
-import { router } from '@inertiajs/vue3';
 import Banner from '@/Components/Banner.vue';
 import Toast from 'primevue/toast';
 
 import TopBar from '@/Components/Layout/TopBar.vue';
 import Sidebar from '@/Components/Layout/Sidebar/Sidebar.vue';
 import AnimatedBubbles from '@/Components/Layout/AnimatedBubbles.vue';
-</script> 
+
+const sideBarState = ref(false);
+const chanegState = () => {
+    sideBarState.value = !sideBarState.value;
+};
+
+</script>
 
 <template>
     <Banner />
 
-    <body class="body bg-black min-h-screen">
-        <TopBar />
-        <Sidebar />
+    <body class="body bg-black min-h-screen h-auto">
+        <TopBar :sideBarState="sideBarState"/>
+        <Sidebar :state="sideBarState" @toggle-sidebar="chanegState()"/>
         <AnimatedBubbles />
 
-        <div class="content ml-12 transform ease-in-out duration-500 pt-20 px-2 md:px-5 pb-4 ">
-            <div class="px-5 py-3 text-white rounded-lg w-full">
+        <div class="content ml-12 transform ease-in-out duration-500 pt-20 px-2 md:px-5 pb-4 h-full" :class="{
+            'ml-12': !sideBarState,
+            'md:ml-60': sideBarState
+        }">
+            <slot />
+            <div class="px-5 py-3 text-white rounded-lg w-full h-full">
                 <slot />
             </div>
         </div>
 
-        <Toast position="bottom-right"/>
+        <Toast position="bottom-right" />
     </body>
 </template>
 
 
 <script>
 export default {
-    props: {
-        userIsSubscribed: Boolean,
-        userIsOnTrial: Boolean,
-    },
     data() {
         return {
-            userTeamTreasholdReached : Boolean || true,
+            userTeamTreasholdReached: Boolean || true,
             sidebar: null,
             maxSidebar: null,
             miniSidebar: null,
@@ -68,20 +72,6 @@ export default {
     },
 
     methods: {
-        switchToTeam(team) {
-            router.put(route('current-team.update'), {
-                team_id: team.id,
-            }, {
-                preserveState: false,
-            });
-        },
-        checkSubscriptionStatus () {
-            return  true;
-        },
-
-        logout() {
-            router.post(route('logout'));
-        },
 
         setDark(val) {
             if (val === "dark") {
@@ -106,8 +96,6 @@ export default {
                 this.maxToolbar.classList.add("translate-x-0")
                 this.maxToolbar.classList.remove("translate-x-24", "scale-x-0")
                 this.logo.classList.remove("ml-12")
-                this.content.classList.remove("ml-12")
-                this.content.classList.add("ml-12", "md:ml-60")
             } else {
                 this.sidebar.classList.add("-translate-x-48")
                 this.sidebar.classList.remove("translate-x-none")
@@ -118,13 +106,15 @@ export default {
                 this.maxToolbar.classList.add("translate-x-24", "scale-x-0")
                 this.maxToolbar.classList.remove("translate-x-0")
                 this.logo.classList.add('ml-12')
-                this.content.classList.remove("ml-12", "md:ml-60")
-                this.content.classList.add("ml-12")
-
             }
         }
     },
 }
 </script>
 
-
+<style>
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+</style>

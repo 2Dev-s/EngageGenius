@@ -1,7 +1,7 @@
 <template>
     <UserLayout>
-        <div class="container mx-auto h-fit">
-            <div class="flex flex-col gap-4 h-full sm:h-screen">
+        <div class="container mx-auto">
+            <div class="flex flex-col gap-4 h-full">
                 <div class="flex flex-col items-center gap-4 mt-5">
                     <IconField iconPosition="left" class="w-full" :pt="{
                         root: ({ props }) => ({
@@ -848,7 +848,6 @@ const makeSpeedDialData = (post) => {
         { label: 'Delete Post', icon: 'pi pi-trash', command: () => { createConfrimDeletePost(post) } },
         { label: 'Publish Post', icon: 'pi pi-send', command: () => { console.log('Publish') } },
         { label: 'Edit Post', icon: 'pi pi-pencil', command: () => { window.location = route("posts.edit", post.id) } },
-
     ];
 }
 
@@ -858,7 +857,7 @@ const getCampainName = (id) => {
         if (campainTitle) {
             return campainTitle;
         }
-    }
+}
 
 
     return "No Campain";
