@@ -6,7 +6,6 @@ import UserLayout from '@/Layouts/UserLayout.vue';
 </script>
 
 <template>
-    <UserLayout>
         <div class="relative px-6 lg:px-8 overflow-hidden">
             <div class="mx-auto max-w-3xl pt-20 pb-32 sm:pt-48 sm:pb-40">
                 <div class="hidden sm:mb-8 sm:flex sm:justify-center">
@@ -45,11 +44,11 @@ import UserLayout from '@/Layouts/UserLayout.vue';
                 </div>
             </div>
         </div>
-    </UserLayout>
 </template>
 
 <script>
 export default {
+    layout: [UserLayout],
     props: {
         userIsSubscribed: Boolean,
         userIsOnTrial: Boolean,

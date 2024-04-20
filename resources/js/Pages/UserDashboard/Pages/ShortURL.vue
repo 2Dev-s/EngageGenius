@@ -10,7 +10,6 @@ import { useForm } from '@inertiajs/vue3';
 </script>
 
 <template>
-    <UserLayout>
         <div class="mx-auto max-w-4xl rounded-2xl py-6 px-6">
             <div class="mb-4">
                 <div v-if="!short_url">
@@ -82,7 +81,6 @@ import { useForm } from '@inertiajs/vue3';
                 </div>
             </form>
         </div>
-    </UserLayout>
 </template>
 
 <script>
@@ -91,7 +89,7 @@ export default {
     props: {
         short_url: String
     },
-
+    layout: [UserLayout],
     data() {
         return {
             form: useForm({

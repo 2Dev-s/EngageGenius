@@ -3,7 +3,7 @@ import UserLayout from '@/Layouts/UserLayout.vue';
 </script>
 
 <template>
-    <UserLayout>
+
         <div class="relative px-6 lg:px-8">
             <div class="mx-auto max-w-5xl pt-6 pb-32 sm:pt-28">
                 <div>
@@ -227,7 +227,6 @@ import UserLayout from '@/Layouts/UserLayout.vue';
                 </div>
             </div>
         </div>
-    </UserLayout>
 </template>
 
 <script>
@@ -237,5 +236,6 @@ export default {
             app_name: import.meta.env.VITE_APP_NAME,
         }
     },
+    layout: [UserLayout],
 }
 </script>

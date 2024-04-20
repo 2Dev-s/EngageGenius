@@ -12,7 +12,7 @@ import { useForm } from '@inertiajs/vue3';
 </script>
 
 <template>
-    <UserLayout>
+
         <div class="mx-auto max-w-4xl rounded-2xl py-6 px-6">
             <div class="mb-4">
                 <p class="text-lg leading-8 text-cyan-500 font-extrabold sm:text-center">
@@ -237,7 +237,6 @@ import { useForm } from '@inertiajs/vue3';
                 </div>
             </div>
         </div>
-    </UserLayout>
 </template>
 
 <script>
@@ -248,7 +247,7 @@ export default {
         shares_price: Number,
         saves_price: Number
     },
-
+    layout: [UserLayout],
     data() {
         return {
             app_name: import.meta.env.VITE_APP_NAME,

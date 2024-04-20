@@ -3,7 +3,7 @@ import UserLayout from '@/Layouts/UserLayout.vue';
 </script>
 
 <template>
-    <UserLayout>
+
         <div class="mx-auto rounded-2xl py-6 px-6">
             <div class="px-6 py-6">
                 <h1 class="text-4xl font-extrabold">Orders</h1>
@@ -105,11 +105,12 @@ import UserLayout from '@/Layouts/UserLayout.vue';
 
             </div>
         </div>
-    </UserLayout>
+
 </template>
 
 <script>
 export default {
+    layout: [UserLayout],
     props: {
         orders: Array
     }
