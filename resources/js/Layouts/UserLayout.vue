@@ -19,15 +19,14 @@ const chanegState = () => {
     <Banner />
 
     <body class="body bg-black min-h-screen h-auto">
-        <TopBar :sideBarState="sideBarState"/>
-        <Sidebar :state="sideBarState" @toggle-sidebar="chanegState()"/>
+        <TopBar :sideBarState="sideBarState" />
+        <Sidebar :state="sideBarState" @toggle-sidebar="chanegState()" />
         <AnimatedBubbles />
 
         <div class="content ml-12 transform ease-in-out duration-500 pt-20 px-2 md:px-5 pb-4 h-full" :class="{
             'ml-12': !sideBarState,
             'md:ml-60': sideBarState
         }">
-            <slot />
             <div class="px-5 py-3 text-white rounded-lg w-full h-full">
                 <slot />
             </div>

@@ -1,29 +1,13 @@
 <template>
-    <aside
-        class="w-60 -translate-x-48 bg-gray-900 p-4 fixed transition transform ease-in-out duration-1000 z-50 flex h-screen" :class="{
+    <aside class="w-60 -translate-x-48 bg-gray-900 p-4 fixed transition transform ease-in-out duration-1000 z-50 flex h-screen" :class="{
             '-translate-x-48' : !props.state,
             'translate-x-0' : props.state,
         }">
-        <div
-            class="max-toolbar translate-x-24 scale-x-0 w-full -right-6 transition transform ease-in duration-300 flex items-center justify-between border-4 border-none absolute top-2 rounded-full h-12" 
-            :class="{
-                'translate-x-24 scale-x-0' : !props.state,
-                'translate-x-0 scale-x-100' : props.state,
-            }">
-
-            <div class="flex pl-4 items-center space-x-2 ">
-                <div class="text-white font-extrabold text-xl">
-                    <a :href="route('home')">
-                        {{ app_name }}
-                    </a>
-                </div>
-            </div>
-        </div>
-
+        
         <ToggleSIdeBarButton :state="props.state" @toggle-sidebar="emit('toggle-sidebar')" />
 
         <!-- MAX SIDEBAR-->
-        <div class="max hidden mt-20 flex-col space-y-2 w-full h-[calc(100vh)]" id="max" :class="{
+        <div class="max hidden mt-20 flex-col space-y-2 w-full h-[calc(100vh)]" :class="{
             'flex': props.state.value,
             'hidden': !props.state.value,
         }">
@@ -122,7 +106,7 @@
             </a>
         </div>
 
-        <div class="mini mt-20 flex flex-col space-y-2 w-full h-[calc(100vh)]" id="mini" :class="{
+        <div class="mini mt-20 flex flex-col space-y-2 w-full h-[calc(100vh)]" :class="{
             'flex': !props.state.value,
             'hidden': props.state.value,
         }">
