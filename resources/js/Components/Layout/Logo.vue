@@ -3,14 +3,15 @@
         :class="{
             'ml-12': !props.sideBarState,
         }">
-        <a :href="route('home')">
+        <Link :href="route('home')">
             {{ app_name }}
-        </a>
+        </Link>
     </div>
 </template>
 
 <script setup>
-const app_name = import.meta.env.VITE_APP_NAME;
+import { Link } from '@inertiajs/vue3';
 
+const app_name = import.meta.env.VITE_APP_NAME;
 const props = defineProps(['sideBarState']);
 </script>
