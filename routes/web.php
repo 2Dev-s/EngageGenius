@@ -1,9 +1,10 @@
 <?php
 
+use Inertia\Inertia;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MiniShopController;
 use App\Http\Controllers\ShortURLController;
 
@@ -22,13 +23,14 @@ Route::prefix('/minishop')->group(function () {
     Route::get('/orders', [MiniShopController::class, 'orders'])->name('minishop.orders');
 });
 
-Route::get("/tos", function () {
-    dd('tos');
-})->name('tos')
+Route::get("/TearmsOfService", function () {
+    return Inertia::render('Legal/TearmsOfService');
+})->name('tearms.of.service');
 ;
-Route::get("/privacy-policy", function () {
-    dd('privacy-policy');
+Route::get("/Privacy-policy", function () {
+    return Inertia::render('Legal/PrivacyPolicy');
 })->name('privacy.policy');
+
 /* Route::get('/subUserTest', function () {
     $user = Auth::user();
 
