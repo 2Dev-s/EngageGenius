@@ -42,8 +42,9 @@ class CampainController extends Controller
     }
     public function list()
     {
+        $templates = PromptTamplate::all();
         $campains = Auth::user()->currentTeam->campains;
-        return inertia::render('Campains/List', ['campains' => $campains]);
+        return inertia::render('Campains/List', ['campains' => $campains,"templates" => $templates]);
     }
 
     public function store(Request $request)

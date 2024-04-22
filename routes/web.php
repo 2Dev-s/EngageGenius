@@ -27,7 +27,7 @@ Route::get("/TearmsOfService", function () {
     return Inertia::render('Legal/TearmsOfService');
 })->name('tearms.of.service');
 ;
-Route::get("/Privacy-policy", function () {
+Route::get("/PrivacyPolicy", function () {
     return Inertia::render('Legal/PrivacyPolicy');
 })->name('privacy.policy');
 

@@ -1,6 +1,7 @@
 <template>
     <div class="container mx-auto">
         <Card class="bg-emerald-800">
+            <template #title> Tearms Of Service </template>
             <template #content>
                 <Accordion :activeIndex="0">
                     <AccordionTab header="SILVA Social Media Marketing Terms & Conditions">
