@@ -27,12 +27,12 @@
                         <i class="pi pi-search" />
                     </InputIcon>
                     <InputText placeholder="Search" class="pl-10 w-full dark:bg-gray-800 dark:border-gray-700"
-                        v-model="searchQuery" />
+                        v-model="searchQuery" @change="filter()"/>
                 </IconField>
 
-                <div class="flex w-full gap-5  justify-center items-center flex-wrap ">
-                    <InputText class="dark:bg-gray-800 dark:border-gray-700 " v-model="niche" />
-                    <Dropdown :options="props.templates" optionLabel="name" optionValue="id" v-model="template"
+                <div class="flex w-full gap-5  items-center flex-wrap ">
+                    <InputText class="dark:bg-gray-800 dark:border-gray-700 " v-model="niche" @change="filter()"/>
+                    <Dropdown :options="props.templates" optionLabel="name" optionValue="id" @change="filter()" v-model="template"
                         placeholder="Select a Tempalte" class="dark:bg-gray-800 dark:border-gray-700 h-12" filter
                         showClear :pt="{
                             root: ({ props, state }) => ({
@@ -167,18 +167,19 @@
                             }
                         }" />
                     <Calendar selectionMode="range" :manualInput="false" class="flex w-fit " :numberOfMonths="2"
-                        :showButtonBar="true" v-model="dateTimeFrame" />
+                        :showButtonBar="true" v-model="dateTimeFrame" @date-select="filter()"
+                        @clear-click="filter()" />
 
                     <IconField iconPosition="left">
                         <InputIcon>
                             <i class="pi pi-search" />
                         </InputIcon>
                         <InputText placeholder="Product Data" class="pl-10 w-full dark:bg-gray-800 dark:border-gray-700"
-                            v-model="productDataSearchQurey" />
+                            v-model="productDataSearchQurey" @change="filter()"/>
                     </IconField>
 
                     <SelectButton :options="endedFilterOptions" v-model="endedFilter" optionLabel="label"
-                        optionValue="value" aria-labelledby="basic" class="rounded-md h-12" />
+                        optionValue="value" aria-labelledby="basic" class="rounded-md h-12" @change="filter()" />
                     <span>
                         <IconField>
                             <InputIcon>
@@ -186,7 +187,7 @@
                             </InputIcon>
                             <InputText v-model.number="campainDiscount" class="w-full" />
                         </IconField>
-                        <Slider v-model="campainDiscount" :pt="{
+                        <Slider v-model="campainDiscount" @change="filter()" :pt="{
                             root: ({ props }) => ({
                                 class: [
                                     'relative',
@@ -307,13 +308,13 @@
                         </InputIcon>
                         <InputText placeholder="Number of Posts"
                             class="pl-10 w-full dark:bg-gray-800 dark:border-gray-700" type="number"
-                            v-model="numberOfPosts" />
+                            v-model="numberOfPosts" @change="filter()"/>
                     </IconField>
                 </div>
             </div>
             <Card class="w-full dark:bg-gray-900 dark:border-gray-700">
                 <template #content>
-                    <DataView :value="props.campains" paginator :rows="10" :pt="{
+                    <DataView :value="sortedCampains" paginator :rows="10" :pt="{
                         paginator: {
                             root: {
                                 class: ['flex items-center justify-center flex-wrap', 'px-4 py-2', 'border-0', 'bg-surface-0 dark:bg-surface-800', 'text-surface-500 dark:text-white/60']
@@ -829,6 +830,8 @@ const endedFilter = ref(null);
 const numberOfPosts = ref(null);
 const campainDiscount = ref(null);
 
+const sortedCampains =  ref([]);
+
 const findTemplate = (id) => {
     return props.templates.find(template => template.id === id);
 }
@@ -859,8 +862,40 @@ const makeSpeedDialData = (campain) => {
     ];
 };
 
+const filter = () => {
+    sortedCampains.value = props.campains.filter(campain => {
+        let result = true;
+        if (searchQuery.value) {
+            result = result && campain.title.toLowerCase().includes(searchQuery.value.toLowerCase());
+        }
+        if (niche.value) {
+            result = result && campain.niche === niche.value;
+        }
+        if (dateTimeFrame.value) {
+            result = result && new Date(campain.start_date) >= dateTimeFrame.value[0] && new Date(campain.end_date) <= dateTimeFrame.value[1];
+        }
+        if (template.value) {
+            result = result && campain.tamplate_id === template.value;
+        }
+        if (productDataSearchQurey.value) {
+            result = result && campain.product_description.toLowerCase().includes(productDataSearchQurey.value.toLowerCase()) || campain.product_features.toLowerCase().includes(productDataSearchQurey.value.toLowerCase());
+        }
+        if (endedFilter.value !== null) {
+            result = result && campain.ended === endedFilter.value;
+        }
+        if (numberOfPosts.value) {
+            result = result && campain.number_of_posts === numberOfPosts.value;
+        }
+        if (campainDiscount.value) {
+            result = result && campain.discount === campainDiscount.value;
+        }
+        return result;
+    });
+};
+
 onMounted(() => {
     console.log(props.campains);
+    filter();
 });
 
 
