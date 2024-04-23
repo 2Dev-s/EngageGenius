@@ -643,6 +643,11 @@
                                             <Tag :value="item.discount + ' %'" icon="pi pi-dollar"
                                                 class="text-white dark:bg-blue-700 bg-blue-700"
                                                 :pt="{ 'value': 'text-bold text-white ml-2' }" />
+
+                                            <Tag :value="item.ended ? 'Ended' : 'Not Ended'" icon="pi pi-times-circle"
+                                                class="text-white dark:bg-blue-700 bg-blue-700"
+                                                :pt="{ 'value': 'text-bold text-white ml-2' }" />
+                                                
                                         </span>
 
                                         <span>
@@ -869,10 +874,10 @@ const filter = () => {
             result = result && campain.title.toLowerCase().includes(searchQuery.value.toLowerCase());
         }
         if (niche.value) {
-            result = result && campain.niche === niche.value;
+            result = result && campain.niche.toLowerCase().includes(niche.value.toLowerCase());
         }
         if (dateTimeFrame.value) {
-            result = result && new Date(campain.start_date) >= dateTimeFrame.value[0] && new Date(campain.end_date) <= dateTimeFrame.value[1];
+            result = result && new Date(campain.start_date) >= dateTimeFrame.value[0] && new Date(campain.end_date) <= dateTimeFrame.value[1] ;
         }
         if (template.value) {
             result = result && campain.tamplate_id === template.value;
@@ -881,7 +886,7 @@ const filter = () => {
             result = result && campain.product_description.toLowerCase().includes(productDataSearchQurey.value.toLowerCase()) || campain.product_features.toLowerCase().includes(productDataSearchQurey.value.toLowerCase());
         }
         if (endedFilter.value !== null) {
-            result = result && campain.ended === endedFilter.value;
+            result = result && campain.ended == endedFilter.value;
         }
         if (numberOfPosts.value) {
             result = result && campain.number_of_posts === numberOfPosts.value;
