@@ -16,8 +16,9 @@ return new class extends Migration
             $table->foreignId('team_id')->constrained()->onDelete('cascade');
             $table->string('twitter_access_token')->nullable();
             $table->string('twitter_access_token_secret')->nullable();
+            $table->json('twitter')->nullable();
             $table->string('pinterest')->nullable();
-            $table->string('linkedin')->nullable();
+            $table->json('linkedin')->nullable();
             $table->string('facebook')->nullable();
             $table->string('instagram')->nullable();
             $table->timestamps();

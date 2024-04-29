@@ -14,7 +14,6 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         Gate::define('create-team', function ($user): bool {return !User::teamSubsciptionTresholdReached();}); // Checks user subsciption for restrictions
-    
     }
 
     /**
@@ -23,5 +22,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
+        
     }
 }

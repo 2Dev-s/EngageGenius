@@ -54,8 +54,6 @@ Route::get("/PrivacyPolicy", function () {
 
 })->name('test'); */
 
-/* /* Route::get('/endpoint', [OpenAiController::class, 'index'])->name('test.endpoint') */
-
 require __DIR__ . '/posts.php';
 require __DIR__ . '/jetstream.php';
 require __DIR__ . '/admin.php';
