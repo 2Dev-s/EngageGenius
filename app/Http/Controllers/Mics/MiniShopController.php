@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Mics;
 
-use App\Models\MiniShop;
-use App\Models\MiniShopOrders;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use App\Models\MiniShop;
+use Illuminate\Http\Request;
+use App\Models\MiniShopOrders;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class MiniShopController extends Controller
 {

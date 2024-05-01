@@ -1,15 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Mics;
 
-use App\Models\ShortURL;
+
 use App\Models\Team;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 use Inertia\Inertia;
+use App\Models\ShortURL;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-
 use function Laravel\Prompts\error;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class ShortURLController extends Controller
 {

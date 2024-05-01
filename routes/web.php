@@ -1,15 +1,17 @@
 <?php
 
 use Inertia\Inertia;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MiniShopController;
-use App\Http\Controllers\ShortURLController;
 
-Route::get('/', [Controller::class, 'index'])->name('home');
-Route::get('/pricing', [Controller::class, 'pricing'])->name('pricing');
+use App\Http\Controllers\Mics\MiniShopController;
+use App\Http\Controllers\Mics\ShortURLController;
+use App\Http\Controllers\Mics\GuestPagesController;
+
+Route::get('/', [GuestPagesController::class, 'index'])->name('home');
+Route::get('/pricing', [GuestPagesController::class, 'pricing'])->name('pricing');
+Route::get("/TearmsOfService",[GuestPagesController::class, 'TermsOfService'])->name('tearms.of.service');
+Route::get("/PrivacyPolicy", [GuestPagesController::class, 'PrivacyPolicy'])->name('privacy.policy');
 
 Route::prefix('/short-url')->group(function () {
     Route::get('/', [ShortURLController::class, 'index'])->name('shorturl');
@@ -23,15 +25,13 @@ Route::prefix('/minishop')->group(function () {
     Route::get('/orders', [MiniShopController::class, 'orders'])->name('minishop.orders');
 });
 
-Route::get("/TearmsOfService", function () {
-    return Inertia::render('Legal/TearmsOfService');
-})->name('tearms.of.service');
-;
-Route::get("/PrivacyPolicy", function () {
-    return Inertia::render('Legal/PrivacyPolicy');
-})->name('privacy.policy');
 
-/* Route::get('/subUserTest', function () {
+
+/* 
+use Illuminate\Support\Facades\Route;
+
+
+Route::get('/subUserTest', function () {
     $user = Auth::user();
 
     $subscription = $user->subscriptions()->create([

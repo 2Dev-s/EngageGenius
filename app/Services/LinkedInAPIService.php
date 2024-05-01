@@ -2,8 +2,7 @@
 
 namespace App\Services;
 
-
-
+use App\Models\Post;
 use LinkedInscr\Exception;
 use Illuminate\Http\Request;
 
@@ -15,6 +14,7 @@ use PhpParser\Node\Stmt\TryCatch;
 class LinkedInAPIService
 {
     private $client;
+    private const USERIDPREFIX = 'urn:li:person:';
     public function __construct()
     {
         $this->client = App::make('LinkedInAPIClient');
@@ -62,15 +62,9 @@ class LinkedInAPIService
         return;
     }
 
-    public function shere()
+
+    public function getAuthorURNId()
     {
-        $team = Auth::user()->currentTeam;
-        $socialData = $team->socialData;
-        $accessTokenData = json_decode($socialData->linkedin, true);
-        $accessToken = new AccessToken($accessTokenData['token'], $accessTokenData['expiresAt']);
-
-        $this->client->setAccessToken($accessToken);
-
 
         try {
             $profile = $this->client->get(
@@ -80,41 +74,78 @@ class LinkedInAPIService
             dd($e);
         }
 
+        return self::USERIDPREFIX . $profile['sub'];
+    }
+
+    public function handleMedia(Post $post)
+    {
+        $photos = $post->photos;
+        $media = [];
+        foreach ($photos as $photo) {
+            dump(public_path($photo['path']));
+            $media[] = [];
+        }
+        return $media;
+    }
+    public function shere()
+    {
+        $team = Auth::user()->currentTeam;
+        $socialData = $team->socialData;
+        $accessTokenData = json_decode($socialData->linkedin, true);
+        $accessToken = new AccessToken($accessTokenData['token'], $accessTokenData['expiresAt']);
+        $this->client->setAccessToken($accessToken);
+
+        $post = Post::find(51)->first();
+
+        dd($post->photos);
+
+        $payLoad = [
+            'author' => 'urn:li:person:' . $this->getAuthorURNId(),
+            "lifecycleState" => "PUBLISHED",
+            "specificContent" => [
+                "shareCommentary" => ["text" => $post->description],
+                'media' => $this->handleMedia($post),
+                "shareMediaCategory" => "ARTICLE"
+            ],
+            "visibility" => [
+                "com.linkedin.ugc.MemberNetworkVisibility" => "PUBLIC",
+            ]
+        ];
+        
+        dd($payLoad);
+
         try {
-            $share = $this->client->post(
-                'ugcPosts',
-                [
-                    'author' => 'urn:li:person:' . $profile['sub'],
-                    'lifecycleState' => 'PUBLISHED',
-                    'specificContent' => [
-                        'com.linkedin.ugc.ShareContent' => [
-                            'shareCommentary' => [
-                                'text' => 'Checkout this amazing PHP SDK for LinkedIn!'
-                            ],
-                            'shareMediaCategory' => 'ARTICLE',
-                            'media' => [
-                                [
-                                    'status' => 'READY',
-                                    'description' => [
-                                        'text' => 'OAuth 2 flow, composer Package.'
-                                    ],
-                                    'originalUrl' => 'https://github.com/zoonman/linkedin-api-php-client',
-                                    'title' => [
-                                        'text' => 'PHP Client for LinkedIn API'
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ],
-                    'visibility' => [
-                        'com.linkedin.ugc.MemberNetworkVisibility' => 'CONNECTIONS'
-                    ]
-                ]
-            );
+            $share = $this->client->post('ugcPosts', $payLoad);
         } catch (Exception $e) {
             dd($e);
         }
 
         dd($share);
+
+         /*         try {
+            $share = $this->client->post(
+                'ugcPosts',
+                [
+                    'author' => 'urn:li:person:' . $this->getAuthorURNId(),
+                    "lifecycleState"=> "PUBLISHED",
+                    "specificContent" => [
+                        "shareCommentary" => [
+                            "text" => $post->description
+                        ],
+                        'media' => [
+                            [],
+                            [],
+                            []
+                        ],
+                        "shareMediaCategory" => "ARTICLE"
+                    ],
+                    "visibility"=> [
+                        "com.linkedin.ugc.MemberNetworkVisibility"=> "PUBLIC",
+                    ]
+                ]
+            );
+        } catch (Exception $e) {
+            dd($e);
+        } */
     }
 }
