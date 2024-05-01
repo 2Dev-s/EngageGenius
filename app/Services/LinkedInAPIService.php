@@ -65,7 +65,6 @@ class LinkedInAPIService
         return;
     }
 
-
     public function getAuthorURNId()
     {
 
@@ -80,34 +79,32 @@ class LinkedInAPIService
         return self::USERIDPREFIX . $profile['sub'];
     }
 
-    public function handleMedia(Post $post)
+    public function handleMedia()
     {
-/*         $photos = $post->photos;
+        /* $photos = $post->photos; */
+        $photos = [
+            'F:\Work\Projects\PHP\EngageGenius\public\storage\user-1\team-2\postsFiles\post-51\photo-1714416312-6593.jpg',
+            'F:\Work\Projects\PHP\EngageGenius\public\storage\user-1\team-2\postsFiles\post-51\photo-1714416313-4496.jpg',
+            'F:\Work\Projects\PHP\EngageGenius\public\storage\user-1\team-2\postsFiles\post-51\photo-1714416313-5627.jpg',
+            'F:\Work\Projects\PHP\EngageGenius\public\storage\user-1\team-2\postsFiles\post-51\photo-1714416313-5741.jpg'
+        ];
+
         $media = [];
         foreach ($photos as $photo) {
-            dump(public_path($photo['path']));
-
-            $this->client->post("images?action=initializeUpload", [
-                "initializeUploadRequest" => [
-                    "owner" => $this->getAuthorURNId(),
-                ],
-            ]);
-
-            $this->client->post("", [
-                "mediaLibraryMetadata.associatedAccount" => $this->getAuthorURNId(),
-                "mediaLibraryMetadata.assetName" => "photorurl" + uuid_create(),
-                "owner" => $this->getAuthorURNId(),
-            ]);
-
+            $urn = $this->uploadImage($photo);
+            if (!$urn) continue;
 
             $media[] = [
-                'media' => "URN",
-                'status' => "READY",
-
+                'media' => $urn,
+                'status' => "PROCESSING",
             ];
         }
-        return $media; */
 
+        return $media;
+    }
+
+    private function uploadImage($path)
+    {
         try {
             $uploadReqestResp = $this->client->post("images?action=initializeUpload", [
                 "initializeUploadRequest" => [
@@ -117,17 +114,16 @@ class LinkedInAPIService
         } catch (Exception $th) {
             dd($th);
         }
-        dump($uploadReqestResp["value"]);
 
-        $path = "F:\\Work\\Projects\\PHP\\EngageGenius\\storage\\app\\public\\user-1\\team-2\\postsFiles\\post-51\\photo-1714416312-6593.jpg";
-        
         $file = file_get_contents($path);
 
-        $uploadResp = Http::withBody($file,'image')
-        ->withToken($this->accessToken['token'])
-        ->put($uploadReqestResp["value"]['uploadUrl']);
+        $uploadResp = Http::withBody($file, 'image')
+            ->withToken($this->accessToken['token'])
+            ->put($uploadReqestResp["value"]['uploadUrl']);
 
-        dump($uploadResp);
+        if ($uploadResp->status() != 201) return null;
+
+        return $uploadReqestResp["value"]["image"];
     }
     public function shere()
     {
@@ -135,7 +131,7 @@ class LinkedInAPIService
         $socialData = $team->socialData;
         $accessTokenData = json_decode($socialData->linkedin, true);
         $accessToken = new AccessToken($accessTokenData['token'], $accessTokenData['expiresAt']);
-        
+
         $this->accessToken = $accessTokenData;
         $this->client->setAccessToken($accessToken);
 
@@ -145,16 +141,18 @@ class LinkedInAPIService
             'author' => $this->getAuthorURNId(),
             "lifecycleState" => "PUBLISHED",
             "specificContent" => [
-                "shareCommentary" => ["text" => $post->description],
-                'media' => $this->handleMedia($post),
-                "shareMediaCategory" => "ARTICLE"
+                "com.linkedin.ugc.ShareContent" => [
+                    "shareCommentary" => ["text" => $post->description],
+                    'media' => $this->handleMedia(),
+                    "shareMediaCategory" => "ARTICLE"
+                ],
             ],
             "visibility" => [
                 "com.linkedin.ugc.MemberNetworkVisibility" => "PUBLIC",
             ]
         ];
 
-        dd($payLoad);
+        dump($payLoad);
 
         try {
             $share = $this->client->post('ugcPosts', $payLoad);
