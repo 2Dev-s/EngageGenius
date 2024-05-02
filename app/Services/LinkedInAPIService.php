@@ -96,14 +96,14 @@ class LinkedInAPIService
 
             $media[] = [
                 'media' => $urn,
-                'status' => "PROCESSING",
+                'status' => "READY",
             ];
         }
 
         return $media;
     }
 
-    private function uploadImage($path)
+    /*     private function uploadImage($path) // old not working method, maybe useful in future
     {
         try {
             $uploadReqestResp = $this->client->post("images?action=initializeUpload", [
@@ -124,6 +124,38 @@ class LinkedInAPIService
         if ($uploadResp->status() != 201) return null;
 
         return $uploadReqestResp["value"]["image"];
+    } */
+
+    private function uploadImage($path)
+    {
+        try {
+            $uploadReqestResp = $this->client->post("assets?action=registerUpload", [
+                "registerUploadRequest" => [
+                    "owner" => $this->getAuthorURNId(),
+                    "recipes" => [
+                        "urn:li:digitalmediaRecipe:feedshare-image",
+                    ],
+                    "serviceRelationships" => [
+                        [
+                            "relationshipType" => "OWNER",
+                            "identifier"  => "urn:li:userGeneratedContent"
+                        ]
+                    ]
+                ],
+            ]);
+        } catch (Exception $th) {
+            dd($th);
+        }
+
+        $file = file_get_contents($path);
+
+        $uploadResp = Http::withBody($file, 'image')
+            ->withToken($this->accessToken['token'])
+            ->post($uploadReqestResp["value"]['uploadMechanism']['com.linkedin.digitalmedia.uploading.MediaUploadHttpRequest']['uploadUrl']);
+
+        if ($uploadResp->status() != 201) return null;
+
+        return $uploadReqestResp["value"]["asset"];
     }
     public function shere()
     {
@@ -144,15 +176,13 @@ class LinkedInAPIService
                 "com.linkedin.ugc.ShareContent" => [
                     "shareCommentary" => ["text" => $post->description],
                     'media' => $this->handleMedia(),
-                    "shareMediaCategory" => "ARTICLE"
+                    "shareMediaCategory" => "IMAGE"
                 ],
             ],
             "visibility" => [
                 "com.linkedin.ugc.MemberNetworkVisibility" => "PUBLIC",
             ]
         ];
-
-        dump($payLoad);
 
         try {
             $share = $this->client->post('ugcPosts', $payLoad);
@@ -161,31 +191,5 @@ class LinkedInAPIService
         }
 
         dd($share);
-
-        /*         try {
-            $share = $this->client->post(
-                'ugcPosts',
-                [
-                    'author' => 'urn:li:person:' . $this->getAuthorURNId(),
-                    "lifecycleState"=> "PUBLISHED",
-                    "specificContent" => [
-                        "shareCommentary" => [
-                            "text" => $post->description
-                        ],
-                        'media' => [
-                            [],
-                            [],
-                            []
-                        ],
-                        "shareMediaCategory" => "ARTICLE"
-                    ],
-                    "visibility"=> [
-                        "com.linkedin.ugc.MemberNetworkVisibility"=> "PUBLIC",
-                    ]
-                ]
-            );
-        } catch (Exception $e) {
-            dd($e);
-        } */
     }
 }
